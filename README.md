@@ -2,9 +2,13 @@
 
 An application to help take notes, complete tasks and set reminders.
 
-# Models
+# Application Outline
 
-## Note
+This application is a work in progress. Below is a high level outline.
+
+## Models
+
+### Note
 
 - `title:string`
   - Default value of `untitled`
@@ -12,7 +16,7 @@ An application to help take notes, complete tasks and set reminders.
 - `user:references`
 - `tags`
 
-### Functionality
+#### Functionality
 
 - Use [hash-id](https://rubygems.org/gems/hashid-rails) to create unique URLs
 - Use [paper_trail](https://github.com/paper-trail-gem/paper_trail) to handle versioning and soft deletes
@@ -25,7 +29,7 @@ An application to help take notes, complete tasks and set reminders.
 
 ---
 
-## Task
+### Task
 
 - `title:string`
   - Default value of `untitled`
@@ -33,7 +37,7 @@ An application to help take notes, complete tasks and set reminders.
 - `task_item:references`
 - `tags`
 
-## Task Item
+### Task Item
 
 - `body:string`
   - Default value of `untitled`
@@ -42,7 +46,7 @@ An application to help take notes, complete tasks and set reminders.
 
 ---
 
-## Reminder
+### Reminder
 
 - `title:string`
   - Default value of `untitled`
@@ -54,26 +58,26 @@ An application to help take notes, complete tasks and set reminders.
   - Cannot be greater than the `date` value
   - Cannot be less than the current `datetime`
 
-### Functionality
+#### Functionality
 
 - Will notify user of the `reminder` on the `notify` date and time via [twilio](https://www.twilio.com/)
 - Will automatically be deleted via a custom `job` once the `date` has passed
 
 ---
 
-## User
+### User
 
 - `phone:text`
   - Use [attr_encrypted](https://github.com/attr-encrypted/) for encryption
 
-### Functionality
+#### Functionality
 
 - User should be `confirmable`
 - User should be able to confirm their `phone` before receiving notifications
 
 ---
 
-# Jobs
+## Jobs
 
 ## Export Notes
 
