@@ -57,6 +57,7 @@ This application is a work in progress. Below is a high level outline.
 - `notify:datetime`
   - Cannot be greater than the `date` value
   - Cannot be less than the current `datetime`
+  - Needs to account for `users` timezone
 
 #### Functionality
 
@@ -69,6 +70,8 @@ This application is a work in progress. Below is a high level outline.
 
 - `phone:text`
   - Use [attr_encrypted](https://github.com/attr-encrypted/) for encryption
+- `time_zone:string`
+  - Default value of `UTC`
 
 #### Functionality
 
