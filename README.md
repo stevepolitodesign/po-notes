@@ -52,6 +52,7 @@ An application to help take notes, complete tasks and set reminders.
 - `date:datetime`
 - `notify:datetime`
   - Cannot be greater than the `date` value
+  - Cannot be less than the current `datetime`
 
 ### Functionality
 
@@ -64,3 +65,24 @@ An application to help take notes, complete tasks and set reminders.
 
 - `phone:text`
   - Use [attr_encrypted](https://github.com/attr-encrypted/) for encryption
+
+### Functionality
+
+- User should be `confirmable`
+- User should be able to confirm their `phone` before receiving notifications
+
+---
+
+# Jobs
+
+## Export Notes
+
+- Will export a `note` as a `.txt` or `zip`
+
+## Import Notes
+
+- Will import a `note` from a `csv` or `txt` file
+
+## Notify User
+
+- Will notify a `user` via `user.phone` of a `reminder` based on the `reminder.notify` value
