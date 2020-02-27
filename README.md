@@ -2,6 +2,26 @@
 
 An application to help take notes, complete tasks and set reminders.
 
+---
+
+# Testing
+
+Using the default [Rails testing framework](https://guides.rubyonrails.org/testing.html#rails-meets-minitest).
+
+## Run Tests
+
+```
+rails t
+```
+
+## Run System Tests
+
+```
+rails test:system
+```
+
+---
+
 # Application Outline
 
 This application is a work in progress. Below is a high level outline.
