@@ -57,6 +57,10 @@ This application is a work in progress. Below is a high level outline.
 - `task_item:references`
 - `tags`
 
+#### Functionality
+
+- Should have a limit on associated `task_items`
+
 ### Task Item
 
 - `body:string`
@@ -92,6 +96,12 @@ This application is a work in progress. Below is a high level outline.
   - Use [attr_encrypted](https://github.com/attr-encrypted/) for encryption
 - `time_zone:string`
   - Default value of `UTC`
+- `note_limit:integer`
+  - Default value of `500`
+- `reminder_limit:integer`
+  - Default value of `25`
+- `task_limit:integer`
+  - Default value of `100`
 
 #### Functionality
 
