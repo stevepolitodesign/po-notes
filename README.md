@@ -35,6 +35,10 @@ This application is a work in progress. Below is a high level outline.
 - `body:text`
 - `user:references`
 - `tags`
+- `pinned:boolean`
+  - Default value of `false`
+- `public:boolean`
+  - Default value of `false`  
 
 #### Functionality
 
@@ -44,7 +48,7 @@ This application is a work in progress. Below is a high level outline.
   - Note that this will mean a note cannot be searched
 - Allow a `user` to share `note`
 - Allow a `user` to import a `note`
-- Allow a `user` to export a `note`
+- Allow a `user` to export a `note` or multiple `notes`
 - Support `markdown`
 
 ---
@@ -123,3 +127,10 @@ This application is a work in progress. Below is a high level outline.
 ## Notify User
 
 - Will notify a `user` via `user.phone` of a `reminder` based on the `reminder.notify` value
+
+---
+
+## Other Features
+
+- Ability to search accross `notes`, `tasks` and `reminders`
+
