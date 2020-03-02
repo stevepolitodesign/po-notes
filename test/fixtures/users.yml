@@ -6,6 +6,5 @@
 #
 one:
   email: user_1@example.ecom
-  password: password
-  password_confirmation: password
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
   confirmed_at: <%= Time.now %>
