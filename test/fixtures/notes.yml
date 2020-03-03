@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+user_with_notes_note_one:
+  title: MyString
+  body: MyText
+  pinned: false
+  public: false
+  user: user_with_notes
+
+user_with_notes_note_two:
+  title: MyString
+  body: MyText
+  pinned: false
+  public: false
+  user: user_with_notes

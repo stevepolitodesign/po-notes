@@ -5,7 +5,7 @@ class UserFlowsTest < ApplicationSystemTestCase
   include ActionMailer::TestHelper
 
   def setup
-    @user = users(:one)
+    @user = users(:user_with_notes)
   end
   
   test "can register" do
@@ -94,6 +94,7 @@ class UserFlowsTest < ApplicationSystemTestCase
     visit root_path
     click_link 'Sign In'
     click_link 'Didn\'t receive confirmation instructions?'
+    sleep 0.5
     fill_in 'Email', with: @user.email
     assert_emails 1 do
       click_on 'Resend confirmation instructions'

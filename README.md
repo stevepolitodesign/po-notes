@@ -4,6 +4,14 @@ An application to help take notes, complete tasks and set reminders.
 
 ---
 
+# To Do
+
+```
+rails notes TODO
+```
+
+---
+
 # Testing
 
 Using the default [Rails testing framework](https://guides.rubyonrails.org/testing.html#rails-meets-minitest).
@@ -38,7 +46,7 @@ This application is a work in progress. Below is a high level outline.
 - `pinned:boolean`
   - Default value of `false`
 - `public:boolean`
-  - Default value of `false`  
+  - Default value of `false`
 
 #### Functionality
 
@@ -133,4 +141,3 @@ This application is a work in progress. Below is a high level outline.
 ## Other Features
 
 - Ability to search accross `notes`, `tasks` and `reminders`
-
