@@ -18,6 +18,8 @@ class UserFlowsTest < ApplicationSystemTestCase
     assert_emails 1 do
       click_on 'Sign up'
     end
+    email = ActionMailer::Base.deliveries.last
+    assert_match 'Confirm my account', email.body.encoded
     assert_selector 'div', text: 'A message with a confirmation link has been sent to your email address. Please follow the link to activate your account.'
     visit new_user_session_path
     fill_in 'Email', with: 'user_1@example.com'
