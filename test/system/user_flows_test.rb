@@ -90,7 +90,19 @@ class UserFlowsTest < ApplicationSystemTestCase
   end
 
   test "can resend confirmation instructions" do
-    skip
+    @user.update(confirmed_at: nil)
+    visit root_path
+    click_link 'Sign In'
+    click_link 'Didn\'t receive confirmation instructions?'
+    fill_in 'Email', with: @user.email
+    assert_emails 1 do
+      click_on 'Resend confirmation instructions'
+    end
+    email = ActionMailer::Base.deliveries.last
+    assert_equal [@user.email], email.to
+    assert_equal 'Confirmation instructions', email.subject
+    assert_match 'Confirm my account', email.body.encoded
+    assert_selector 'div', text: 'You will receive an email with instructions for how to confirm your email address in a few minutes.'
   end
 
   test "should display validation errors on sign up" do
