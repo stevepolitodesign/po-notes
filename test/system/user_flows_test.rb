@@ -47,19 +47,47 @@ class UserFlowsTest < ApplicationSystemTestCase
   end
 
   test "can cancel account" do
-    skip
+    sign_in @user
+    visit root_path
+    click_link 'My Account'
+    assert_difference('User.count', -1) do
+      accept_alert do
+        click_on 'Cancel my account'
+      end
+      sleep 1
+    end
   end  
 
-  test "can update account" do
-    skip
+  test "can update email" do
+    sign_in @user
+    visit root_path
+    click_link 'My Account'
+    fill_in 'Email', with: 'updated@example.com'
+    fill_in 'Current password', with: 'password'
+    assert_emails 1 do
+      click_on 'Update'
+    end
+    email = ActionMailer::Base.deliveries.last
+    assert_equal ['updated@example.com'], email.to
+    assert_equal 'Confirmation instructions', email.subject
+    assert_match 'Confirm my account', email.body.encoded
+    assert_selector 'div', text: 'You updated your account successfully, but we need to verify your new email address. Please check your email and follow the confirmation link to confirm your new email address.'
   end
 
   test "can reset password" do
     skip
   end
 
-  test "can resend onfirmation instructions" do
+  test "can resend confirmation instructions" do
     skip
   end
+
+  test "should display validation errors on sign up" do
+    skip
+  end
+
+  test "should display validation errors on sign in" do
+    skip
+  end  
 
 end
