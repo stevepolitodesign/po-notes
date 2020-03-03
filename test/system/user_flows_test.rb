@@ -119,7 +119,12 @@ class UserFlowsTest < ApplicationSystemTestCase
   end
 
   test "should display validation errors on sign in" do
-    skip
+    visit root_path
+    click_link 'Sign In'
+    fill_in 'Email', with: @user.email
+    fill_in 'Password', with: 'wrong password'
+    click_on 'Log in'
+    assert_selector 'div', text: 'Invalid Email or password.'
   end  
 
 end
