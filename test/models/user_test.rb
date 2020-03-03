@@ -1,7 +1,17 @@
+# TODO write tests
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+
+  def setup
+    @user = users(:user_with_notes)
+  end
+
+  test "should destroy associated notes" do
+    notes_count = @user.notes.length
+    assert_difference('Note.count', -"#{notes_count}") do
+      @user.destroy
+    end
+  end
+
 end
