@@ -106,7 +106,16 @@ class UserFlowsTest < ApplicationSystemTestCase
   end
 
   test "should display validation errors on sign up" do
-    skip
+    @user.destroy
+    visit root_path
+    click_link 'Sign Up'
+    fill_in 'Email', with: 'invalid@example.com'
+    fill_in 'Password', with: '1'
+    fill_in 'Password confirmation', with: '1'
+    click_on 'Sign up'
+    assert_selector '#error_explanation' do
+      assert_selector 'li', text: 'Password is too short'
+    end
   end
 
   test "should display validation errors on sign in" do
