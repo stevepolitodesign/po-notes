@@ -75,7 +75,18 @@ class UserFlowsTest < ApplicationSystemTestCase
   end
 
   test "can reset password" do
-    skip
+    visit root_path
+    click_link 'Sign In'
+    click_link 'Forgot your password?'
+    fill_in 'Email', with: @user.email
+    assert_emails 1 do
+      click_on 'Send me reset password instructions'
+    end
+    email = ActionMailer::Base.deliveries.last
+    assert_equal [@user.email], email.to
+    assert_equal 'Reset password instructions', email.subject
+    assert_match 'Change my password', email.body.encoded
+    assert_selector 'div', text: 'You will receive an email with instructions on how to reset your password in a few minutes.'
   end
 
   test "can resend confirmation instructions" do
