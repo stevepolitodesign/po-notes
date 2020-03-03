@@ -1,6 +1,7 @@
 require "application_system_test_case"
 
 class UserFlowsTest < ApplicationSystemTestCase
+  include Devise::Test::IntegrationHelpers
   include ActionMailer::TestHelper
 
   def setup
@@ -9,7 +10,8 @@ class UserFlowsTest < ApplicationSystemTestCase
   
   test "can register" do
     @user.destroy
-    visit new_user_registration_path
+    visit root_path
+    click_link 'Sign Up'
     fill_in 'Email', with: 'user_1@example.com'
     fill_in 'Password', with: 'password'
     fill_in 'Password confirmation', with: 'password'
@@ -25,7 +27,8 @@ class UserFlowsTest < ApplicationSystemTestCase
   end
 
   test "can sign in" do
-    visit new_user_session_path
+    visit root_path
+    click_link 'Sign In'
     fill_in 'Email', with: @user.email
     fill_in 'Password', with: 'password'
     click_on 'Log in'
@@ -33,7 +36,10 @@ class UserFlowsTest < ApplicationSystemTestCase
   end
   
   test "can sign out" do
-    skip
+    sign_in @user
+    visit root_path
+    click_link 'Log out'
+    assert_selector 'div', text: 'Signed out successfully'
   end
 
   test "can cancel account" do
@@ -41,6 +47,14 @@ class UserFlowsTest < ApplicationSystemTestCase
   end  
 
   test "can update account" do
+    skip
+  end
+
+  test "can reset password" do
+    skip
+  end
+
+  test "can resend onfirmation instructions" do
     skip
   end
 
