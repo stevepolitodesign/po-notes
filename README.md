@@ -72,12 +72,15 @@ This application is a work in progress. Below is a high level outline.
 #### Functionality
 
 - Should have a limit on associated `task_items`
+- Drag and Drop `task_items` using [acts_as_list](https://github.com/brendon/acts_as_list) and [Sortable](https://github.com/SortableJS/Sortable)
 
 ### Task Item
 
 - `body:string`
   - Default value of `untitled`
 - `complete:boolean`
+- `position:integer`
+  - Use [acts_as_list](https://github.com/brendon/acts_as_list)
 - Default value of `false`
 
 ---
@@ -126,11 +129,11 @@ This application is a work in progress. Below is a high level outline.
 
 ## Export Notes
 
-- Will export a `note` as a `.txt` or `zip`
+- Will export a `note` as a `.txt` or `.zip`
 
 ## Import Notes
 
-- Will import a `note` from a `csv` or `txt` file
+- Will import a `note` from a `.csv` or `.txt` file
 
 ## Notify User
 
@@ -140,4 +143,4 @@ This application is a work in progress. Below is a high level outline.
 
 ## Other Features
 
-- Ability to search accross `notes`, `tasks` and `reminders`
+- Ability to search across `notes`, `tasks` and `reminders`
