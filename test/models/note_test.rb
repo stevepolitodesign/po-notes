@@ -3,7 +3,7 @@ require 'test_helper'
 class NoteTest < ActiveSupport::TestCase
   
   def setup
-    @user = users(:user_with_notes)
+    @user = users(:user_1)
     @note = Note.new(title: "A note title", body: "A note body", user: @user )
   end
 
@@ -13,6 +13,13 @@ class NoteTest < ActiveSupport::TestCase
 
   test "should have a user" do
     @note.user = nil
+    assert_not @note.valid?
+  end
+
+  test "should have a body" do
+    @note.body = nil
+    assert_not @note.valid?
+    @note.body = " "
     assert_not @note.valid?
   end
 
@@ -68,7 +75,7 @@ class NoteTest < ActiveSupport::TestCase
       assert_difference('Note.count', -1) do
         @note.destroy
       end
-      @restored_note = Note.new(id:@note.id, user: @note.user)
+      @restored_note = Note.new(id:@note.id, user: @note.user, body: @note.body)
       assert_difference('Note.count', 1) do
         @restored_note.save
       end

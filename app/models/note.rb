@@ -4,6 +4,7 @@ class Note < ApplicationRecord
   has_paper_trail
 
   validates :title, presence: true
+  validates :body, presence: true
   
   before_validation :set_default_title
 

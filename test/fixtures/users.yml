@@ -4,7 +4,10 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-user_with_notes:
-  email: user_1@example.com
+
+<% 1.upto(2) do |i| %>
+user_<%= i %>:
+  email: $LABEL@example.com
   encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
   confirmed_at: <%= Time.now %>
+<% end %>

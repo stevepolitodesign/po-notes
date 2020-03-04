@@ -56,3 +56,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'devise', '~> 4.7', '>= 4.7.1'
 gem 'acts-as-taggable-on', '~> 6.5'
 gem 'paper_trail', '~> 10.3', '>= 10.3.1'
+gem 'pundit', '~> 2.1'

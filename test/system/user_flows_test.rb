@@ -5,7 +5,7 @@ class UserFlowsTest < ApplicationSystemTestCase
   include ActionMailer::TestHelper
 
   def setup
-    @user = users(:user_with_notes)
+    @user = users(:user_1)
   end
   
   test "can register" do

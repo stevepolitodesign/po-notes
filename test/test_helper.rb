@@ -24,4 +24,10 @@ class ActiveSupport::TestCase
       PaperTrail.request.enabled = was_enabled_for_request
     end
   end
+
+  def user_not_authorized
+    follow_redirect!
+    assert_equal 'You are not authorized to perform this action.', flash[:alert]
+  end
+
 end

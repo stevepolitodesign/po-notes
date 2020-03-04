@@ -1,15 +1,18 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-user_with_notes_note_one:
-  title: MyString
-  body: MyText
+<% 1.upto(10) do |i| %>
+note_<%= i %>:
+  title: $LABEL Title
+  body: $LABEL Body
   pinned: false
   public: false
-  user: user_with_notes
+  user: user_1
+<% end %>
 
-user_with_notes_note_two:
-  title: MyString
-  body: MyText
+<% 11.upto(20) do |i| %>
+note_<%= i %>:
+  title: $LABEL Title
+  body: $LABEL Body
   pinned: false
   public: false
-  user: user_with_notes
+  user: user_2
+<% end %>
