@@ -1,6 +1,7 @@
 class Note < ApplicationRecord
   belongs_to :user
   acts_as_taggable
+  has_paper_trail
 
   validates :title, presence: true
   

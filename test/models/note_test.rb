@@ -38,5 +38,17 @@ class NoteTest < ActiveSupport::TestCase
   test "should set a default value of false for public" do
     @note = Note.new
     assert_not @note.public
-  end  
+  end
+
+  test "should save versions" do
+    with_versioning do
+      @note = notes(:user_with_notes_note_one)
+      orignal_title = @note.title
+      assert_equal @note.versions.length, 0
+      @note.update(title: 'updated title')
+      assert_equal @note.versions.length, 1
+      assert_equal @note.versions.last.reify.title, orignal_title
+    end
+  end
+
 end
