@@ -93,6 +93,7 @@ class UserFlowsTest < ApplicationSystemTestCase
     @user.update(confirmed_at: nil)
     visit root_path
     click_link 'Sign In'
+    sleep 0.5
     click_link 'Didn\'t receive confirmation instructions?'
     sleep 0.5
     fill_in 'Email', with: @user.email
