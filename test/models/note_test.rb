@@ -62,4 +62,16 @@ class NoteTest < ActiveSupport::TestCase
     end
   end
 
+  test "should restore a deleted note" do
+    with_versioning do
+      @note.save
+      assert_difference('Note.count', -1) do
+        @note.destroy
+      end
+      @restored_note = Note.new(id:@note.id, user: @note.user)
+      assert_difference('Note.count', 1) do
+        @restored_note.save
+      end
+    end
+  end
 end
