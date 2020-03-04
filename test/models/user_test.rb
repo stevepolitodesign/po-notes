@@ -9,7 +9,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "should destroy associated notes" do
     notes_count = @user.notes.length
-    assert_difference('Note.count', -"#{notes_count}") do
+    assert_difference('Note.count', -"#{notes_count}".to_i) do
       @user.destroy
     end
   end
