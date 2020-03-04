@@ -42,13 +42,36 @@ class NoteTest < ActiveSupport::TestCase
 
   test "should save versions" do
     with_versioning do
-      @note = notes(:user_with_notes_note_one)
       orignal_title = @note.title
-      assert_equal @note.versions.length, 0
-      @note.update(title: 'updated title')
+      @note.save
       assert_equal @note.versions.length, 1
+      @note.update(title: 'updated title')
+      assert_equal @note.versions.length, 2
       assert_equal @note.versions.last.reify.title, orignal_title
     end
   end
 
+  test "should not save more than 10 verions" do
+    with_versioning do
+      @note.save
+      assert_equal @note.versions.length, 1
+      10.times do |n|
+        @note.update(title: "version #{n}")
+      end
+      assert_equal @note.versions.length, 10
+    end
+  end
+
+  test "should restore a deleted note" do
+    with_versioning do
+      @note.save
+      assert_difference('Note.count', -1) do
+        @note.destroy
+      end
+      @restored_note = Note.new(id:@note.id, user: @note.user)
+      assert_difference('Note.count', 1) do
+        @restored_note.save
+      end
+    end
+  end
 end
