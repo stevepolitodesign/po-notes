@@ -1,14 +1,23 @@
 require 'test_helper'
 
 class PagesControllerTest < ActionDispatch::IntegrationTest
-  test "should get home" do
-    get pages_home_url
+  include Devise::Test::IntegrationHelpers
+
+  def setup
+    @user = users(:user_1)
+  end
+
+  test "should set home as root when logged out" do
+    get root_url
     assert_response :success
+    assert_equal @controller.action_name, 'home'
   end
 
   test "should get dashboard" do
-    get pages_dashboard_url
+    sign_in @user
+    get root_url
     assert_response :success
+    assert_equal @controller.action_name, 'dashboard'
   end
 
 end
