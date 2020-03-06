@@ -103,6 +103,18 @@ class NoteTest < ActiveSupport::TestCase
     end
     assert_equal "note-title-1", @user.notes.reload.first.title
     assert_equal "note-title-10", @user.notes.reload.second.title
-  end  
+  end
 
+  test "should set hashid" do
+    assert_nil @note.hashid
+    @note.save!
+    assert_not_nil @note.hashid
+  end
+
+  test "should not change hashid on update" do
+    @note.save!
+    original_hashid = @note.hashid
+    @note.update(title: 'hashid should not update')
+    assert_equal original_hashid, @note.reload.hashid
+  end
 end

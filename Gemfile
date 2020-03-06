@@ -1,3 +1,4 @@
+
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
@@ -31,6 +32,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'dotenv-rails', '~> 2.1', '>= 2.1.1'
 end
 
 group :development do
@@ -57,3 +59,4 @@ gem 'devise', '~> 4.7', '>= 4.7.1'
 gem 'acts-as-taggable-on', '~> 6.5'
 gem 'paper_trail', '~> 10.3', '>= 10.3.1'
 gem 'pundit', '~> 2.1'
+gem 'friendly_id', '~> 5.3'

@@ -149,5 +149,13 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
       delete note_path(@another_user.notes.last)
     end
     user_not_authorized
-  end   
+  end
+
+  test "should use hashid in path" do
+    sign_in @user
+    @note = Note.create(title: 'Title', body: 'Body', user: @user)
+    assert_not_nil @note.reload.hashid
+    get note_path(@note)
+    assert_routing  "/notes/#{@note.hashid}", controller: 'notes', action: 'show', id: @note.reload.hashid
+  end
 end
