@@ -81,4 +81,28 @@ class NoteTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test "should order by last updated" do
+    @user.notes.destroy_all
+    1.upto(10) do |i|
+      @note = Note.new(title: "note-title-#{i}", body: "note-body-#{i}", user: @user)
+      assert @note.valid?
+      @note.save!
+    end
+    assert_equal @user.notes.reload.last.title, "note-title-1"
+    @user.notes.last.update(title: "update note")
+    assert_equal @user.notes.reload.first.title, "update note"
+  end
+
+  test "should order pinned notes to top" do
+    @user.notes.destroy_all
+    1.upto(10) do |i|
+      @note = Note.new(title: "note-title-#{i}", body: "note-body-#{i}", user: @user, pinned: "#{true if i === 1}")
+      assert @note.valid?
+      @note.save!
+    end
+    assert_equal "note-title-1", @user.notes.reload.first.title
+    assert_equal "note-title-10", @user.notes.reload.second.title
+  end  
+
 end

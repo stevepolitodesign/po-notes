@@ -78,7 +78,7 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     assert_difference('Note.count', 1) do
       post notes_path, params: { note: { title: 'a new note title', body: 'a new note body', user: @user } }
     end
-    assert_redirected_to edit_note_path(@user.notes.last)
+    assert_redirected_to edit_note_path(@user.notes.first)
     follow_redirect!
     assert_match 'Note added', @response.body
   end

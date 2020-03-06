@@ -1,4 +1,5 @@
 class Note < ApplicationRecord
+  default_scope { order(pinned: :asc, updated_at: :desc) }
   belongs_to :user
   acts_as_taggable
   has_paper_trail
