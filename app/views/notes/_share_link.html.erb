@@ -1,0 +1,5 @@
+<% if @note.public? %>
+    <button class="js-copy-to-clipboard" data-clipboard-target="#js-clipboard-source">Copy to clipboard.</button>
+    <label for="js-clipboard-source">Share Link</label>
+    <input type="text" readonly value="<%= request.base_url + note_path(@note) %>" id="js-clipboard-source" />
+<% end %>

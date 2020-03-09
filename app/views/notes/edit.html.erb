@@ -1,2 +1,6 @@
 <h1>Notes#edit</h1>
 <p>Find me in app/views/notes/edit.html.erb</p>
+<%= render partial: 'share_link' %>
+<%= render partial: 'previous_verion_link' %>
+<%= link_to 'View Note', note_path(@note), data: { confirm: 'Make sure to save your changes.' } if policy(@note).show? %>
+<%= render partial: 'form', locals: { object: @note } %>

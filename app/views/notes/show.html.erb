@@ -1,2 +1,6 @@
 <h1>Notes#show</h1>
 <p>Find me in app/views/notes/show.html.erb</p>
+<%= render partial: 'share_link' %>
+<%= render partial: 'previous_verion_link' %>
+<%= link_to 'Edit Note', edit_note_path(@note) if policy(@note).update? %>
+<%= render partial: 'note', object: @note, locals: { display: 'individual' } %>

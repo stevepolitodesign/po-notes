@@ -1,0 +1,17 @@
+<%= form_with model: object, local: true do |f| %>
+    <%= render 'shared/form-errors', object: object %>
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+    <%= f.label :body %>
+    <%= f.text_area :body %>
+    <%= f.label :pinned %>
+    <%= f.check_box :pinned %>
+    <%= f.label :public %>
+    <%= f.check_box :public %>
+    <%= f.label :tag_list, 'Tags' %>
+    <%= f.text_field :tag_list, value: f.object.tag_list.join(",") %>
+    <div>
+        <%= f.submit %>
+        <%= link_to 'Delete Note', note_path(object), method: :delete, data: { confirm: 'Are you sure?' } if params[:action] == 'edit' %>
+    </div>
+<% end %>

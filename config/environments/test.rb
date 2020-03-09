@@ -51,4 +51,10 @@ Rails.application.configure do
   config.after_initialize do
     PaperTrail.enabled = false
   end
+
+  # https://github.com/flyerhzm/bullet#configuration
+  config.after_initialize do
+    Bullet.enable = true
+    Bullet.alert = true
+  end
 end

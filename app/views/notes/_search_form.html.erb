@@ -1,0 +1,18 @@
+<%= search_form_for @q do |f| %>
+    <%= f.label :title_cont %>
+    <%= f.search_field :title_cont %>
+    <%= f.label :body_cont %>
+    <%= f.search_field :body_cont %>
+    <%= tag.fieldset do %>
+        <%= tag.legend do %>
+            Tags
+        <% end %>
+        <%= f.collection_check_boxes :tags_id_in, current_user.notes.tag_counts_on(:tags), :id, :name %>
+    <% end %>
+    <%= f.label :pinned_eq, 'Pinned?' %>
+    <%= check_box_tag 'q[pinned_eq]', true, params[:q].present? ? params[:q][:pinned_eq] : false %>
+    <%= f.label :public_eq, 'Public?' %>
+    <%= check_box_tag 'q[public_eq]', true, params[:q].present? ? params[:q][:public_eq] : false %>
+    <%= f.submit %>
+    <%= link_to 'Reset', notes_path %>
+<% end %>

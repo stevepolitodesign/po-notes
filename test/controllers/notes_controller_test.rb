@@ -151,11 +151,168 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     user_not_authorized
   end
 
+  test "should get versions if authenticed" do
+    sign_in @user
+    @note = @user.notes.last
+    get note_versions_path(@note)
+    assert_response :success
+  end
+
+  test "should not get versions if not authenticed" do
+    @note = @user.notes.last
+    get note_versions_path(@note)
+    assert_redirected_to new_user_session_path
+  end
+
+  test "should not get versions if current user does not own note" do
+    sign_in @user
+    @note = @another_user.notes.last
+    get note_versions_path(@note)
+    user_not_authorized
+  end 
+
+  test "should get version if authenticed" do
+    sign_in @user
+    @note = @user.notes.last
+    with_versioning do
+      @note.update(title: 'v2', body: 'v2')
+      @version = @note.versions.last
+      get note_version_path(@note, @version)
+      assert_response :success
+    end
+  end
+
+  test "should not get version if not authenticed" do
+    @note = @user.notes.last
+    with_versioning do
+      @note.update(title: 'v2', body: 'v2')
+      @version = @note.versions.last
+      get note_version_path(@note, @version)
+      assert_redirected_to new_user_session_path
+    end
+  end
+
+  test "should not get version if current user does not own note" do
+    sign_in @user
+    @note = @another_user.notes.last
+    with_versioning do
+      @note.update(title: 'v2', body: 'v2')
+      @version = @note.versions.last
+      get note_version_path(@note, @version)
+      user_not_authorized
+    end
+  end 
+
+  test "should post revert if authenticed" do
+    sign_in @user
+    @user.notes.destroy_all
+    @note = Note.create(title: 'v1', body: 'v1', user: @user)
+    with_versioning do
+      @note.update(title: 'v2', body: 'v2')
+      @version = @note.versions.last
+      post note_revert_path(@note, @version)
+      assert_equal @note.reload.title, 'v1'
+      assert_equal @note.reload.body, 'v1'
+    end
+  end
+
+  test "should not post revert if not authenticed" do
+    @user
+    @user.notes.destroy_all
+    @note = Note.create(title: 'v1', body: 'v1', user: @user)
+    with_versioning do
+      @note.update(title: 'v2', body: 'v2')
+      @version = @note.versions.last
+      post note_revert_path(@note, @version)
+      assert_redirected_to new_user_session_path
+    end
+  end
+
+  test "should not post revert if current user does not own note" do
+    sign_in @user
+    @user.notes.destroy_all
+    @note = Note.create(title: 'v1', body: 'v1', user: @another_user)
+    with_versioning do
+      @note.update(title: 'v2', body: 'v2')
+      @version = @note.versions.last
+      post note_revert_path(@note, @version)
+      user_not_authorized
+    end
+  end
+
+  test "should post restore if authenticed" do
+    @user.notes.destroy_all
+    sign_in @user
+    get deleted_notes_path
+    assert_response :success
+    with_versioning do
+      @note = Note.create(title: 'v1', body: 'v1', user: @user, slug: '123abc')
+      Note.update(title: 'v2', body: 'v2', user: @user)
+      assert_equal @note.versions.count, 2
+      @note.destroy
+      assert_difference('Note.count', 1) do
+        @deleted_note = PaperTrail::Version.where(item_type: 'Note', event: 'destroy').where_object(user_id: @user.id).last
+        post restore_note_path(@deleted_note.reify.id)
+        assert_redirected_to edit_note_path(@deleted_note.reify.slug)
+        follow_redirect!
+        assert_match 'Note restored', response.body
+      end
+    end
+  end
+
+  test "should not post restore if not authenticed" do
+    @user.notes.destroy_all
+    with_versioning do
+      @note = Note.create(title: 'v1', body: 'v1', user: @user)
+      Note.update(title: 'v2', body: 'v2', user: @user)
+      assert_equal @note.versions.count, 2
+      @note.destroy
+      assert_no_difference('Note.count') do
+        @deleted_note = PaperTrail::Version.where(item_type: 'Note', event: 'destroy').where_object(user_id: @user.id).first
+        post restore_note_path(@deleted_note.reify.id)
+        assert_redirected_to new_user_session_path
+      end
+    end
+  end
+
+  test "should not post restore if current user does not own note" do
+    @user.notes.destroy_all
+    sign_in @user
+    with_versioning do
+      @note = Note.create(title: 'v1', body: 'v1', user: @another_user)
+      Note.update(title: 'v2', body: 'v2', user: @another_user)
+      assert_equal @note.versions.count, 2
+      @note.destroy
+      assert_no_difference('Note.count') do
+        @deleted_note = PaperTrail::Version.where(item_type: 'Note', event: 'destroy').where_object(user_id: @another_user.id).first
+        post restore_note_path(@deleted_note.reify.id)
+        user_not_authorized
+      end
+    end
+  end
+
   test "should use hashid in path" do
     sign_in @user
     @note = Note.create(title: 'Title', body: 'Body', user: @user)
     assert_not_nil @note.reload.hashid
     get note_path(@note)
     assert_routing  "/notes/#{@note.hashid}", controller: 'notes', action: 'show', id: @note.reload.hashid
+  end
+
+  test "should only display tags associated with user's notes in search form" do
+    @user.notes.destroy_all
+    @another_user.notes.destroy_all
+    tags_name = 'tag_for_user'
+    @note = Note.create(title: "#{@user.email} note title ", body: "#{@user.email} note body", user: @user)
+    @note.tag_list.add(tags_name)
+    @note.save!
+    @another_users_note = Note.create(title: "#{@another_user.email} note title ", body: "#{@another_user.email} note body", user: @another_users_note)
+    sign_in @user
+    get notes_path
+    assert_select 'label', text: tags_name
+    sign_out @user
+    sign_in @another_user
+    get notes_path
+    assert_select 'label', text: tags_name, count: 0
   end
 end

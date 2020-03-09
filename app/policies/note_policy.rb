@@ -10,4 +10,20 @@ class NotePolicy < ApplicationPolicy
   def destroy?
     record.user == user
   end
+
+  def versions?
+    record.user == user
+  end
+
+  def version?
+    record.user == user
+  end 
+
+  def revert?
+    record.user == user
+  end
+
+  def restore?
+    record.user == user
+  end  
 end

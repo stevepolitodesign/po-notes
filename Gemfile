@@ -33,6 +33,8 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'dotenv-rails', '~> 2.1', '>= 2.1.1'
+  gem 'faker', '~> 2.10', '>= 2.10.1'
+  gem 'bullet', '~> 6.1'
 end
 
 group :development do
@@ -60,3 +62,6 @@ gem 'acts-as-taggable-on', '~> 6.5'
 gem 'paper_trail', '~> 10.3', '>= 10.3.1'
 gem 'pundit', '~> 2.1'
 gem 'friendly_id', '~> 5.3'
+gem 'kaminari', '~> 1.2'
+gem 'ransack', '~> 2.3', '>= 2.3.2'
+gem 'redcarpet', '~> 3.5'

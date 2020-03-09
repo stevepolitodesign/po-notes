@@ -4,6 +4,19 @@ An application to help take notes, complete tasks and set reminders.
 
 ---
 
+# Local Build
+
+```
+bundle install
+nvm use 10
+yarn add
+rails db:create
+rails db:migrate
+rails db:seed
+```
+
+---
+
 # To Do
 
 ```

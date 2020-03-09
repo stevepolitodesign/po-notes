@@ -1,0 +1,4 @@
+<p>app/views/notes/version.html.erb</p>
+<%= render partial: 'previous_verion_link' %>
+<%= render partial: 'note', object:  @verion.reify, locals: { display: 'individual' } %>
+<%= link_to 'Revert to this version', note_revert_path(@note, @verion), method: :post %>

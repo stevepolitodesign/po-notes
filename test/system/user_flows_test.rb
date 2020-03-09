@@ -54,7 +54,7 @@ class UserFlowsTest < ApplicationSystemTestCase
       accept_alert do
         click_on 'Cancel my account'
       end
-      sleep 1
+      sleep 2
     end
   end  
 
@@ -81,6 +81,7 @@ class UserFlowsTest < ApplicationSystemTestCase
     fill_in 'Email', with: @user.email
     assert_emails 1 do
       click_on 'Send me reset password instructions'
+      sleep 2
     end
     email = ActionMailer::Base.deliveries.last
     assert_equal [@user.email], email.to
@@ -93,9 +94,9 @@ class UserFlowsTest < ApplicationSystemTestCase
     @user.update(confirmed_at: nil)
     visit root_path
     click_link 'Sign In'
-    sleep 0.5
+    sleep 2
     click_link 'Didn\'t receive confirmation instructions?'
-    sleep 0.5
+    sleep 2
     fill_in 'Email', with: @user.email
     assert_emails 1 do
       click_on 'Resend confirmation instructions'

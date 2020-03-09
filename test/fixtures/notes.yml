@@ -1,18 +1,22 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-<% 1.upto(10) do |i| %>
+<% 1.upto(100) do |i| %>
 note_<%= i %>:
-  title: $LABEL Title
-  body: $LABEL Body
+  title: <%= Faker::Lorem.sentence %>
+  body: <%= Faker::Lorem.paragraphs %>
   pinned: false
   public: false
+  hashid: <%= SecureRandom.urlsafe_base64(5) %>
+  slug: <%= SecureRandom.urlsafe_base64(5) %>
   user: user_1
 <% end %>
 
-<% 11.upto(20) do |i| %>
+<% 101.upto(200) do |i| %>
 note_<%= i %>:
-  title: $LABEL Title
-  body: $LABEL Body
+  title: <%= Faker::Lorem.sentence %>
+  body: <%= Faker::Lorem.paragraphs %>
   pinned: false
   public: false
+  hashid: <%= SecureRandom.urlsafe_base64(5) %>
+  slug: <%= SecureRandom.urlsafe_base64(5) %>
   user: user_2
 <% end %>

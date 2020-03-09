@@ -1,7 +1,6 @@
-<h1>Notes#index</h1>
-<p>Find me in app/views/notes/index.html.erb</p>
-<%= render partial: 'search_form' %>
-<% unless @notes.empty? %>
+<p>app/views/notes/versions.html.erb</p>
+<%= link_to 'Back To Note', edit_note_path(@note) %>
+<% if @note.versions.count > 1 %>
     <%= tag.table do %>
         <%= tag.thead do %>
             <%= tag.th do%>
@@ -27,14 +26,9 @@
             <% end %>            
         <% end %>
         <%= tag.body do %>
-            <%= render @notes %>
+            <%= render partial: 'note', collection: @notes %>
         <% end %>
     <% end %>
-    <%= paginate @notes %>
 <% else %>
-    <% unless params[:q] %>
-        <p><%= link_to 'Add your first note', new_note_path %></p>
-    <% else %>
-        <p>Sorry, no notes match your search.</p>
-    <% end %>
+    <p>There are no versions for <%= link_to 'your note', edit_note_path(@note) %></p>
 <% end %>

@@ -96,12 +96,15 @@ class NoteTest < ActiveSupport::TestCase
 
   test "should order pinned notes to top" do
     @user.notes.destroy_all
+    @pinned_note = Note.new(title: "pinned note", body: "pinned note body", user: @user, pinned: true)
+    assert @note.valid?
+    @pinned_note.save!
     1.upto(10) do |i|
-      @note = Note.new(title: "note-title-#{i}", body: "note-body-#{i}", user: @user, pinned: "#{true if i === 1}")
+      @note = Note.new(title: "note-title-#{i}", body: "note-body-#{i}", user: @user)
       assert @note.valid?
       @note.save!
     end
-    assert_equal "note-title-1", @user.notes.reload.first.title
+    assert_equal @pinned_note.title, @user.notes.reload.first.title
     assert_equal "note-title-10", @user.notes.reload.second.title
   end
 
@@ -116,5 +119,36 @@ class NoteTest < ActiveSupport::TestCase
     original_hashid = @note.hashid
     @note.update(title: 'hashid should not update')
     assert_equal original_hashid, @note.reload.hashid
+  end
+
+  test "should not create duplicate tags" do
+    @note.tag_list.add('one', 'One', 'oNe', 'Two', 'two')
+    @note.save!
+    assert_equal @note.reload.tag_list, ["one", "two"]
+  end
+
+  test "should lowercase tags" do
+    @note.tag_list.add('ONE')
+    @note.save!
+    assert_equal @note.reload.tag_list, ["one"]
+  end
+
+  test "should parse tag list" do
+    @note.tag_list.add('[{"value":"one"}','{"value":"two"}]')
+    @note.save!
+    assert_equal @note.reload.tag_list, ["one", "two"]
+  end
+
+  test "should limit notes created to the user's notes_limit" do
+    @user.notes.destroy_all
+    500.times do |n|
+      @note = @user.notes.build(title: "title #{n}", body: "body #{n}")
+      assert @note.valid?
+      @note.save!
+    end
+    assert_equal @user.reload.notes.count, 500
+    @note = @user.notes.build(title: "Note 501", body: "Note 501")
+    assert_not @note.valid?
+    assert_equal @note.errors.messages[:user_id][0], "has reached their note limit"
   end
 end
