@@ -158,4 +158,17 @@ class NoteTest < ActiveSupport::TestCase
     assert_not @note.valid?
     assert_equal @note.errors.messages[:user_id][0], "has reached their note limit"
   end
+
+  test "should not limit notes created if user's notes_limit is nil" do
+    @user.update(notes_limit: nil)
+    @user.save!
+    assert_nil @user.reload.notes_limit
+    1.upto(2) do |i|
+      assert_difference('Note.count') do
+        @note = @user.notes.build(title: "Note #{i}", body: "Note Body #{i}")
+        assert @note.valid?
+        @note.save
+      end
+    end    
+  end
 end
