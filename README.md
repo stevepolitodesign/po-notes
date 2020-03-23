@@ -43,6 +43,16 @@ rails test:system
 
 ---
 
+# Formatting
+
+Using [standard](https://github.com/testdouble/standard).
+
+```
+standardrb --fix
+```
+
+---
+
 # Application Outline
 
 This application is a work in progress. Below is a high level outline.

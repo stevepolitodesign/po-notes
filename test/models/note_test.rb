@@ -1,10 +1,9 @@
-require 'test_helper'
+require "test_helper"
 
 class NoteTest < ActiveSupport::TestCase
-  
   def setup
     @user = users(:user_1)
-    @note = Note.new(title: "A note title", body: "A note body", user: @user )
+    @note = Note.new(title: "A note title", body: "A note body", user: @user)
   end
 
   test "should be valid" do
@@ -30,11 +29,11 @@ class NoteTest < ActiveSupport::TestCase
   end
 
   test "should set a default value of 'untitled' for the title" do
-    @note.title = nil
+    @note = @user.notes.build(body: "No Title")
     @note.save!
-    assert_equal @note.reload.title, 'Untitled'
+    assert_equal @note.reload.title, "Untitled"
     @note = Note.new
-    assert_equal @note.title, 'Untitled'
+    assert_equal @note.title, "Untitled"
   end
 
   test "should set a default value of false for pinned" do
@@ -52,7 +51,7 @@ class NoteTest < ActiveSupport::TestCase
       orignal_title = @note.title
       @note.save
       assert_equal @note.versions.length, 1
-      @note.update(title: 'updated title')
+      @note.update(title: "updated title")
       assert_equal @note.versions.length, 2
       assert_equal @note.versions.last.reify.title, orignal_title
     end
@@ -72,11 +71,11 @@ class NoteTest < ActiveSupport::TestCase
   test "should restore a deleted note" do
     with_versioning do
       @note.save
-      assert_difference('Note.count', -1) do
+      assert_difference("Note.count", -1) do
         @note.destroy
       end
-      @restored_note = Note.new(id:@note.id, user: @note.user, body: @note.body)
-      assert_difference('Note.count', 1) do
+      @restored_note = Note.new(id: @note.id, user: @note.user, body: @note.body)
+      assert_difference("Note.count", 1) do
         @restored_note.save
       end
     end
@@ -117,31 +116,31 @@ class NoteTest < ActiveSupport::TestCase
   test "should not change hashid on update" do
     @note.save!
     original_hashid = @note.hashid
-    @note.update(title: 'hashid should not update')
+    @note.update(title: "hashid should not update")
     assert_equal original_hashid, @note.reload.hashid
   end
 
   test "should use user_id as a slug candidate" do
     @note.save!
-    @note_with_duplicate_hashid =  @user.notes.build(title: "Duplicate hashid", body: "Duplicate hashid", hashid: @note.reload.hashid)
+    @note_with_duplicate_hashid = @user.notes.build(title: "Duplicate hashid", body: "Duplicate hashid", hashid: @note.reload.hashid)
     @note_with_duplicate_hashid.save!
     assert_equal @note_with_duplicate_hashid.reload.slug.split("-").last.to_i, @note_with_duplicate_hashid.user_id
   end
 
   test "should not create duplicate tags" do
-    @note.tag_list.add('one', 'One', 'oNe', 'Two', 'two')
+    @note.tag_list.add("one", "One", "oNe", "Two", "two")
     @note.save!
     assert_equal @note.reload.tag_list, ["one", "two"]
   end
 
   test "should lowercase tags" do
-    @note.tag_list.add('ONE')
+    @note.tag_list.add("ONE")
     @note.save!
     assert_equal @note.reload.tag_list, ["one"]
   end
 
   test "should parse tag list" do
-    @note.tag_list.add('[{"value":"one"}','{"value":"two"}]')
+    @note.tag_list.add('[{"value":"one"}', '{"value":"two"}]')
     @note.save!
     assert_equal @note.reload.tag_list, ["one", "two"]
   end
@@ -164,11 +163,11 @@ class NoteTest < ActiveSupport::TestCase
     @user.save!
     assert_nil @user.reload.notes_limit
     1.upto(2) do |i|
-      assert_difference('Note.count') do
+      assert_difference("Note.count") do
         @note = @user.notes.build(title: "Note #{i}", body: "Note Body #{i}")
         assert @note.valid?
         @note.save
       end
-    end    
+    end
   end
 end

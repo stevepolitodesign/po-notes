@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class NotesControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
@@ -67,7 +67,7 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_user_session_path
   end
 
-  test "should not edit if authenticated and current user does not own the note" do 
+  test "should not edit if authenticated and current user does not own the note" do
     sign_in @user
     get note_path(@another_user.notes.first)
     user_not_authorized
@@ -75,69 +75,69 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create note if authenticated" do
     sign_in @user
-    assert_difference('Note.count', 1) do
-      post notes_path, params: { note: { title: 'a new note title', body: 'a new note body', user: @user } }
+    assert_difference("Note.count", 1) do
+      post notes_path, params: {note: {title: "a new note title", body: "a new note body", user: @user}}
     end
     assert_redirected_to edit_note_path(@user.notes.first)
     follow_redirect!
-    assert_match 'Note added', @response.body
+    assert_match "Note added", @response.body
   end
 
   test "should not create note if not authenticated" do
-    assert_no_difference('Note.count', 1) do
-      post notes_path, params: { note: { title: 'a new note title', body: 'a new note body', user: @user } }
+    assert_no_difference("Note.count", 1) do
+      post notes_path, params: {note: {title: "a new note title", body: "a new note body", user: @user}}
     end
     assert_redirected_to new_user_session_path
   end
 
   test "should render new note if authenticated but note is invalid" do
     sign_in @user
-    assert_no_difference('Note.count') do
-      post notes_path, params: { note: { body: nil } }
+    assert_no_difference("Note.count") do
+      post notes_path, params: {note: {body: nil}}
     end
-    assert_equal 'create', @controller.action_name
+    assert_equal "create", @controller.action_name
   end
 
   test "should update note if authenticated and current user owns the note" do
     sign_in @user
-    updated_title = 'updated title'
+    updated_title = "updated title"
     get edit_note_path(@user.notes.first)
-    put note_path(@user.notes.first), params: { note: { title: updated_title  } }
+    put note_path(@user.notes.first), params: {note: {title: updated_title}}
     assert_equal @user.notes.first.title, updated_title
     assert_redirected_to edit_note_path(@user.notes.first)
     follow_redirect!
-    assert_match 'Note updated', @response.body
-  end 
+    assert_match "Note updated", @response.body
+  end
 
   test "should not update note if not authenticated" do
-    updated_title = 'updated title'
+    updated_title = "updated title"
     get edit_note_path(@user.notes.first)
-    put note_path(@user.notes.first), params: { note: { title: updated_title  } }
+    put note_path(@user.notes.first), params: {note: {title: updated_title}}
     assert_not_equal @user.notes.first.title, updated_title
     assert_redirected_to new_user_session_path
   end
 
   test "should not update note if authenticated and current user does not own the note" do
     sign_in @user
-    updated_title = 'updated title'
+    updated_title = "updated title"
     get edit_note_path(@user.notes.first)
-    put note_path(@another_user.notes.first), params: { note: { title: updated_title  } }
+    put note_path(@another_user.notes.first), params: {note: {title: updated_title}}
     assert_not_equal @user.notes.first.title, updated_title
     user_not_authorized
-  end   
-  
+  end
+
   test "should destroy note if authenticated and current user owns the note" do
     sign_in @user
-    assert_difference('Note.count', -1) do
+    assert_difference("Note.count", -1) do
       delete note_path(@user.notes.last)
     end
     assert_redirected_to notes_path
     follow_redirect!
-    assert_match 'Note deleted', @response.body
-  end 
+    assert_match "Note deleted", @response.body
+  end
 
   test "should not destroy note if not authenticated" do
-    assert_no_difference('Note.count') do
+    assert_no_difference("Note.count") do
       delete note_path(@user.notes.last)
     end
     assert_redirected_to new_user_session_path
@@ -145,7 +145,7 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
 
   test "should not destroy note if authenticated and current user does not own the note" do
     sign_in @user
-    assert_no_difference('Note.count') do
+    assert_no_difference("Note.count") do
       delete note_path(@another_user.notes.last)
     end
     user_not_authorized
@@ -169,13 +169,13 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     @note = @another_user.notes.last
     get note_versions_path(@note)
     user_not_authorized
-  end 
+  end
 
   test "should get version if authenticed" do
     sign_in @user
     @note = @user.notes.last
     with_versioning do
-      @note.update(title: 'v2', body: 'v2')
+      @note.update(title: "v2", body: "v2")
       @version = @note.versions.last
       get note_version_path(@note, @version)
       assert_response :success
@@ -185,7 +185,7 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
   test "should not get version if not authenticed" do
     @note = @user.notes.last
     with_versioning do
-      @note.update(title: 'v2', body: 'v2')
+      @note.update(title: "v2", body: "v2")
       @version = @note.versions.last
       get note_version_path(@note, @version)
       assert_redirected_to new_user_session_path
@@ -196,32 +196,31 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     sign_in @user
     @note = @another_user.notes.last
     with_versioning do
-      @note.update(title: 'v2', body: 'v2')
+      @note.update(title: "v2", body: "v2")
       @version = @note.versions.last
       get note_version_path(@note, @version)
       user_not_authorized
     end
-  end 
+  end
 
   test "should post revert if authenticed" do
     sign_in @user
     @user.notes.destroy_all
-    @note = Note.create(title: 'v1', body: 'v1', user: @user)
+    @note = Note.create(title: "v1", body: "v1", user: @user)
     with_versioning do
-      @note.update(title: 'v2', body: 'v2')
+      @note.update(title: "v2", body: "v2")
       @version = @note.versions.last
       post note_revert_path(@note, @version)
-      assert_equal @note.reload.title, 'v1'
-      assert_equal @note.reload.body, 'v1'
+      assert_equal @note.reload.title, "v1"
+      assert_equal @note.reload.body, "v1"
     end
   end
 
   test "should not post revert if not authenticed" do
-    @user
     @user.notes.destroy_all
-    @note = Note.create(title: 'v1', body: 'v1', user: @user)
+    @note = Note.create(title: "v1", body: "v1", user: @user)
     with_versioning do
-      @note.update(title: 'v2', body: 'v2')
+      @note.update(title: "v2", body: "v2")
       @version = @note.versions.last
       post note_revert_path(@note, @version)
       assert_redirected_to new_user_session_path
@@ -231,9 +230,9 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
   test "should not post revert if current user does not own note" do
     sign_in @user
     @user.notes.destroy_all
-    @note = Note.create(title: 'v1', body: 'v1', user: @another_user)
+    @note = Note.create(title: "v1", body: "v1", user: @another_user)
     with_versioning do
-      @note.update(title: 'v2', body: 'v2')
+      @note.update(title: "v2", body: "v2")
       @version = @note.versions.last
       post note_revert_path(@note, @version)
       user_not_authorized
@@ -246,16 +245,16 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     get deleted_notes_path
     assert_response :success
     with_versioning do
-      @note = Note.create(title: 'v1', body: 'v1', user: @user, slug: '123abc')
-      Note.update(title: 'v2', body: 'v2', user: @user)
+      @note = Note.create(title: "v1", body: "v1", user: @user, slug: "123abc")
+      Note.update(title: "v2", body: "v2", user: @user)
       assert_equal @note.versions.count, 2
       @note.destroy
-      assert_difference('Note.count', 1) do
-        @deleted_note = PaperTrail::Version.where(item_type: 'Note', event: 'destroy').where_object(user_id: @user.id).last
+      assert_difference("Note.count", 1) do
+        @deleted_note = PaperTrail::Version.where(item_type: "Note", event: "destroy").where_object(user_id: @user.id).last
         post restore_note_path(@deleted_note.reify.id)
         assert_redirected_to edit_note_path(@deleted_note.reify.slug)
         follow_redirect!
-        assert_match 'Note restored', response.body
+        assert_match "Note restored", response.body
       end
     end
   end
@@ -263,12 +262,12 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
   test "should not post restore if not authenticed" do
     @user.notes.destroy_all
     with_versioning do
-      @note = Note.create(title: 'v1', body: 'v1', user: @user)
-      Note.update(title: 'v2', body: 'v2', user: @user)
+      @note = Note.create(title: "v1", body: "v1", user: @user)
+      Note.update(title: "v2", body: "v2", user: @user)
       assert_equal @note.versions.count, 2
       @note.destroy
-      assert_no_difference('Note.count') do
-        @deleted_note = PaperTrail::Version.where(item_type: 'Note', event: 'destroy').where_object(user_id: @user.id).first
+      assert_no_difference("Note.count") do
+        @deleted_note = PaperTrail::Version.where(item_type: "Note", event: "destroy").where_object(user_id: @user.id).first
         post restore_note_path(@deleted_note.reify.id)
         assert_redirected_to new_user_session_path
       end
@@ -279,12 +278,12 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     @user.notes.destroy_all
     sign_in @user
     with_versioning do
-      @note = Note.create(title: 'v1', body: 'v1', user: @another_user)
-      Note.update(title: 'v2', body: 'v2', user: @another_user)
+      @note = Note.create(title: "v1", body: "v1", user: @another_user)
+      Note.update(title: "v2", body: "v2", user: @another_user)
       assert_equal @note.versions.count, 2
       @note.destroy
-      assert_no_difference('Note.count') do
-        @deleted_note = PaperTrail::Version.where(item_type: 'Note', event: 'destroy').where_object(user_id: @another_user.id).first
+      assert_no_difference("Note.count") do
+        @deleted_note = PaperTrail::Version.where(item_type: "Note", event: "destroy").where_object(user_id: @another_user.id).first
         post restore_note_path(@deleted_note.reify.id)
         user_not_authorized
       end
@@ -293,26 +292,26 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
 
   test "should use hashid in path" do
     sign_in @user
-    @note = Note.create(title: 'Title', body: 'Body', user: @user)
+    @note = Note.create(title: "Title", body: "Body", user: @user)
     assert_not_nil @note.reload.hashid
     get note_path(@note)
-    assert_routing  "/notes/#{@note.hashid}", controller: 'notes', action: 'show', id: @note.reload.hashid
+    assert_routing "/notes/#{@note.hashid}", controller: "notes", action: "show", id: @note.reload.hashid
   end
 
   test "should only display tags associated with user's notes in search form" do
     @user.notes.destroy_all
     @another_user.notes.destroy_all
-    tags_name = 'tag_for_user'
+    tags_name = "tag_for_user"
     @note = Note.create(title: "#{@user.email} note title ", body: "#{@user.email} note body", user: @user)
     @note.tag_list.add(tags_name)
     @note.save!
     @another_users_note = Note.create(title: "#{@another_user.email} note title ", body: "#{@another_user.email} note body", user: @another_users_note)
     sign_in @user
     get notes_path
-    assert_select 'label', text: tags_name
+    assert_select "label", text: tags_name
     sign_out @user
     sign_in @another_user
     get notes_path
-    assert_select 'label', text: tags_name, count: 0
+    assert_select "label", text: tags_name, count: 0
   end
 end

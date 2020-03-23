@@ -2,7 +2,7 @@ class NotePolicy < ApplicationPolicy
   def show?
     record.user == user || record.public
   end
-  
+
   def update?
     record.user == user
   end
@@ -17,7 +17,7 @@ class NotePolicy < ApplicationPolicy
 
   def version?
     record.user == user
-  end 
+  end
 
   def revert?
     record.user == user
@@ -25,5 +25,5 @@ class NotePolicy < ApplicationPolicy
 
   def restore?
     record.user == user
-  end  
+  end
 end

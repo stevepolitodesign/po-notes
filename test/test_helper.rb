@@ -1,6 +1,6 @@
-ENV['RAILS_ENV'] ||= 'test'
-require_relative '../config/environment'
-require 'rails/test_help'
+ENV["RAILS_ENV"] ||= "test"
+require_relative "../config/environment"
+require "rails/test_help"
 
 class ActiveSupport::TestCase
   # Run tests in parallel with specified workers
@@ -27,7 +27,6 @@ class ActiveSupport::TestCase
 
   def user_not_authorized
     follow_redirect!
-    assert_equal 'You are not authorized to perform this action.', flash[:alert]
+    assert_equal "You are not authorized to perform this action.", flash[:alert]
   end
-
 end
