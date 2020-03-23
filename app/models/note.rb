@@ -1,6 +1,6 @@
 class Note < ApplicationRecord
   extend FriendlyId
-  friendly_id :hashid, use: :slugged
+  friendly_id :slug_candidates, use: :slugged
   default_scope { order(pinned: :desc, updated_at: :desc) }
   belongs_to :user
   acts_as_ordered_taggable
@@ -11,7 +11,7 @@ class Note < ApplicationRecord
   validate :user_cannot_create_more_notes_after_reaching_their_notes_limit, on: :create
   
   before_validation :set_default_title
-  before_create :set_hashid
+  before_validation :set_hashid, prepend: true, if: Proc.new{ |note| note.hashid.nil? }
   before_save :parse_tag_list
 
   private
@@ -21,6 +21,10 @@ class Note < ApplicationRecord
     
     def set_hashid
       self.hashid = SecureRandom.urlsafe_base64(5)
+    end
+
+    def slug_candidates
+      [:hashid, [:hashid, :user_id]]
     end
 
     def parse_tag_list

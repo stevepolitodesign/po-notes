@@ -121,6 +121,13 @@ class NoteTest < ActiveSupport::TestCase
     assert_equal original_hashid, @note.reload.hashid
   end
 
+  test "should use user_id as a slug candidate" do
+    @note.save!
+    @note_with_duplicate_hashid =  @user.notes.build(title: "Duplicate hashid", body: "Duplicate hashid", hashid: @note.reload.hashid)
+    @note_with_duplicate_hashid.save!
+    assert_equal @note_with_duplicate_hashid.reload.slug.split("-").last.to_i, @note_with_duplicate_hashid.user_id
+  end
+
   test "should not create duplicate tags" do
     @note.tag_list.add('one', 'One', 'oNe', 'Two', 'two')
     @note.save!
