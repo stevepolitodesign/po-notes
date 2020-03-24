@@ -102,4 +102,26 @@ class TaskTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test "should destroy associated task_items" do
+    @task.save!
+    @task.task_items.destroy_all
+    3.times do |i|
+      @task_item = @task.task_items.build
+      @task_item.save! if @task_item.valid?
+    end
+    assert_difference("TaskItem.count", -3) do
+      @task.task_items.destroy_all
+    end
+  end
+
+  test "should order associated task_items by their position" do
+    @task.save!
+    @task.task_items.destroy_all
+    1.upto(3) do |i|
+      @task_item = @task.task_items.build(title: "Item #{i}", position: i)
+      @task_item.save! if @task_item.valid?
+    end
+    assert_equal @task.reload.task_items.first.title, "Item 1"
+  end
 end

@@ -43,7 +43,14 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "should destroy associated task items" do
-    skip
+    @user.save!
+    @task = @user.tasks.build(title: "My Task")
+    @task.save!
+    @task_item = @task.task_items.build
+    @task_item.save!
+    assert_difference("TaskItem.count", -1) do
+      @user.destroy
+    end
   end
 
   test "tasks_limit should have a default value of 100" do

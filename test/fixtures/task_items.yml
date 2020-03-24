@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+<% 1.upto(10) do |i| %>
+task_item_<%= i %>:
+  title: <%= Faker::Lorem.sentence %>
+  complete: false
+  position: <%= i %>
+  task: task_1
+<% end %>  
+
+<% 11.upto(20) do |i| %>
+task_item_<%= i %>:
+  title: <%= Faker::Lorem.sentence %>
+  complete: false
+  position: <%= i %>
+  task: task_2
+<% end %> 
