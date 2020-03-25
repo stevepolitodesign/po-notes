@@ -8,7 +8,7 @@ An application to help take notes, complete tasks and set reminders.
 
 ```
 bundle install
-nvm use 10
+nvm use 12.16.1
 yarn add
 rails db:create
 rails db:migrate
