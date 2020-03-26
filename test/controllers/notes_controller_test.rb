@@ -314,4 +314,39 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     get notes_path
     assert_select "label", text: tags_name, count: 0
   end
+
+  test "should not display a link to previous versions when public if user is not authenticated" do
+    @user.notes.destroy_all
+    with_versioning do
+      @note = @user.notes.create(title: "v1", body: "v1", public: true)
+      @note.update(title: "v2", body: "v2")
+      assert_equal @note.reload.versions.count, 2
+      get note_path(@note)
+      assert_select "a", text: "See Previous Versions", count: 0
+    end
+  end
+
+  test "should not display a link to previous versions when public if user is authenticated but does not own the note" do
+    @user.notes.destroy_all
+    with_versioning do
+      @note = @user.notes.create(title: "v1", body: "v1", public: true)
+      @note.update(title: "v2", body: "v2")
+      assert_equal @note.reload.versions.count, 2
+      sign_in @another_user
+      get note_path(@note)
+      assert_select "a", text: "See Previous Versions", count: 0
+    end
+  end
+
+  test "should display a link to previous versions when public if user is authenticated and does own the note" do
+    @user.notes.destroy_all
+    with_versioning do
+      @note = @user.notes.create(title: "v1", body: "v1", public: true)
+      @note.update(title: "v2", body: "v2")
+      assert_equal @note.reload.versions.count, 2
+      sign_in @user
+      get note_path(@note)
+      assert_select "a", text: "See Previous Versions", count: 1
+    end
+  end
 end
