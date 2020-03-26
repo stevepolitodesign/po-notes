@@ -46,6 +46,20 @@ class NoteTest < ActiveSupport::TestCase
     assert_not @note.public
   end
 
+  test "should not be valid if pinned is null" do
+    @note = @user.notes.build(title: "A note title", body: "A note body", pinned: nil)
+    assert_raises("ActiveRecord::NotNullViolation") do
+      @note.save!
+    end
+  end
+
+  test "should not be valid if public is null" do
+    @note = @user.notes.build(title: "A note title", body: "A note body", public: nil)
+    assert_raises("ActiveRecord::NotNullViolation") do
+      @note.save!
+    end
+  end
+
   test "should save versions" do
     with_versioning do
       orignal_title = @note.title

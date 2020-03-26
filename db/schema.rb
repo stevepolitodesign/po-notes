@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_24_175851) do
+ActiveRecord::Schema.define(version: 2020_03_26_180036) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,8 +29,8 @@ ActiveRecord::Schema.define(version: 2020_03_24_175851) do
   create_table "notes", force: :cascade do |t|
     t.string "title", default: "Untitled", null: false
     t.text "body"
-    t.boolean "pinned", default: false
-    t.boolean "public", default: false
+    t.boolean "pinned", default: false, null: false
+    t.boolean "public", default: false, null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
