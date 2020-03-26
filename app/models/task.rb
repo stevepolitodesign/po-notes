@@ -1,3 +1,4 @@
+# TODO Limit the amount of task items a task can have.
 class Task < ApplicationRecord
   include SetHashid
   include ParseTags

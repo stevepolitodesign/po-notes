@@ -12,4 +12,6 @@ Rails.application.routes.draw do
   post "/notes/:id/versions/:version_id", to: "notes#revert", as: "note_revert"
   get "/deleted_notes", to: "notes#deleted", as: "deleted_notes"
   post "/notes/:id/restore", to: "notes#restore", as: "restore_note"
+
+  resources :tasks
 end

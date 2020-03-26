@@ -1,5 +1,6 @@
 <% if local_assigns[:display] == 'individual' %>
     <h1><%= note.title %></h1>
+    <%# TODO Hide tags for anyone except the owner. %>
     <% unless note.tags.empty? %>
         <h4>Tagged with:</h4>
         <ul>
@@ -17,6 +18,7 @@
             <%= tag.td do %>
                 <%= note.try(:reify) ? note.reify.title : note.title %>
             <% end %>
+            <%# TODO Format preview text. %>
             <%= tag.td do %>
                 <%= note.try(:reify) ? note.reify.body.truncate_words(10) : note.body.truncate_words(10) %>
             <% end %>
