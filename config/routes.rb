@@ -13,5 +13,7 @@ Rails.application.routes.draw do
   get "/deleted_notes", to: "notes#deleted", as: "deleted_notes"
   post "/notes/:id/restore", to: "notes#restore", as: "restore_note"
 
-  resources :tasks
+  resources :tasks do
+    resources :task_items, only: [:create, :update, :destroy]
+  end
 end
