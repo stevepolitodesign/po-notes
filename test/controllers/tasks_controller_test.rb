@@ -49,23 +49,6 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_user_session_path
   end
 
-  test "should get edit if authenticated and owner" do
-    sign_in @user
-    get edit_task_path(@task)
-    assert_response :success
-  end
-
-  test "should not get edit if authenticated but not owner" do
-    sign_in @another_user
-    get edit_task_path(@task)
-    user_not_authorized
-  end
-
-  test "should not get edit if anonymous" do
-    get edit_task_path(@task)
-    assert_redirected_to new_user_session_path
-  end
-
   test "should post create if authenticated" do
     sign_in @user
     assert_difference("Task.count") do

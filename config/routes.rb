@@ -18,7 +18,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :tasks do
+  resources :tasks, except: [:edit] do
     resources :task_items, only: [:create, :update, :destroy]
   end
 end

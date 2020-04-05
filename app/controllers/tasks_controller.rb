@@ -1,21 +1,17 @@
 class TasksController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
-  before_action :authorize_task, only: [:show, :edit, :update, :destroy]
+  before_action :set_task, only: [:show, :update, :destroy]
+  before_action :authorize_task, only: [:show, :update, :destroy]
 
   def index
     @tasks = current_user.tasks
   end
 
-  # TODO Maybe remove show action?
   def show
   end
 
   def new
     @task = Task.new
-  end
-
-  def edit
   end
 
   def create
@@ -31,7 +27,7 @@ class TasksController < ApplicationController
     if @task.update(task_params)
       redirect_to @task, notice: "Task updated"
     else
-      render "edit"
+      render "show"
     end
   end
 
