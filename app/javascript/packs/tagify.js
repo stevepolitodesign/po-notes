@@ -1,4 +1,4 @@
-import Tagify from "@yaireo/tagify";
+import Tagify from "@yaireo/tagify/src/tagify";
 import "@yaireo/tagify/src/tagify.scss";
 
 document.addEventListener("turbolinks:load", () => {
