@@ -154,20 +154,20 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
   test "should get versions if authenticed" do
     sign_in @user
     @note = @user.notes.last
-    get note_versions_path(@note)
+    get versions_note_path(@note)
     assert_response :success
   end
 
   test "should not get versions if not authenticed" do
     @note = @user.notes.last
-    get note_versions_path(@note)
+    get versions_note_path(@note)
     assert_redirected_to new_user_session_path
   end
 
   test "should not get versions if current user does not own note" do
     sign_in @user
     @note = @another_user.notes.last
-    get note_versions_path(@note)
+    get versions_note_path(@note)
     user_not_authorized
   end
 
@@ -177,7 +177,7 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     with_versioning do
       @note.update(title: "v2", body: "v2")
       @version = @note.versions.last
-      get note_version_path(@note, @version)
+      get version_note_path(@note, @version)
       assert_response :success
     end
   end
@@ -187,7 +187,7 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     with_versioning do
       @note.update(title: "v2", body: "v2")
       @version = @note.versions.last
-      get note_version_path(@note, @version)
+      get version_note_path(@note, @version)
       assert_redirected_to new_user_session_path
     end
   end
@@ -198,7 +198,7 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     with_versioning do
       @note.update(title: "v2", body: "v2")
       @version = @note.versions.last
-      get note_version_path(@note, @version)
+      get version_note_path(@note, @version)
       user_not_authorized
     end
   end
@@ -210,7 +210,7 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     with_versioning do
       @note.update(title: "v2", body: "v2")
       @version = @note.versions.last
-      post note_revert_path(@note, @version)
+      post revert_note_path(@note, @version)
       assert_equal @note.reload.title, "v1"
       assert_equal @note.reload.body, "v1"
     end
@@ -222,7 +222,7 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     with_versioning do
       @note.update(title: "v2", body: "v2")
       @version = @note.versions.last
-      post note_revert_path(@note, @version)
+      post revert_note_path(@note, @version)
       assert_redirected_to new_user_session_path
     end
   end
@@ -234,7 +234,7 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     with_versioning do
       @note.update(title: "v2", body: "v2")
       @version = @note.versions.last
-      post note_revert_path(@note, @version)
+      post revert_note_path(@note, @version)
       user_not_authorized
     end
   end

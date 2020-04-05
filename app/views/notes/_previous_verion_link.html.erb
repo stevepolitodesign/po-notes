@@ -1,1 +1,1 @@
-<%= link_to 'See Previous Versions', note_versions_path(@note) if user_signed_in? && (current_user == @note.user)  %>
+<%= link_to 'See Previous Versions', versions_note_path(@note) if user_signed_in? && (current_user == @note.user)  %>

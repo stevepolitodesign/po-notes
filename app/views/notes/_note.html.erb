@@ -37,7 +37,7 @@
             <%= tag.td do %>
                 <%= link_to 'Edit', edit_note_path(note) if params[:action] == 'index'%>
                 <%= link_to 'Preview', note_path(note) if params[:action] == 'index' %>
-                <%= link_to 'Preview', note_version_path(@note, note) if note.try(:reify) && params[:action] == 'versions' %>
+                <%= link_to 'Preview', version_note_path(@note, note) if note.try(:reify) && params[:action] == 'versions' %>
                 <%= link_to 'Restore Note', restore_note_path(note.reify.id), method: :post if note.try(:reify) && params[:action] == 'deleted' %>
             <% end %>                        
         <% end %>

@@ -6,12 +6,17 @@ Rails.application.routes.draw do
   end
   root "pages#home"
 
-  resources :notes
-  get "/notes/:id/versions", to: "notes#versions", as: "note_versions"
-  get "/notes/:id/versions/:version_id", to: "notes#version", as: "note_version"
-  post "/notes/:id/versions/:version_id", to: "notes#revert", as: "note_revert"
-  get "/deleted_notes", to: "notes#deleted", as: "deleted_notes"
-  post "/notes/:id/restore", to: "notes#restore", as: "restore_note"
+  resources :notes do
+    member do
+      get "versions", to: "notes#versions", as: "versions"
+      get "versions/:version_id", to: "notes#version", as: "version"
+      post "versions/:version_id", to: "notes#revert", as: "revert"
+      post "restore", to: "notes#restore", as: "restore"
+    end
+    collection do
+      get "deleted_notes", to: "notes#deleted", as: "deleted"
+    end
+  end
 
   resources :tasks do
     resources :task_items, only: [:create, :update, :destroy]
