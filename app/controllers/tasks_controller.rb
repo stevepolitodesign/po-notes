@@ -3,6 +3,7 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :update, :destroy]
   before_action :authorize_task, only: [:show, :update, :destroy]
 
+  # TODO Add the ability to search and paginate tasks.
   def index
     @tasks = current_user.tasks
   end

@@ -17,15 +17,15 @@ class NoteFlowsTest < ApplicationSystemTestCase
     end
     sign_in @user
     visit root_path
-    click_link "My Notes"
+    find_link("My Notes").click
     visit notes_path
-    page.assert_selector("table tbody tr", count: 25)
-    click_link "2"
-    page.assert_selector("table tbody tr", count: 25)
-    click_link "First"
-    page.assert_selector("table tbody tr", count: 25)
-    click_link "Last"
-    page.assert_selector("table tbody tr", count: 25)
+    assert_equal all("table tbody tr").count, 25
+    find_link("2").click
+    assert_equal all("table tbody tr").count, 25
+    find_link("First").click
+    assert_equal all("table tbody tr").count, 25
+    find_link("Last").click
+    assert_equal all("table tbody tr").count, 25
   end
 
   test "should pin notes" do
@@ -42,42 +42,36 @@ class NoteFlowsTest < ApplicationSystemTestCase
     end
     sign_in @user
     visit root_path
-    sleep 2
-    click_link "My Notes"
-    sleep 2
-    assert_equal page.find("table tbody tr:first-child td:first-child").text, pinned_note_title
+    find_link("My Notes").click
+    assert_equal find("table tbody tr:first-child td:first-child").text, pinned_note_title
   end
 
   test "should create note" do
     sign_in @user
     visit root_path
-    click_link "Create a new note"
-    sleep 2
-    find("#note_title").set("Note Title")
-    find("#note_body").set("Note Body")
-    check("Pinned")
-    check("Public")
+    find_link("Create a new note").click
+    find_field("Title").set("Note Title")
+    find_field("Body").set("Note Body")
+    find_field("Pinned").check
+    find_field("Public").check
     find(".tagify__input").set("Tag 1, Tag 2")
-    click_button "Create Note"
-    sleep 2
-    page.assert_selector("tags tag", count: 2)
-    assert_selector "div", text: "Note added"
-    assert_equal page.find_field("Title").value, "Note Title"
-    assert_equal page.find_field("Body").value, "Note Body"
-    assert_selector "tag:first-of-type .tagify__tag-text", text: "tag 1"
-    assert_selector "tag:nth-child(2) .tagify__tag-text", text: "tag 2"
+    find_button("Create Note").click
+    assert_equal all("tags tag").count, 2
+    assert_match "Note added", find("#flash-message").text
+    assert_equal find_field("Title").value, "Note Title"
+    assert_equal find_field("Body").value, "Note Body"
+    assert_equal find("tag:first-of-type .tagify__tag-text").text, "tag 1"
+    assert_equal find("tag:nth-child(2) .tagify__tag-text").text, "tag 2"
   end
 
   test "should save even if there are no tags" do
     sign_in @user
     visit root_path
-    click_link "Create a new note"
-    sleep 2
-    find("#note_title").set("Note Title")
-    find("#note_body").set("Note Body")
-    click_button "Create Note"
-    sleep 2
-    page.assert_selector("tags tag", count: 0)
+    find_link("Create a new note").click
+    find_field("Title").set("Note Title")
+    find_field("Body").set("Note Body")
+    find_button("Create Note").click
+    assert_equal all("tags tag").count, 0
   end
 
   test "should update note" do
@@ -86,19 +80,18 @@ class NoteFlowsTest < ApplicationSystemTestCase
     @note.save!
     sign_in @user
     visit edit_note_path(@note)
-    fill_in "Title", with: "Updated Title"
-    fill_in "Body", with: "Updated Body"
-    tag = find("tag:first-of-type .tagify__tag-text").double_click
+    find_field("Title").set("Updated Title")
+    find_field("Body").set("Updated Body")
+    tag = find("tag:first-of-type .tagify__tag-text")
+    tag.double_click
     tag.send_keys(:backspace, :backspace, :backspace, "three")
-    sleep 2
     find("tag:nth-child(2) .tagify__tag__removeBtn").click
     sleep 2
-    click_button "Update Note"
-    sleep 2
-    assert_equal page.find_field("Title").value, "Updated Title"
-    assert_equal page.find_field("Body").value, "Updated Body"
-    assert_selector "tag:first-of-type .tagify__tag-text", text: "three"
-    page.assert_selector("tags tag", count: 1)
+    find_button("Update Note").click
+    assert_equal find_field("Title").value, "Updated Title"
+    assert_equal find_field("Body").value, "Updated Body"
+    assert_equal "three", find("tag:first-of-type .tagify__tag-text").text
+    assert_equal all("tags tag").count, 1
   end
 
   test "should delete note" do
@@ -106,18 +99,18 @@ class NoteFlowsTest < ApplicationSystemTestCase
     visit edit_note_path(@user.notes.last)
     assert_difference("Note.count", -1) do
       accept_alert do
-        click_link "Delete Note"
+        find_link("Delete Note").click
       end
       sleep 2
     end
-    assert_selector "div", text: "Note deleted"
+    assert_match "Note deleted", find("#flash-message").text
   end
 
   test "should display errors during validation" do
     sign_in @user
     visit new_note_path
-    click_button "Create Note"
-    assert_selector "#error_explanation"
+    find_button("Create Note").click
+    find("#error_explanation")
   end
 
   test "should display a list of note versions and revert note" do
@@ -126,26 +119,21 @@ class NoteFlowsTest < ApplicationSystemTestCase
       @note = Note.create(title: "v1", body: "v1", user: @user)
       sign_in @user
       visit edit_note_path(@note)
-      click_link "See Previous Versions"
+      find_link("See Previous Versions").click
       click_link("your note")
       2.upto(10) do |i|
         @note.update(title: "v#{i}", body: "v#{i}")
       end
       visit root_path
-      click_link "My Notes"
-      sleep 2
-      click_link "Edit"
-      sleep 2
-      click_link "See Previous Versions"
-      sleep 2
-      page.assert_selector("a", text: "Preview", count: 9)
+      find_link("My Notes").click
+      find_link("Edit").click
+      find_link("See Previous Versions").click
+      assert_equal all("a") { |el| el.text == "Preview" }.count, 9
       first("a", text: "Preview").click
-      sleep 2
-      assert_selector "h1", text: "v1"
-      click_link("Revert to this version")
-      sleep 2
-      assert_equal page.find_field("Title").value, "v1"
-      assert_equal page.find_field("Body").value, "v1"
+      assert_equal "v1", find("h1").text
+      find_link("Revert to this version").click
+      assert_equal find_field("Title").value, "v1"
+      assert_equal find_field("Body").value, "v1"
     end
   end
 
@@ -155,20 +143,17 @@ class NoteFlowsTest < ApplicationSystemTestCase
       @note = Note.create(title: "v1", body: "v1", user: @user)
       sign_in @user
       visit root_path
-      sleep 2
-      click_link "Deleted Notes"
-      sleep 2
-      click_link "your notes"
-      sleep 2
+      find_link("Deleted Notes").click
+      find_link("your notes").click
       @note.destroy!
-      click_link "Deleted Notes"
       sleep 2
+      find_link("Deleted Notes").click
       assert_difference("Note.count") do
-        click_link "Restore Note"
+        find_link("Restore Note").click
         sleep 2
       end
-      assert_equal page.find_field("Title").value, "v1"
-      assert_equal page.find_field("Body").value, "v1"
+      assert_equal find_field("Title").value, "v1"
+      assert_equal find_field("Body").value, "v1"
     end
   end
 
@@ -176,49 +161,40 @@ class NoteFlowsTest < ApplicationSystemTestCase
     @user.notes.destroy_all
     sign_in @user
     visit notes_path
-    sleep 2
-    page.assert_selector("a", text: "Add your first note")
+    find_link("Add your first note")
     1.upto(10) do |n|
-      @note = @user.notes.build(title: "title-#{n}", body: "body-#{n}", pinned: (true if n == 5).to_s, public: (true if n == 2).to_s)
+      @note = @user.notes.build(title: "title-#{n}", body: "body-#{n}", pinned: n == 5, public: n == 5)
       @note.tag_list.add("tag", "tag-#{n}")
       @note.save!
     end
     visit root_path
     sleep 2
     visit notes_path
+    find_field("Title contains").set("title")
+    find_button("Search").click
+    assert_equal 10, all("table tbody tr").count
+    find_link("Reset").click
     sleep 2
-    fill_in "Title contains", with: "title"
-    click_button "Search"
+    find_field("Body contains").set("body-1")
+    find_button("Search").click
+    assert_equal 2, all("table tbody tr").count
+    find_field("tag-1").check
+    find_button("Search").click
+    assert_equal all("table tbody tr").count, 1
+    find_field("Body contains").set("not gonna work")
+    find_button("Search").click
+    assert_equal all("table tbody tr").count, 0
+    find("p") { |el| el.text == "Sorry, no notes match your search." }
+    find_link("Reset").click
     sleep 2
-    page.assert_selector("table tbody tr", count: 10)
-    click_link "Reset"
+    find_field("Pinned?").check
+    find_button("Search").click
+    assert_equal all("table tbody tr").count, 1
+    find_link("Reset").click
     sleep 2
-    fill_in "Body contains", with: "body-1"
-    click_button "Search"
-    sleep 2
-    page.assert_selector("table tbody tr", count: 2)
-    check "tag-1"
-    click_button "Search"
-    sleep 2
-    page.assert_selector("table tbody tr", count: 1)
-    fill_in "Body contains", with: "not gonna work"
-    click_button "Search"
-    sleep 2
-    page.assert_selector("table tbody tr", count: 0)
-    page.assert_selector("p", text: "Sorry, no notes match your search.")
-    click_link "Reset"
-    sleep 2
-    check "Pinned?"
-    click_button "Search"
-    sleep 2
-    page.assert_selector("table tbody tr", count: 1)
-    sleep 2
-    click_link "Reset"
-    sleep 2
-    check "Public?"
-    click_button "Search"
-    sleep 2
-    page.assert_selector("table tbody tr", count: 1)
+    find_field("Public?").check
+    find_button("Search").click
+    assert_equal all("table tbody tr").count, 1
   end
 
   test "should link tags to filtered search page" do
@@ -228,12 +204,9 @@ class NoteFlowsTest < ApplicationSystemTestCase
     @note.save!
     sign_in @user
     visit notes_path
-    sleep 2
-    click_link "Preview"
-    sleep 2
-    click_link "tag-two"
-    sleep 2
-    page.assert_selector("table tbody tr", count: 1)
+    find_link("Preview").click
+    find_link("tag-two").click
+    assert_equal 1, all("table tbody tr").count
   end
 
   test "should parse markdown" do
@@ -242,18 +215,17 @@ class NoteFlowsTest < ApplicationSystemTestCase
     @note.save!
     sign_in @user
     visit note_path(@note)
-    sleep 2
-    assert_selector "h2", text: "Markdown"
+    find("h2") { |el| el.text == "Markdown" }
   end
 
   test "should propt user to save when clicking the view link on the edit page" do
     sign_in @user
     visit edit_note_path(@user.notes.last)
     accept_alert do
-      click_link "View Note"
+      find_link("View Note").click
       sleep 2
     end
-    assert_selector "h1", text: @user.notes.last.title
+    find("h1") { |el| el.text == @user.notes.last.title }
   end
 
   test "should display a share link if note is public" do
@@ -262,17 +234,14 @@ class NoteFlowsTest < ApplicationSystemTestCase
     @note = @user.notes.build(title: "Public Note", body: Faker::Lorem.paragraphs.join)
     @note.save!
     visit edit_note_path(@note)
-    sleep 2
-    page.assert_selector("#js-clipboard-source", count: 0)
+    assert_equal 0, all("#js-clipboard-source").count
     @note.update(public: true)
+    sleep 2
     visit edit_note_path(@note)
-    sleep 2
-    click_button "Copy to clipboard."
-    sleep 2
-    assert_match page.find("#js-clipboard-source").value.split("/").last, @note.slug
+    find_button("Copy to clipboard.").click
+    assert_match @note.slug, find("#js-clipboard-source").value.split("/").last
     visit note_path(@note)
-    sleep 2
-    click_button "Copy to clipboard."
-    assert_match page.find("#js-clipboard-source").value.split("/").last, @note.slug
+    find_button("Copy to clipboard.").click
+    assert_match @note.slug, find("#js-clipboard-source").value.split("/").last
   end
 end
