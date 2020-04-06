@@ -124,4 +124,14 @@ class TaskTest < ActiveSupport::TestCase
     end
     assert_equal @task.reload.task_items.first.title, "Item 1"
   end
+
+  test "should not have more than 50 task_items" do
+    @task.save!
+    1.upto(50) do |i|
+      @task.task_items.create(title: "Task Item #{i}")
+    end
+    assert_equal 50, @task.task_items.count
+    @task_item = @task.task_items.build(title: "Task Item 51")
+    assert_not @task.valid?
+  end
 end

@@ -1,4 +1,3 @@
-# TODO Limit the amount of task items a task can have.
 class Task < ApplicationRecord
   include SetHashid
   include ParseTags
@@ -15,6 +14,7 @@ class Task < ApplicationRecord
   has_many :task_items, -> { order(position: :asc) }, dependent: :destroy
 
   validate :user_cannot_create_more_notes_after_reaching_their_tasks_limit, on: :create, unless: proc { |task| task.user.nil? || task.user.tasks_limit.nil? }
+  validate :limit_task_items
 
   private
 
@@ -22,5 +22,9 @@ class Task < ApplicationRecord
     if user.tasks_limit <= user.tasks.count
       errors.add(:user_id, "has reached their task limit")
     end
+  end
+
+  def limit_task_items
+    errors.add(:task, "cannot have more than 50 task items") if task_items.count >= 50
   end
 end
