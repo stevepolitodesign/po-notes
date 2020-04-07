@@ -1,0 +1,15 @@
+<li data-controller="task-item" data-target="task-items.item" data-new_record="<%= f.object.new_record? %>" class="fields-wrapper">
+    <% if params[:action] == "new" %>
+        <%= f.label :complete, style: "display: none;" %>
+        <%= f.check_box :complete, style: "display: none;", data: { action: "change->task-item#handle_click", target: "task-item.completed" } %>
+    <% else %>
+        <%= f.label :complete %>
+        <%= f.check_box :complete, data: { action: "change->task-item#handle_click", target: "task-item.completed" } %>
+    <% end %>
+    <%= f.label :title %>
+    <%= f.text_field :title, data: { target: "task-item.title" } %>
+    <%= f.hidden_field :position,  data: { target: "task-items.position" } %>
+    <a href="#" data-action="click->nested-form#remove_association">Remove</a>
+    <%= f.hidden_field :id %>
+    <%= f.hidden_field :_destroy %>
+</li>

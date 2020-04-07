@@ -30,4 +30,8 @@ class TaskItemTest < ActiveSupport::TestCase
     @new_task_item = @task.task_items.create
     assert_equal @new_task_item.position, 2
   end
+
+  test "should have a complete scope" do
+    assert TaskItem.complete
+  end
 end

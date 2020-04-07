@@ -1,0 +1,12 @@
+<%= search_form_for @q do |f| %>
+    <%= f.label :title_cont %>
+    <%= f.search_field :title_cont %>
+    <%= tag.fieldset do %>
+        <%= tag.legend do %>
+            Tags
+        <% end %>
+        <%= f.collection_check_boxes :tags_id_in, current_user.tasks.tag_counts_on(:tags), :id, :name %>
+    <% end %>
+    <%= f.submit %>
+    <%= link_to 'Reset', tasks_path %>
+<% end %>

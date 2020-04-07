@@ -1,0 +1,17 @@
+<%= tag.tr do %>
+    <%= tag.td do %>
+        <%= task.title %>
+    <% end %>
+    <%= tag.td do %>
+        <%= task.tag_list %>
+    <% end %>
+    <%= tag.td do %>
+       <%= task.task_items.complete.count %> / <%= task.task_items.count %>
+    <% end %>    
+    <%= tag.td do %>
+        <%= time_ago_in_words(task.updated_at) %> ago.
+    <% end %>
+    <%= tag.td do %>
+        <%= link_to "Edit", task %>
+    <% end %>
+<% end %>

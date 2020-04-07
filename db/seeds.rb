@@ -274,3 +274,20 @@ User.all.each do |user|
     puts "Added tags to #{@note.title}"
   end
 end
+
+User.all.each do |user|
+  tags = Faker::Lorem.words(number: 10)
+  1.upto(100) do |i|
+    @task = user.tasks.build(title: Faker::Lorem.sentence)
+    @task.save! if @task.valid?
+    puts "Created Task: #{@task.title}" if @task.valid?
+    @task.tag_list.add(tags.sample((1..tags.length).to_a.sample))
+    @task.save!
+    puts "Added tags to #{@task.title}"
+    1.upto(25) do |j|
+      @task_item = @task.task_items.build(title: Faker::Lorem.sentence, complete: j.even?)
+      @task_item.save! if @task_item.valid?
+      puts "Created Task Item: #{@task_item.title}" if @task_item.valid?
+    end
+  end
+end

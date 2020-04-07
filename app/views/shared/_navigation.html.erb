@@ -16,3 +16,10 @@
     <% end %>
 </nav>
 <hr/>
+<nav>
+    <% if user_signed_in? %>
+        <%= link_to 'My Tasks', tasks_path %>
+        <%= link_to 'Create Task', new_task_path %>
+    <% end %>
+</nav>
+<hr/>

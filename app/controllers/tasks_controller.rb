@@ -3,9 +3,9 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :update, :destroy]
   before_action :authorize_task, only: [:show, :update, :destroy]
 
-  # TODO Add the ability to search and paginate tasks.
   def index
-    @tasks = current_user.tasks
+    @q = current_user.tasks.ransack(params[:q])
+    @tasks = @q.result.includes([:taggings]).page params[:page]
   end
 
   def show
@@ -13,6 +13,7 @@ class TasksController < ApplicationController
 
   def new
     @task = Task.new
+    @task.task_items.new
   end
 
   def create
@@ -48,6 +49,6 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title)
+    params.require(:task).permit(:title, :tag_list, task_items_attributes: [:id, :title, :complete, :position, :_destroy])
   end
 end

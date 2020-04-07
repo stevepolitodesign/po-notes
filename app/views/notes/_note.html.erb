@@ -13,6 +13,7 @@
     <% end %>
     <%= markdown note.body %>
 <% else %>
+    <%# TODO Don't display deleted notes in versions. %>
     <% unless note.try(:event) == 'create' %>
         <%= tag.tr do %>
             <%= tag.td do %>

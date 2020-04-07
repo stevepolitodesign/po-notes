@@ -55,6 +55,7 @@ class NotesController < ApplicationController
   end
 
   def deleted
+    # TODO Limit to latest deleted note.
     @notes = PaperTrail::Version.where(item_type: "Note", event: "destroy").where_object(user_id: current_user.id)
   end
 

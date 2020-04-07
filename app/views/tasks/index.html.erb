@@ -1,0 +1,34 @@
+<%= render partial: 'search_form' %>
+<% unless @tasks.empty? %>
+    <%= tag.table do %>
+        <%= tag.thead do %>
+            <%= tag.tr do %>
+                <%= tag.th do%>
+                    Title
+                <% end %>
+                <%= tag.th do %>
+                    Tags
+                <% end %> 
+                <%= tag.th do %>
+                    Completed Items
+                <% end %>                                    
+                <%= tag.th do %>
+                    Last Updated
+                <% end %>
+                <%= tag.th do %>
+                    Actions
+                <% end %> 
+            <% end %>
+        <% end %>
+        <%= tag.body do %>
+            <%= render @tasks %>
+        <% end %>
+    <% end %>
+    <%= paginate @tasks %>
+<% else %>
+    <% unless params[:q] %>
+        <p><%= link_to 'Add your first task', new_task_path %></p>
+    <% else %>
+        <p>Sorry, no tasks match your search.</p>
+    <% end %>
+<% end %>
