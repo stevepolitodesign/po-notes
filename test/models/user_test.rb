@@ -23,11 +23,6 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  test "notes_limit should have a deafult value of 500" do
-    @user.save!
-    assert_equal @user.notes_limit, 500
-  end
-
   test "should destroy associated tasks" do
     @user.save!
     5.times do |n|
@@ -53,8 +48,15 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  test "tasks_limit should have a default value of 100" do
-    @user.save!
-    assert_equal @user.tasks_limit, 100
+  test "should have a default plan of free" do
+    @user = User.new
+    assert_equal "free", @user.plan
+  end
+
+  test "should have a plan" do
+    @user.plan = nil
+    assert_raises("ActiveRecord::NotNullViolation") do
+      @user.save
+    end
   end
 end

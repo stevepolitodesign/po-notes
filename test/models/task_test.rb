@@ -78,6 +78,7 @@ class TaskTest < ActiveSupport::TestCase
   end
 
   test "should limit tasks created to the user's tasks_limit" do
+    @user.update(plan: "free")
     @user.tasks.destroy_all
     100.times do |n|
       @task = @user.tasks.build(title: "title #{n}")
@@ -88,19 +89,6 @@ class TaskTest < ActiveSupport::TestCase
     @task = @user.tasks.build(title: "Note 101")
     assert_not @task.valid?
     assert_equal @task.errors.messages[:user_id][0], "has reached their task limit"
-  end
-
-  test "should not limit tasks created if user's tasks_limit is nil" do
-    @user.update(tasks_limit: nil)
-    @user.save!
-    assert_nil @user.reload.tasks_limit
-    1.upto(2) do |i|
-      assert_difference("Task.count") do
-        @task = @user.tasks.build(title: "Note #{i}")
-        assert @task.valid?
-        @task.save
-      end
-    end
   end
 
   test "should destroy associated task_items" do

@@ -83,6 +83,8 @@ GEM
     childprocess (3.0.0)
     concurrent-ruby (1.1.6)
     crass (1.0.6)
+    data_migrate (6.3.0)
+      rails (>= 5.0)
     devise (4.7.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -240,6 +242,8 @@ GEM
     standard (0.2.2)
       rubocop (~> 0.79.0)
       rubocop-performance (~> 1.5.1)
+    strong_migrations (0.6.4)
+      activerecord (>= 5)
     thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
@@ -282,6 +286,7 @@ DEPENDENCIES
   bullet (~> 6.1)
   byebug
   capybara (>= 2.15)
+  data_migrate (~> 6.3)
   devise (~> 4.7, >= 4.7.1)
   dotenv-rails (~> 2.1, >= 2.1.1)
   faker (~> 2.10, >= 2.10.1)
@@ -301,6 +306,7 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   standard (~> 0.2.2)
+  strong_migrations (~> 0.6.4)
   turbolinks (~> 5)
   tzinfo-data
   web-console (>= 3.3.0)
@@ -311,4 +317,4 @@ RUBY VERSION
    ruby 2.6.3p62
 
 BUNDLED WITH
-   2.0.2
+   2.1.4

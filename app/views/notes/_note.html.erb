@@ -13,7 +13,6 @@
     <% end %>
     <%= markdown note.body %>
 <% else %>
-    <%# TODO Don't display deleted notes in versions. %>
     <%= tag.tr do %>
         <%= tag.td do %>
             <%= note.try(:reify) ? note.reify.title : note.title %>
