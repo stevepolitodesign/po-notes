@@ -157,6 +157,53 @@ class NoteFlowsTest < ApplicationSystemTestCase
     end
   end
 
+  test "should not render previously destroyed notes once restored" do
+    Note.destroy_all
+    with_versioning do
+      assert_difference("Note.count") do
+        @note = @user.notes.create(title: Faker::Lorem.sentence, body: Faker::Lorem.sentence)
+      end
+      @note.destroy
+      sign_in @user
+      visit deleted_notes_path
+      find_link("Restore Note").click
+      visit deleted_notes_path
+      assert_equal 0, all("a") { |a| a[:href] == restore_note_path(@note) }.count
+    end
+  end
+
+  test "should limit display to lastest destroyed version per note" do
+    Note.destroy_all
+    with_versioning do
+      1.upto(2) do |i|
+        @deleted_note = @user.notes.create(title: "Deleted Note #{i} Version 1", body: Faker::Lorem.paragraph)
+        @deleted_note.destroy
+        @deleted_note = @user.notes.build(id: @deleted_note.id).versions.last.reify
+        @deleted_note.save
+        @deleted_note.update(title: "Deleted Note #{i} Version 2")
+        @deleted_note.destroy
+      end
+      sign_in @user
+      visit deleted_notes_path
+      Note.all.each do |note|
+        find_link(restore_note_path(note))
+      end
+    end
+  end
+
+  test "should not display deleted versions on versions page" do
+    Note.destroy_all
+    with_versioning do
+      @restored_note = @user.notes.create(title: "A Previously Deleted Note", body: Faker::Lorem.paragraph)
+      @restored_note.destroy
+      @restored_note = @user.notes.build(id: @restored_note.id).versions.last.reify
+      @restored_note.save
+      sign_in @user
+      visit versions_note_path(@restored_note.id)
+      assert_equal 0, all("table tbody tr").count
+    end
+  end
+
   test "should search notes" do
     @user.notes.destroy_all
     sign_in @user

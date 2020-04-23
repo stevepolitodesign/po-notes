@@ -42,7 +42,7 @@ class NotesController < ApplicationController
   end
 
   def versions
-    @notes = @note.versions.includes([:item])
+    @notes = @note.versions.includes([:item]).where(event: "update")
   end
 
   def version
@@ -55,17 +55,21 @@ class NotesController < ApplicationController
   end
 
   def deleted
-    # TODO Limit to latest deleted note.
-    @notes = PaperTrail::Version.where(item_type: "Note", event: "destroy").where_object(user_id: current_user.id)
+    @destroyed_versions = PaperTrail::Version.where(item_type: "Note", event: "destroy").order(created_at: :desc).where_object(user_id: current_user.id)
+    @latest_destroyed_versions = @destroyed_versions.filter { |v| v.reify.versions.last.event == "destroy" }.map(&:reify).uniq(&:id)
+    @notes = @latest_destroyed_versions
   end
 
   def restore
-    @note = Note.new(id: params[:id]).versions.last.reify
-    authorize_note
-    if @note.save
-      redirect_to edit_note_path(@note), notice: "Note restored"
-    else
-      render "deleted"
+    @latest_version = Note.new(id: params[:id]).versions.last
+    if @latest_version.event == "destroy"
+      @note = @latest_version.reify
+      authorize_note
+      if @note.save
+        redirect_to edit_note_path(@note), notice: "Note restored"
+      else
+        render "deleted"
+      end
     end
   end
 

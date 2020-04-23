@@ -290,6 +290,21 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "should not post restore if note's last version event does not equal 'destroy'" do
+    Note.destroy_all
+    with_versioning do
+      @note = @user.notes.create(title: "v1", body: "v1", user: @another_user)
+      @note.destroy
+      sign_in @user
+      assert_difference("Note.count") do
+        post restore_note_path(@note.id)
+      end
+      assert_no_difference("Note.count") do
+        post restore_note_path(@note.id)
+      end
+    end
+  end
+
   test "should use hashid in path" do
     sign_in @user
     @note = Note.create(title: "Title", body: "Body", user: @user)

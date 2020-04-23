@@ -14,33 +14,37 @@
     <%= markdown note.body %>
 <% else %>
     <%# TODO Don't display deleted notes in versions. %>
-    <% unless note.try(:event) == 'create' %>
-        <%= tag.tr do %>
-            <%= tag.td do %>
-                <%= note.try(:reify) ? note.reify.title : note.title %>
-            <% end %>
-            <%# TODO Format preview text. %>
-            <%= tag.td do %>
-                <%= note.try(:reify) ? note.reify.body.truncate_words(10) : note.body.truncate_words(10) %>
-            <% end %>
-            <%= tag.td do %>
-                <%= note.try(:reify) ? note.reify.tag_list : note.tag_list %>
-            <% end %>
-            <%= tag.td do %>
-                <%= note.try(:reify) ? note.reify.public : note.public %>
-            <% end %>
-            <%= tag.td do %>
-                <%= note.try(:reify) ? note.reify.pinned : note.pinned %>
-            <% end %>
-            <%= tag.td do %>
-                <%= note.try(:reify) ? "#{time_ago_in_words(note.reify.updated_at)} ago" : "#{time_ago_in_words(note.updated_at)} ago" %>
-            <% end %>      
-            <%= tag.td do %>
-                <%= link_to 'Edit', edit_note_path(note) if params[:action] == 'index'%>
-                <%= link_to 'Preview', note_path(note) if params[:action] == 'index' %>
-                <%= link_to 'Preview', version_note_path(@note, note) if note.try(:reify) && params[:action] == 'versions' %>
-                <%= link_to 'Restore Note', restore_note_path(note.reify.id), method: :post if note.try(:reify) && params[:action] == 'deleted' %>
-            <% end %>                        
+    <%= tag.tr do %>
+        <%= tag.td do %>
+            <%= note.try(:reify) ? note.reify.title : note.title %>
         <% end %>
+        <%# TODO Format preview text. %>
+        <%= tag.td do %>
+            <%= note.try(:reify) ? note.reify.body.truncate_words(10) : note.body.truncate_words(10) %>
+        <% end %>
+        <%= tag.td do %>
+            <%= note.try(:reify) ? note.reify.tag_list : note.tag_list %>
+        <% end %>
+        <%= tag.td do %>
+            <%= note.try(:reify) ? note.reify.public : note.public %>
+        <% end %>
+        <%= tag.td do %>
+            <%= note.try(:reify) ? note.reify.pinned : note.pinned %>
+        <% end %>
+        <%= tag.td do %>
+            <%= note.try(:reify) ? "#{time_ago_in_words(note.reify.updated_at)} ago" : "#{time_ago_in_words(note.updated_at)} ago" %>
+        <% end %>      
+        <%= tag.td do %>
+            <% if params[:action] == "index" %>
+                <%= link_to 'Edit', edit_note_path(note) %>
+                <%= link_to 'Preview', note_path(note)  %>
+            <% end %>
+            <% if params[:action] == "versions" %>
+                <%= link_to 'Preview', version_note_path(@note, note) %>
+            <% end %>
+            <% if params[:action] == "deleted" %>
+                <%= link_to 'Restore Note', restore_note_path(note.id), method: :post %>
+            <% end %>
+        <% end %>                        
     <% end %>
 <% end %>
