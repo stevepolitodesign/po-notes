@@ -59,4 +59,35 @@ class UserTest < ActiveSupport::TestCase
       @user.save
     end
   end
+
+  test "should have time_zone" do
+    @user.time_zone = nil
+    assert_not @user.valid?
+  end
+
+  test "should have default time_zone of 'UTC'" do
+    assert_equal "UTC", @user.time_zone
+  end
+
+  test "should be a valid time_zone" do
+    invalid_time_zones = %w[foo bar bax]
+    invalid_time_zones.each do |invalid_time_zone|
+      @user.time_zone = invalid_time_zone
+      assert_not @user.valid?
+    end
+    valid_time_zones = ActiveSupport::TimeZone.all.map { |tz| tz.name }
+    valid_time_zones.each do |valid_time_zone|
+      @user.time_zone = valid_time_zone
+      assert @user.valid?
+    end
+  end
+
+  test "should destroy associated reminders" do
+    Reminder.destroy_all
+    @user.save
+    @user.reminders.create(name: "My Reminder", body: "Some text", time: Time.zone.now + 1.day)
+    assert_difference("Reminder.count", -1) do
+      @user.destroy
+    end
+  end
 end

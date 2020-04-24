@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+<% 1.upto(1) do |i| %>
+reminder_<%= i %>:
+  name: <%= Faker::Lorem.sentence %>
+  body: <%= Faker::Lorem.paragraphs %>
+  time: <%= Time.zone.now + 1.day %>
+  user: user_1
+<% end %>  
+
+<% 2.upto(2) do |i| %>
+reminder_<%= i %>:
+  name: <%= Faker::Lorem.sentence %>
+  body: <%= Faker::Lorem.paragraphs %>
+  time: <%= Time.zone.now + 1.day %>
+  user: user_2
+<% end %>  

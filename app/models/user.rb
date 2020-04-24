@@ -11,6 +11,9 @@ class User < ApplicationRecord
 
   has_many :notes, dependent: :destroy
   has_many :tasks, dependent: :destroy
+  has_many :reminders, dependent: :destroy
 
   enum plan: [:free]
+
+  validates :time_zone, inclusion: {in: ActiveSupport::TimeZone.all.map { |tz| tz.name }}
 end

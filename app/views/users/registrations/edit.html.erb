@@ -8,6 +8,16 @@
     <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
   </div>
 
+  <div class="field">
+    <%= f.label :time_zone %><br />
+    <%= f.time_zone_select(:time_zone) %>
+  </div>
+
+  <div class="field">
+    <%= f.label :telephone %><br />
+    <%= f.telephone_field :telephone %>
+  </div>  
+
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
     <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
   <% end %>

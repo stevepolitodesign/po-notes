@@ -130,4 +130,24 @@ class UserFlowsTest < ApplicationSystemTestCase
     find_button("Log in").click
     assert_match "Invalid Email or password.", find("#flash-message").text
   end
+
+  test "should update time_zone" do
+    sign_in @user
+    visit edit_user_registration_path
+    find_field("Time zone").select("(GMT-05:00) Eastern Time (US & Canada)")
+    find_field("Current password").set("password")
+    find_button("Update").click
+    visit edit_user_registration_path
+    assert_equal "Eastern Time (US & Canada)", find_field("Time zone").value
+  end
+
+  test "should update telephone" do
+    sign_in @user
+    visit edit_user_registration_path
+    find_field("Telephone").set("555-555-5555")
+    find_field("Current password").set("password")
+    find_button("Update").click
+    visit edit_user_registration_path
+    assert_equal "555-555-5555", find_field("Telephone").value
+  end
 end
