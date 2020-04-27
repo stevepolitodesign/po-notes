@@ -4,15 +4,21 @@ An application to help take notes, complete tasks and set reminders.
 
 ---
 
-# Local Build
+# Initial Setup Build
 
 ```
 bundle install
 nvm use 12.16.1
-yarn add
-rails db:create
-rails db:migrate
-rails db:seed
+yarn
+rails db:setup
+```
+
+---
+
+# Local Build
+
+```
+foreman start
 ```
 
 ---

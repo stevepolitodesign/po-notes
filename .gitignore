@@ -31,3 +31,5 @@ yarn-debug.log*
 .yarn-integrity
 
 .env
+test/fixtures/vcr_cassettes
+test/vcr_cassettes

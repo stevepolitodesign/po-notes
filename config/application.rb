@@ -15,5 +15,8 @@ module PoNotes
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+
+    # https://github.com/mperham/sidekiq/wiki/Active+Job#active-job-setup
+    config.active_job.queue_adapter = :sidekiq
   end
 end

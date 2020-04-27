@@ -123,4 +123,12 @@ class RemindersControllerTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to new_user_session_path
   end
+
+  test "should save time in users time_zone" do
+    Reminder.destroy_all
+    sign_in @user
+    @user.update(time_zone: "Eastern Time (US & Canada)")
+    post reminders_path, params: {reminder: {name: "A New Reminder", body: "Some text", time: 1.hour.from_now}}
+    assert_equal "EDT", @user.reload.reminders.first.time.zone
+  end
 end

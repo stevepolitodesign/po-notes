@@ -1,6 +1,9 @@
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
+require "webmock"
+require "vcr"
+require "sidekiq/testing"
 
 class ActiveSupport::TestCase
   # Run tests in parallel with specified workers
@@ -28,5 +31,11 @@ class ActiveSupport::TestCase
   def user_not_authorized
     follow_redirect!
     assert_equal "You are not authorized to perform this action.", flash[:alert]
+  end
+
+  # https://github.com/vcr/vcr#usage
+  VCR.configure do |config|
+    config.cassette_library_dir = "test/vcr_cassettes"
+    config.hook_into :webmock
   end
 end

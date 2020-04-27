@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 1.upto(2) do |i|
-  @user = User.new(email: "user-#{i}@example.com", password: "password", password_confirmation: "password", confirmed_at: Time.zone.now)
+  @user = User.new(email: "user-#{i}@example.com", password: "password", password_confirmation: "password", time_zone: "Eastern Time (US & Canada)", telephone: Faker::PhoneNumber.cell_phone, confirmed_at: Time.zone.now)
   @user.save! if @user.valid?
   puts "Created User: #{@user.email}" if @user.valid?
 end
@@ -289,5 +289,13 @@ User.all.each do |user|
       @task_item.save! if @task_item.valid?
       puts "Created Task Item: #{@task_item.title}" if @task_item.valid?
     end
+  end
+end
+
+User.all.each do |user|
+  1.upto(10) do |i|
+    @reminder = user.reminders.build(name:Faker::Lorem.sentence, body: Faker::Lorem.sentence, time: Time.zone.now + i.days)
+    @reminder.save! if @reminder.valid?
+    puts "Created Reminder: #{@reminder.name}"
   end
 end

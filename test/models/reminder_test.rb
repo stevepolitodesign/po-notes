@@ -1,6 +1,8 @@
 require "test_helper"
 
 class ReminderTest < ActiveSupport::TestCase
+  include ActiveJob::TestHelper
+
   def setup
     Reminder.destroy_all
     @user = users(:user_1)
@@ -87,5 +89,92 @@ class ReminderTest < ActiveSupport::TestCase
     travel_to(Time.zone.now + 6.months)
     assert_equal 1, Reminder.past.count
     assert_equal @past_reminder, Reminder.past.first
+  end
+
+  test "should have a scope for pending reminders" do
+    @pending_reminder = @user.reminders.create(name: "My Reminder", body: "Some text", time: Time.zone.now + 1.day, sent: false)
+    @unsent_reminder = @user.reminders.create(name: "My Reminder", body: "Some text", time: Time.zone.now + 1.day)
+    assert_equal 1, Reminder.pending.count
+    assert_equal @pending_reminder, Reminder.pending.first
+  end
+
+  test "should have a scope for unsent reminders" do
+    @pending_reminder = @user.reminders.create(name: "My Reminder", body: "Some text", time: Time.zone.now + 1.day, sent: false)
+    @unsent_reminder = @user.reminders.create(name: "My Reminder", body: "Some text", time: Time.zone.now + 1.day)
+    assert_equal 1, Reminder.unsent.count
+    assert_equal @unsent_reminder, Reminder.unsent.first
+  end
+
+  test "should have a scope for sent reminders" do
+    @pending_reminder = @user.reminders.create(name: "My Reminder", body: "Some text", time: Time.zone.now + 1.day, sent: false)
+    @sent_reminder = @user.reminders.create(name: "My Reminder", body: "Some text", time: Time.zone.now + 1.day, sent: true)
+    assert_equal 1, Reminder.sent.count
+    assert_equal @sent_reminder, Reminder.sent.first
+  end
+
+  test "should have a scope for ready_to_send reminders" do
+    @unsent_reminder_no_within_delivery_window = @user.reminders.create(name: "My Reminder", body: "Some text", time: Time.zone.now + 1.day)
+    @unsent_reminder_within_delivery_window = @user.reminders.create(name: "My Reminder", body: "Some text", time: Time.zone.now + 31.minutes)
+    travel_to(2.minutes.from_now)
+    assert_equal 1, Reminder.ready_to_send.count
+    assert_equal @unsent_reminder_within_delivery_window, Reminder.ready_to_send.first
+  end
+
+  test "ready_to_send reminders scope should account for different time_zones" do
+    @user.update(time_zone: "Pacific Time (US & Canada)")
+    assert_equal "Pacific Time (US & Canada)", @user.reload.time_zone
+    @west_coast_reminder = @user.reminders.create(name: "My West Coast Reminder", body: "Some text", time: 31.minutes.from_now)
+    @user.update(time_zone: "Eastern Time (US & Canada)")
+    assert_equal "Eastern Time (US & Canada)", @user.reload.time_zone
+    @east_coast_reminder = @user.reminders.create(name: "My East Coast Reminder", body: "Some text", time: 31.minutes.from_now)
+    Time.zone = "UTC"
+    assert_equal "UTC", Time.zone.name
+    travel_to(2.minutes.from_now)
+    assert_equal 2, Reminder.ready_to_send.count
+    assert_includes Reminder.ready_to_send, @west_coast_reminder
+    assert_includes Reminder.ready_to_send, @east_coast_reminder
+  end
+
+  test "should have a ready_to_destroy scope" do
+    assert_equal 0, Reminder.ready_to_destroy.count
+    @ready_to_destroy_reminder = @user.reminders.create(name: "Ready to Destroy", body: "Some Text", time: 31.minutes.from_now, sent: true)
+    travel_to(32.minutes.from_now)
+    assert_equal 1, Reminder.ready_to_destroy.count
+    assert_includes Reminder.ready_to_destroy, @ready_to_destroy_reminder
+  end
+
+  test "should return send_sms early if reminder has been sent" do
+    @sent_reminder = @user.reminders.create(name: "My Reminder", body: "Some text", time: Time.zone.now + 1.day, sent: true)
+    assert_nil @sent_reminder.send_sms
+  end
+
+  test "should return send_sms early if user does not have a telephone" do
+    @user.update(telephone: nil)
+    @reminder = @user.reminders.create(name: "My Reminder", body: "Some text", time: Time.zone.now + 1.day)
+    assert_nil @reminder.send_sms
+  end
+
+  test "send_sms should update sent to true" do
+    @reminder = @user.reminders.create(name: "My Reminder", body: "Some text", time: Time.zone.now + 1.day)
+    VCR.use_cassette("twilio") do
+      @reminder.send_sms
+    end
+    assert @reminder.reload.sent
+  end
+
+  test "send_sms should send to users telephone" do
+    @reminder = @user.reminders.create(name: "My Reminder", body: "Some text", time: Time.zone.now + 1.day)
+    VCR.use_cassette("twilio") do
+      @response = @reminder.send_sms
+      assert_equal "+#{@user.telephone}", @response.to
+    end
+  end
+
+  test "send_sms should send reminder body" do
+    @reminder = @user.reminders.create(name: "My Reminder", body: "Some text", time: Time.zone.now + 1.day)
+    VCR.use_cassette("twilio") do
+      @response = @reminder.send_sms
+      assert_equal "Reminder: #{@reminder.name} start at #{time_ago_in_words(@reminder.time)} from now.", @response.body
+    end
   end
 end

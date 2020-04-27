@@ -18,7 +18,8 @@ gem "turbolinks", "~> 5"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem "jbuilder", "~> 2.7"
 # Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 4.0'
+# TODO Install foreman, and add a Procfile
+gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -52,6 +53,8 @@ group :test do
   gem "selenium-webdriver"
   # Easy installation and use of web drivers to run system tests with browsers
   gem "webdrivers"
+  gem "vcr", "~> 5.1"
+  gem "webmock", "~> 3.8", ">= 3.8.3"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -68,3 +71,6 @@ gem "redcarpet", "~> 3.5"
 gem "acts_as_list", "~> 1.0", ">= 1.0.1"
 gem "strong_migrations", "~> 0.6.4"
 gem "data_migrate", "~> 6.3"
+gem "sidekiq", "~> 6.0", ">= 6.0.7"
+gem "twilio-ruby", "~> 5.33", ">= 5.33.1"
+gem "foreman", "~> 0.87.1"

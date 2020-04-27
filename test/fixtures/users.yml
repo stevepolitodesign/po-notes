@@ -10,4 +10,6 @@ user_<%= i %>:
   email: $LABEL@example.com
   encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
   confirmed_at: <%= Time.now %>
+  time_zone: "Eastern Time (US & Canada)"
+  telephone: <%= ENV["TWILIO_TEST_NUMBER"] %>
 <% end %>
