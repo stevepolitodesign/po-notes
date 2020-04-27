@@ -8,8 +8,9 @@ class Reminder < ApplicationRecord
 
   belongs_to :user
 
-  # TODO Add a scope to only show upcoming reminders.
   default_scope { order(time: :asc) }
+  scope :upcoming, -> { where("time >= ?", Time.zone.now) }
+  scope :past, -> { where("time < ?", Time.zone.now) }
 
   validates :body, length: {maximum: 160}
   validate :time_must_be_over_30_minute_in_the_future, unless: proc { |reminder| reminder.time.nil? }

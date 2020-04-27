@@ -72,4 +72,20 @@ class ReminderTest < ActiveSupport::TestCase
     @reminder_year = @user.reminders.create(name: "My Reminder 1 Year In The Future", body: "Some text", created_at: Time.zone.now - 1.hour, time: Time.zone.now + 1.year)
     assert_equal @reminder_hour, @user.reminders.first
   end
+
+  test "should have a scope for upcoming reminders" do
+    @past_reminder = @user.reminders.create(name: "My Past Reminder", body: "Some text", time: Time.zone.now + 31.minutes)
+    @future_reminder = @user.reminders.create(name: "My Future Reminder", body: "Some text", time: Time.zone.now + 1.year)
+    travel_to(Time.zone.now + 6.months)
+    assert_equal 1, Reminder.upcoming.count
+    assert_equal @future_reminder, Reminder.upcoming.first
+  end
+
+  test "should have a scope for past reminders" do
+    @past_reminder = @user.reminders.create(name: "My Past Reminder", body: "Some text", time: Time.zone.now + 31.minutes)
+    @future_reminder = @user.reminders.create(name: "My Future Reminder", body: "Some text", time: Time.zone.now + 1.year)
+    travel_to(Time.zone.now + 6.months)
+    assert_equal 1, Reminder.past.count
+    assert_equal @past_reminder, Reminder.past.first
+  end
 end
