@@ -1,0 +1,17 @@
+<% unless @reminders.empty? %>
+    <%= tag.table do %>
+        <%= tag.thead do %>
+            <%= tag.tr do %>
+                <%= tag.th do %>Name<% end %>
+                <%= tag.th do %>Body<% end %>
+                <%= tag.th do %>Date<% end %>
+                <%= tag.th do %>Actions<% end %>
+            <% end %>
+        <% end %>
+        <%= tag.tbody do %>
+            <%= render @reminders %>
+        <% end %>        
+    <% end %>
+<% else %>
+    <p>You have no upcoming reminders. <%= link_at "Add a reminder", new_reminder_path %></p>
+<% end %>

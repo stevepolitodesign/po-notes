@@ -8,6 +8,7 @@ class Reminder < ApplicationRecord
 
   belongs_to :user
 
+  # TODO Add a scope to only show upcoming reminders.
   default_scope { order(time: :asc) }
 
   validates :body, length: {maximum: 160}

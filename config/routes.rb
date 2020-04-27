@@ -23,4 +23,6 @@ Rails.application.routes.draw do
   resources :tasks, except: [:edit] do
     resources :task_items, only: [:create, :update, :destroy]
   end
+
+  resources :reminders, except: [:show]
 end
