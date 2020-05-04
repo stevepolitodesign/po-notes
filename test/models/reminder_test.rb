@@ -39,6 +39,12 @@ class ReminderTest < ActiveSupport::TestCase
     assert_not @reminder.valid?
   end
 
+  test "time cannot be changed after create" do
+    @reminder.save!
+    @reminder.time = 1.year.from_now
+    assert_not @reminder.valid?
+  end
+
   test "should limit reminders created to the user's reminders_limit" do
     @user.update(plan: "free")
     25.times do |i|
@@ -155,7 +161,8 @@ class ReminderTest < ActiveSupport::TestCase
   end
 
   test "send_sms should update sent to true" do
-    @reminder = @user.reminders.create(name: "My Reminder", body: "Some text", time: Time.zone.now + 1.day)
+    @reminder = @user.reminders.create(name: "My Reminder", body: "Some text", time: 31.minutes.from_now)
+    travel_to(2.minutes.from_now)
     VCR.use_cassette("twilio") do
       @reminder.send_sms
     end

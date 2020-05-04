@@ -19,7 +19,8 @@ class Reminder < ApplicationRecord
   scope :ready_to_destroy, -> { sent.past }
 
   validates :body, length: {maximum: 160}
-  validate :time_must_be_over_30_minute_in_the_future, unless: proc { |reminder| reminder.time.nil? }
+  validate :time_must_be_over_30_minute_in_the_future, on: :create, unless: proc { |reminder| reminder.time.nil? }
+  validate :time_cannot_be_changed_after_create, on: :update
   validate :limit_user_reminders, on: :create, unless: proc { |reminder| reminder.user.nil? || reminder.user.plan.nil? }
 
   def send_sms
@@ -31,6 +32,8 @@ class Reminder < ApplicationRecord
       to: ENV["RAILS_ENV"] == "production" ? @telephone : ENV["TWILIO_TEST_NUMBER"],
       body: "Reminder: #{name} start at #{time_ago_in_words(time)} from now."
     )
+    # TODO This is not updating the record
+    # This is because when it's called, the `time` is less than 30 minutes, and this it's invalid.
     update(sent: true)
     @response
   end
@@ -39,6 +42,10 @@ class Reminder < ApplicationRecord
 
   def time_must_be_over_30_minute_in_the_future
     errors.add(:time, "must be over 30 minutes from now") if time <= 30.minutes.from_now
+  end
+
+  def time_cannot_be_changed_after_create
+    errors.add(:time, "cannot change once saved") if time_changed?
   end
 
   def limit_user_reminders
