@@ -21,4 +21,12 @@ class SendReminderJobTest < ActiveJob::TestCase
       assert_equal "Reminder: #{@reminder.name} start at #{time_ago_in_words(@reminder.time)} from now.", @response.body
     end
   end
+
+  test "should set sent to true" do
+    @reminder.save
+    VCR.use_cassette("twilio") do
+      SendReminderJob.perform_now(@reminder)
+      assert_includes Reminder.sent, @reminder
+    end
+  end
 end
