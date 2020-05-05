@@ -1,4 +1,3 @@
-# TODO Create cron job
 class SendReminders
   def self.process
     new.process

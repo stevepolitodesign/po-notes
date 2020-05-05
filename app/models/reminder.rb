@@ -13,8 +13,8 @@ class Reminder < ApplicationRecord
   scope :upcoming, -> { where("time >= ?", Time.zone.now) }
   scope :past, -> { where("time < ?", Time.zone.now) }
   scope :unsent, -> { where(sent: nil) }
-  scope :pending, -> { where(sent: false) }
   scope :ready_to_send, -> { unsent.where("time <= ?", 30.minutes.from_now) }
+  scope :pending, -> { where(sent: false) }
   scope :sent, -> { where(sent: true) }
   scope :ready_to_destroy, -> { sent.past }
 
@@ -32,8 +32,6 @@ class Reminder < ApplicationRecord
       to: ENV["RAILS_ENV"] == "production" ? @telephone : ENV["TWILIO_TEST_NUMBER"],
       body: "Reminder: #{name} start at #{time_ago_in_words(time)} from now."
     )
-    # TODO This is not updating the record
-    # This is because when it's called, the `time` is less than 30 minutes, and this it's invalid.
     update(sent: true)
     @response
   end
