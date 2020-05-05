@@ -30,4 +30,12 @@ class SendRemindersTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test "should set sent to false" do
+    @reminder = @user.reminders.create(name: "My Reminder", body: "Some text", time: 31.minutes.from_now)
+    assert_nil @reminder.sent
+    travel_to(2.minutes.from_now)
+    SendReminders.process
+    assert_includes Reminder.pending, @reminder
+  end
 end
