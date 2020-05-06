@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  notes_limit: 1
+  tasks_limit: 1
+  reminders_limit: 1
+
+two:
+  name: MyString
+  notes_limit: 1
+  tasks_limit: 1
+  reminders_limit: 1
