@@ -10,8 +10,10 @@ class PlanTest < ActiveSupport::TestCase
   end
 
   test "should have a name" do
-    @plan.name = nil
-    assert_not @plan.valid?
+    assert_raises(ActiveRecord::NotNullViolation) do
+      @plan.name = nil
+      @plan.save
+    end
   end
 
   test "should have a unique name" do
@@ -21,18 +23,24 @@ class PlanTest < ActiveSupport::TestCase
   end
 
   test "should have a notes_limit" do
-    @plan.notes_limit = nil
-    assert_not @plan.valid?
+    assert_raises(ActiveRecord::NotNullViolation) do
+      @plan.notes_limit = nil
+      @plan.save
+    end
   end
 
   test "should have a tasks_limit" do
-    @plan.tasks_limit = nil
-    assert_not @plan.valid?
+    assert_raises(ActiveRecord::NotNullViolation) do
+      @plan.tasks_limit = nil
+      @plan.save
+    end
   end
 
   test "should have a reminders_limit" do
-    @plan.reminders_limit = nil
-    assert_not @plan.valid?
+    assert_raises(ActiveRecord::NotNullViolation) do
+      @plan.reminders_limit = nil
+      @plan.save
+    end
   end
 
   test "notes_limit should have a default value of 500" do
@@ -49,7 +57,7 @@ class PlanTest < ActiveSupport::TestCase
     @plan.save!
     assert_equal 25, @plan.reload.reminders_limit
   end
-  
+
   test "cannot be destroyed if assoicated with a user" do
     flunk
   end
