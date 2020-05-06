@@ -49,4 +49,8 @@ class PlanTest < ActiveSupport::TestCase
     @plan.save!
     assert_equal 25, @plan.reload.reminders_limit
   end
+  
+  test "cannot be destroyed if assoicated with a user" do
+    flunk
+  end
 end
