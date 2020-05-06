@@ -1,4 +1,10 @@
 class User < ApplicationRecord
+  # === Dangerous operation detected #strong_migrations ===
+  # 
+  # Active Record caches attributes which causes problems
+  # when removing columns. Be sure to ignore the column:
+  self.ignored_columns = ["plan"]
+  
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
