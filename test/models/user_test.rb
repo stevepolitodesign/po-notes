@@ -90,4 +90,17 @@ class UserTest < ActiveSupport::TestCase
       @user.destroy
     end
   end
+
+  test "should be valid without telephone" do
+    @user.telephone = nil
+    assert @user.valid?
+  end
+
+  test "should be invalid if telephone is invalid" do
+    invalid_numbers = ["12345", "foo bar", "555-555"]
+    invalid_numbers.each do |invalid_number|
+      @user.telephone = invalid_number
+      assert_not @user.valid?
+    end
+  end
 end
