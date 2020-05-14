@@ -10,12 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_30_205403) do
+ActiveRecord::Schema.define(version: 2020_05_07_132230) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
+  end
+
+  create_table "delayed_jobs", force: :cascade do |t|
+    t.integer "priority", default: 0, null: false
+    t.integer "attempts", default: 0, null: false
+    t.text "handler", null: false
+    t.text "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string "locked_by"
+    t.string "queue"
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
+    t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -41,6 +56,15 @@ ActiveRecord::Schema.define(version: 2020_04_30_205403) do
     t.string "slug"
     t.index ["slug"], name: "index_notes_on_slug", unique: true
     t.index ["user_id"], name: "index_notes_on_user_id"
+  end
+
+  create_table "plans", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "notes_limit", default: 500, null: false
+    t.integer "tasks_limit", default: 100, null: false
+    t.integer "reminders_limit", default: 25, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "reminders", force: :cascade do |t|
@@ -117,11 +141,12 @@ ActiveRecord::Schema.define(version: 2020_04_30_205403) do
     t.string "unconfirmed_email"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "plan", default: 0, null: false
     t.string "time_zone", default: "UTC", null: false
     t.string "telephone"
+    t.bigint "plan_id", default: 1, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["plan_id"], name: "index_users_on_plan_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
@@ -141,4 +166,5 @@ ActiveRecord::Schema.define(version: 2020_04_30_205403) do
   add_foreign_key "taggings", "tags"
   add_foreign_key "task_items", "tasks"
   add_foreign_key "tasks", "users"
+  add_foreign_key "users", "plans"
 end

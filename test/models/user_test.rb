@@ -2,7 +2,8 @@ require "test_helper"
 
 class UserTest < ActiveSupport::TestCase
   def setup
-    @user = User.new(email: "user@example.com", password: "password", password_confirmation: "password", confirmed_at: Time.zone.now)
+    @plan = plans(:one)
+    @user = User.new(email: "user@example.com", password: "password", password_confirmation: "password", confirmed_at: Time.zone.now, plan: @plan)
   end
 
   test "should be valid" do
@@ -48,16 +49,9 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  test "should have a default plan of free" do
-    @user = User.new
-    assert_equal "free", @user.plan
-  end
-
   test "should have a plan" do
     @user.plan = nil
-    assert_raises("ActiveRecord::NotNullViolation") do
-      @user.save
-    end
+    assert_not @user.valid?
   end
 
   test "should have time_zone" do

@@ -20,13 +20,7 @@ class Task < ApplicationRecord
   private
 
   def limit_user_tasks
-    limit = case user.plan
-    when "free"
-      100
-    else
-      100
-    end
-    errors.add(:user_id, "has reached their task limit") if limit <= user.tasks.count
+    errors.add(:user_id, "has reached their task limit") if user.plan.tasks_limit <= user.tasks.count
   end
 
   def limit_task_items

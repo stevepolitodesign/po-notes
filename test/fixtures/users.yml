@@ -12,4 +12,5 @@ user_<%= i %>:
   confirmed_at: <%= Time.now %>
   time_zone: "Eastern Time (US & Canada)"
   telephone: <%= ENV["TWILIO_TEST_NUMBER"] %>
+  plan: one
 <% end %>
