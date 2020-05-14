@@ -160,7 +160,8 @@ class NoteTest < ActiveSupport::TestCase
   end
 
   test "should limit notes created to the user's notes_limit" do
-    @user.update(plan: 0)
+    @plan = Plan.create(name: "Note Limit Test", tasks_limit: 500)
+    @user.update(plan: @plan)
     @user.notes.destroy_all
     500.times do |n|
       @note = @user.notes.build(title: "title #{n}", body: "body #{n}")

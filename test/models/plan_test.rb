@@ -2,7 +2,8 @@ require "test_helper"
 
 class PlanTest < ActiveSupport::TestCase
   def setup
-    @plan = Plan.new(name: "Free")
+    @plan = Plan.new(name: "Foo Bar")
+    @user = users(:user_1)
   end
 
   test "should be valid" do
@@ -59,6 +60,13 @@ class PlanTest < ActiveSupport::TestCase
   end
 
   test "cannot be destroyed if assoicated with a user" do
-    flunk
+    @plan.save!
+    @user.update(plan: @plan)
+    assert_equal @plan, @user.reload.plan
+    assert_no_difference(["Plan.count", "User.count"]) do
+      assert_raises("ActiveRecord::DeleteRestrictionError") do
+        @plan.destroy
+      end
+    end
   end
 end

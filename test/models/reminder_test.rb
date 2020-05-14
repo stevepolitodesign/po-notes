@@ -46,7 +46,8 @@ class ReminderTest < ActiveSupport::TestCase
   end
 
   test "should limit reminders created to the user's reminders_limit" do
-    @user.update(plan: "free")
+    @plan = Plan.create(name: "Reminder Limit Test", tasks_limit: 25)
+    @user.update(plan: @plan)
     25.times do |i|
       @user.reminders.create(name: "My Reminder #{i + 1}", body: "Some text", time: Time.zone.now + 1.day)
     end

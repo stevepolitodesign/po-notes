@@ -77,8 +77,9 @@ class TaskTest < ActiveSupport::TestCase
     assert_equal @task.reload.tag_list, ["one", "two"]
   end
 
-  test "should limit tasks created to the user's tasks_limit" do
-    @user.update(plan: "free")
+  test "should limit tasks created to the user's plan's tasks_limit" do
+    @plan = Plan.create(name: "Task Limit Test", tasks_limit: 100)
+    @user.update(plan: @plan)
     @user.tasks.destroy_all
     100.times do |n|
       @task = @user.tasks.build(title: "title #{n}")
