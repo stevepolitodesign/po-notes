@@ -37,5 +37,12 @@ class ActiveSupport::TestCase
   VCR.configure do |config|
     config.cassette_library_dir = "test/vcr_cassettes"
     config.hook_into :webmock
+    config.ignore_hosts(
+      "chromedriver.storage.googleapis.com",
+      "github.com/mozilla/geckodriver/releases",
+      "selenium-release.storage.googleapis.com",
+      "developer.microsoft.com/en-us/microsoft-edge/tools/webdriver",
+      "127.0.0.1"
+    )
   end
 end
