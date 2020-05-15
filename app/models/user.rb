@@ -9,6 +9,16 @@ class User < ApplicationRecord
   has_many :reminders, dependent: :destroy
   belongs_to :plan
 
+  before_validation :assign_default_plan, on: :create, if: proc { |user| user.plan.nil? }
+
   validates :time_zone, inclusion: {in: ActiveSupport::TimeZone.all.map { |tz| tz.name }}
   validates :telephone, phone: {possible: true, allow_blank: true}
+  validates :plan, presence: true
+
+  private
+
+  def assign_default_plan
+    @plan = Plan.find_or_create_by(name: "Free")
+    self.plan = @plan
+  end
 end

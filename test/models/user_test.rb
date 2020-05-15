@@ -49,9 +49,17 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  test "should have a plan" do
+  test "should have a default plan of 'Free'" do
     @user.plan = nil
-    assert_not @user.valid?
+    @user.save!
+    assert_equal "Free", @user.reload.plan.name
+  end
+
+  test "should not set default plan on create if user has a plan" do
+    @plan = Plan.create(name: "Somehing unique")
+    @user.plan = @plan
+    @user.save!
+    assert_equal "Somehing unique", @user.reload.plan.name
   end
 
   test "should have time_zone" do
