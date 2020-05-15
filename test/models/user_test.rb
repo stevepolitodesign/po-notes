@@ -105,4 +105,12 @@ class UserTest < ActiveSupport::TestCase
       assert_not @user.valid?
     end
   end
+
+  test "should be valid if telephone is valid" do
+    valid_numbers = ["617-555-0173", "(508) 555-0193"]
+    valid_numbers.each do |valid_number|
+      @user.telephone = valid_number
+      assert @user.valid?
+    end
+  end
 end
