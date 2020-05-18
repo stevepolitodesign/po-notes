@@ -1,13 +1,16 @@
 class RemindersController < ApplicationController
+  include ActionView::Helpers::UrlHelper
+
   before_action :authenticate_user!
   before_action :set_reminder, only: [:edit, :update, :destroy]
   before_action :authorize_reminder, only: [:edit, :update, :destroy]
 
   def index
-    @reminders = current_user.reminders
+    @reminders = current_user.reminders.upcoming
   end
 
   def new
+    flash[:notice] = "#{link_to "Add your telephone number", edit_user_registration_path} to receive an alert." if current_user.telephone.nil?
     @reminder = Reminder.new
   end
 
@@ -27,7 +30,7 @@ class RemindersController < ApplicationController
   def update
     @reminder.update(reminder_params)
     if @reminder.save
-      redirect_to reminders_path, notice: "Reminder created"
+      redirect_to reminders_path, notice: "Reminder updated"
     else
       render "edit"
     end

@@ -7,9 +7,9 @@
     <% end %>
     <%= tag.td do %>
         <%#  TODO Format this to be relative to `reminder.user.time_zone` %>
-        <%= reminder.time %>
+        <%= time_ago_in_words(reminder.time) %> from now on <%= reminder.time.strftime("%c") %>
     <% end %>
     <%= tag.td do %>
-        <%= link_to "Edit", reminder_path(reminder) %>
+        <%= link_to "Edit", edit_reminder_path(reminder) %>
     <% end %>
 <% end %>

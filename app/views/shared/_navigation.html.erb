@@ -23,3 +23,10 @@
     <% end %>
 </nav>
 <hr/>
+<nav>
+    <% if user_signed_in? %>
+        <%= link_to 'My Reminders', reminders_path %>
+        <%= link_to 'Create a Reminder', new_reminder_path %>
+    <% end %>
+</nav>
+<hr/>

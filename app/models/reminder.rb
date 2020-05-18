@@ -19,6 +19,8 @@ class Reminder < ApplicationRecord
   scope :ready_to_destroy, -> { sent.past }
 
   validates :body, length: {maximum: 160}
+  validates :name, presence: true
+  validates :time, presence: true
   validate :time_must_be_over_30_minute_in_the_future, on: :create, unless: proc { |reminder| reminder.time.nil? }
   validate :time_cannot_be_changed_after_create, on: :update
   validate :limit_user_reminders, on: :create, unless: proc { |reminder| reminder.user.nil? || reminder.user.plan.nil? }

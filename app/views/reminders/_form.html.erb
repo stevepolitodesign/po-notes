@@ -1,0 +1,14 @@
+<%= form_with model: object, local: true do |f| %>
+    <%= render 'shared/form-errors', object: object %>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+    <%= f.label :time %>
+    <%= f.datetime_local_field :time, disabled: params[:action] == "edit" %>
+    <small><%= link_to current_user.time_zone, edit_user_registration_path %></small>
+    <%= f.label :body %>
+    <%= f.text_area :body %>
+    <div>
+        <%= f.submit %>
+        <%= link_to "Delete Reminder", reminder_path(@reminder), method: :delete, data: { confirm: "Are you sure?" } if params[:action] == "edit" %>
+    </div>
+<% end %>
