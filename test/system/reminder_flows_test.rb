@@ -83,7 +83,7 @@ class ReminderFlowsTest < ApplicationSystemTestCase
   test "should display errors during validation" do
     sign_in @user
     visit new_reminder_path
-    byebug
     find_button("Create Reminder").click
+    find("#error_explanation")
   end
 end
