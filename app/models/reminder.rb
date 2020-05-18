@@ -49,12 +49,6 @@ class Reminder < ApplicationRecord
   end
 
   def limit_user_reminders
-    limit = case user.plan
-    when "free"
-      25
-    else
-      25
-    end
-    errors.add(:user_id, "has reached their note limit") if limit <= user.reminders.count
+    errors.add(:user_id, "has reached their note limit") if user.plan.reminders_limit <= user.reminders.count
   end
 end
