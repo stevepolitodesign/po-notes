@@ -18,6 +18,16 @@ class ReminderTest < ActiveSupport::TestCase
     assert_not @reminder.valid?
   end
 
+  test "should have a name" do
+    @reminder.name = nil
+    assert_not @reminder.valid?
+  end
+
+  test "should have a time" do
+    @reminder.time = nil
+    assert_not @reminder.valid?
+  end
+
   test "body should be less than 160 characters" do
     invalid_body = ("a" * 161)
     @reminder.body = invalid_body
