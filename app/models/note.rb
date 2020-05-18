@@ -18,12 +18,6 @@ class Note < ApplicationRecord
   private
 
   def limit_user_notes
-    limit = case user.plan
-    when "free"
-      500
-    else
-      500
-    end
-    errors.add(:user_id, "has reached their note limit") if limit <= user.notes.count
+    errors.add(:user_id, "has reached their note limit") if user.plan.notes_limit <= user.notes.count
   end
 end
