@@ -150,4 +150,30 @@ class UserFlowsTest < ApplicationSystemTestCase
     visit edit_user_registration_path
     assert_equal "555-555-5555", find_field("Telephone").value
   end
+
+  test "should allow user to set their time_zone on registration" do
+    @user.destroy
+    visit new_user_registration_path
+    find_field("Email").set("user_1@example.com")
+    find_field("Password").set("password")
+    find_field("Password confirmation").set("password")
+    find_field("Time zone").select("(GMT-05:00) Eastern Time (US & Canada)")
+    assert_difference("User.count") do
+      find_button("Sign up").click
+    end
+    assert_equal "Eastern Time (US & Canada)", User.last.time_zone
+  end
+
+  test "should allow user to set their telephone on registration" do
+    @user.destroy
+    visit new_user_registration_path
+    find_field("Email").set("user_1@example.com")
+    find_field("Password").set("password")
+    find_field("Password confirmation").set("password")
+    find_field("Telephone").set("555-555-5555")
+    assert_difference("User.count") do
+      find_button("Sign up").click
+    end
+    assert_equal "555-555-5555", User.last.telephone
+  end
 end

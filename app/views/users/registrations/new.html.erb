@@ -9,6 +9,16 @@
   </div>
 
   <div class="field">
+    <%= f.label :time_zone %><br />
+    <%= f.time_zone_select(:time_zone) %>
+  </div>
+
+  <div class="field">
+    <%= f.label :telephone %><br />
+    <%= f.telephone_field :telephone %>
+  </div>   
+
+  <div class="field">
     <%= f.label :password %>
     <% if @minimum_password_length %>
     <em>(<%= @minimum_password_length %> characters minimum)</em>
