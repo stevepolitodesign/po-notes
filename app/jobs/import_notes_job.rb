@@ -1,3 +1,5 @@
+
+require "csv"
 class ImportNotesJob < ApplicationJob
   queue_as :default
 
