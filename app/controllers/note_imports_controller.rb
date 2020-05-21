@@ -1,0 +1,2 @@
+class NoteImportsController < ApplicationController
+end
