@@ -8,6 +8,7 @@ class ImportNotesJob < ApplicationJob
 
   private 
 
+  # TODO Should only parse as many row's as the user's plan's notes_limit
   def parse_csv
   end
 
