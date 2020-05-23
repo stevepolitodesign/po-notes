@@ -1,0 +1,5 @@
+<%= form_with(url: import_notes_path, multipart: true) do %>
+    <%# TODO Validate that the file is a CSV, and make it required %>
+    <%= file_field_tag 'file' %>
+    <%= submit_tag "Import Notes" %>
+<% end %>

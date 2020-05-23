@@ -294,7 +294,7 @@ end
 
 User.all.each do |user|
   1.upto(10) do |i|
-    @reminder = user.reminders.build(name:Faker::Lorem.sentence, body: Faker::Lorem.sentence, time: Time.zone.now + i.days)
+    @reminder = user.reminders.build(name: Faker::Lorem.sentence, body: Faker::Lorem.sentence, time: Time.zone.now + i.days)
     @reminder.save! if @reminder.valid?
     puts "Created Reminder: #{@reminder.name}"
   end

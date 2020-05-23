@@ -17,6 +17,8 @@ Rails.application.routes.draw do
     end
     collection do
       get "deleted_notes", to: "notes#deleted", as: "deleted"
+      get "import", to: "note_imports#new"
+      post "import", to: "note_imports#create"
     end
   end
 

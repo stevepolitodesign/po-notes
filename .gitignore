@@ -33,3 +33,4 @@ yarn-debug.log*
 .env
 test/fixtures/vcr_cassettes
 test/vcr_cassettes
+.DS_Store
