@@ -31,20 +31,11 @@ class NoteImportsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_user_session_path
   end
 
-  test "should enque import_notes_job when posting to create" do
-    sign_in @user
-    assert_enqueued_with(job: ImportNotesJob) do
-      post import_notes_path, params: {file: fixture_file_upload(@file.open.path)}
-    end
-  end
-
   test "should import notes on create" do
     @user.notes.destroy_all
     sign_in @user
-    perform_enqueued_jobs do
-      assert_difference("Note.count", @file.readlines.size - 1) do
-        post import_notes_path, params: {file: fixture_file_upload(@file)}
-      end
+    assert_difference("Note.count", @file.readlines.size - 1) do
+      post import_notes_path, params: {file: fixture_file_upload(@file)}
     end
   end
 
