@@ -1,20 +1,21 @@
-require 'test_helper'
+require "test_helper"
 
 class NoteImportsControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
 
   def setup
     @user = users(:user_1)
+    @file = file_fixture("notes.csv")
   end
 
   test "should post to create if authenticated" do
     sign_in @user
-    post import_notes_path, params: {file: "notes.csv"}
+    post import_notes_path, params: {file: fixture_file_upload(@file.open.path)}
     assert_redirected_to notes_path
   end
 
   test "should not post to create if anonymous" do
-    post import_notes_path, params: {file: "notes.csv"}
+    post import_notes_path, params: {file: fixture_file_upload(@file.open.path)}
     assert_redirected_to new_user_session_path
   end
 
@@ -27,5 +28,13 @@ class NoteImportsControllerTest < ActionDispatch::IntegrationTest
   test "should not get new if anonymous" do
     get import_notes_path
     assert_redirected_to new_user_session_path
+  end
+
+  test "should enque import_notes_job when posting to create" do
+    flunk
+  end
+
+  test "should handle invalid file types when posting to create" do
+    flunk
   end
 end
