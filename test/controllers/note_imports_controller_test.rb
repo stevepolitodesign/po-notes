@@ -39,9 +39,12 @@ class NoteImportsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should import notes on create" do
+    @user.notes.destroy_all
     sign_in @user
-    assert_difference("Note.count", @file.readlines.size - 1) do
-      post import_notes_path, params: {file: fixture_file_upload(@file.open.path)}
+    perform_enqueued_jobs do
+      assert_difference("Note.count", @file.readlines.size - 1) do
+        post import_notes_path, params: {file: fixture_file_upload(@file)}
+      end
     end
   end
 
