@@ -2,6 +2,7 @@ require "test_helper"
 
 class NoteImportsControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
+  include ActiveJob::TestHelper
 
   def setup
     @user = users(:user_1)
@@ -31,10 +32,15 @@ class NoteImportsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should enque import_notes_job when posting to create" do
-    flunk
+    sign_in @user
+    assert_enqueued_with(job: ImportNotesJob) do
+      post import_notes_path, params: {file: fixture_file_upload(@file.open.path)}
+    end
   end
 
   test "should handle invalid file types when posting to create" do
-    flunk
+    sign_in @user
+    post import_notes_path, params: {file: fixture_file_upload(file_fixture("notes.txt").open.path)}
+    assert_redirected_to import_notes_path
   end
 end
