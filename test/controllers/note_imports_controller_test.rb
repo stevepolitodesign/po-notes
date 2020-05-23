@@ -38,6 +38,13 @@ class NoteImportsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "should import notes on create" do
+    sign_in @user
+    assert_difference("Note.count", @file.readlines.size - 1) do
+      post import_notes_path, params: {file: fixture_file_upload(@file.open.path)}
+    end
+  end
+
   test "should handle invalid file types when posting to create" do
     sign_in @user
     post import_notes_path, params: {file: fixture_file_upload(file_fixture("notes.txt").open.path)}
