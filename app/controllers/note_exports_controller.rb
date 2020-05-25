@@ -1,0 +1,2 @@
+class NoteExportsController < ApplicationController
+end
