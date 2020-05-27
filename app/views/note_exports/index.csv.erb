@@ -1,9 +1,9 @@
 <% unless @notes.empty? %>
-    <% csv_export = CSV.generate(headers: true) do |csv| %>
-        <% csv << %w[Title Body Tags] %>
-        <% @notes.each do |note| %>
-            <% csv << [note.title, note.body, note.tag_list.join(", ")] %>
-        <% end %>
+<% csv_export = CSV.generate(headers: true) do |csv| %>
+    <% csv << %w[Title Body Tags] %>
+    <% @notes.each do |note| %>
+        <% csv << [note.title, note.body, note.tag_list.join(", ")] %>
     <% end %>
-    <%= csv_export.strip.html_safe %>
+<% end %>
+<%= csv_export.strip.html_safe %>
 <% end %>
