@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class NoteExportsControllerTest < ActionDispatch::IntegrationTest
+class ExportNotesControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
 
   def setup

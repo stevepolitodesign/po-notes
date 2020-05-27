@@ -1,5 +1,5 @@
 require 'csv'
-class NoteExportsController < ApplicationController
+class ExportNotesController < ApplicationController
     before_action :authenticate_user!
 
     def index
