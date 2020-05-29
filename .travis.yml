@@ -1,0 +1,11 @@
+language: ruby
+before_install:
+  - nvm install --lts
+services:
+  - postgresql
+script:
+  - bundle install --jobs=3 --retry=3
+  - yarn
+  - bundle exec rake db:setup
+  - bundle exec rake test
+  - bundle exec rake test:system
