@@ -51,7 +51,9 @@ class NoteFlowsTest < ApplicationSystemTestCase
     visit root_path
     find_link("Create a new note").click
     find_field("Title").set("Note Title")
-    find_field("Body").set("Note Body")
+    editor = find(".CodeMirror")
+    editor.click
+    editor.find("textarea", visible: :all).send_keys("Note Body")
     find_field("Pinned").check
     find_field("Public").check
     find(".tagify__input").set("Tag 1, Tag 2")
@@ -59,7 +61,7 @@ class NoteFlowsTest < ApplicationSystemTestCase
     assert_equal all("tags tag").count, 2
     assert_match "Note added", find("#flash-message").text
     assert_equal find_field("Title").value, "Note Title"
-    assert_equal find_field("Body").value, "Note Body"
+    assert_equal find(".CodeMirror-lines .CodeMirror-code span").text, "Note Body"
     assert_equal find("tag:first-of-type .tagify__tag-text").text, "tag 1"
     assert_equal find("tag:nth-child(2) .tagify__tag-text").text, "tag 2"
   end
@@ -69,7 +71,9 @@ class NoteFlowsTest < ApplicationSystemTestCase
     visit root_path
     find_link("Create a new note").click
     find_field("Title").set("Note Title")
-    find_field("Body").set("Note Body")
+    editor = find(".CodeMirror")
+    editor.click
+    editor.find("textarea", visible: :all).send_keys("Note Body")
     find_button("Create Note").click
     assert_equal all("tags tag").count, 0
   end
@@ -81,7 +85,12 @@ class NoteFlowsTest < ApplicationSystemTestCase
     sign_in @user
     visit edit_note_path(@note)
     find_field("Title").set("Updated Title")
-    find_field("Body").set("Updated Body")
+    editor = find(".CodeMirror")
+    editor.click
+    @note.body.length.times do |i|
+      editor.find("textarea", visible: :all).send_keys(:backspace)
+    end
+    editor.find("textarea", visible: :all).send_keys("Updated Body")
     tag = find("tag:first-of-type .tagify__tag-text")
     tag.double_click
     tag.send_keys(:backspace, :backspace, :backspace, "three")
@@ -89,7 +98,7 @@ class NoteFlowsTest < ApplicationSystemTestCase
     sleep 2
     find_button("Update Note").click
     assert_equal find_field("Title").value, "Updated Title"
-    assert_equal find_field("Body").value, "Updated Body"
+    assert_equal find(".CodeMirror-lines .CodeMirror-code span").text, "Updated Body"
     assert_equal "three", find("tag:first-of-type .tagify__tag-text").text
     assert_equal all("tags tag").count, 1
   end
@@ -133,7 +142,7 @@ class NoteFlowsTest < ApplicationSystemTestCase
       assert_equal "v1", find("h1").text
       find_link("Revert to this version").click
       assert_equal find_field("Title").value, "v1"
-      assert_equal find_field("Body").value, "v1"
+      assert_equal find(".CodeMirror-lines .CodeMirror-code span").text, "v1"
     end
   end
 
@@ -153,7 +162,7 @@ class NoteFlowsTest < ApplicationSystemTestCase
         sleep 2
       end
       assert_equal find_field("Title").value, "v1"
-      assert_equal find_field("Body").value, "v1"
+      assert_equal find(".CodeMirror-lines .CodeMirror-code span").text, "v1"
     end
   end
 
