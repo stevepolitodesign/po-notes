@@ -19,7 +19,7 @@ Rails.application.routes.draw do
       get "deleted_notes", to: "notes#deleted", as: "deleted"
       get "import", to: "note_imports#new"
       post "import", to: "note_imports#create"
-      get "export", to: "export_notes#index", defaults: { format: "csv" }
+      get "export", to: "export_notes#index", defaults: {format: "csv"}
     end
   end
 

@@ -13,7 +13,7 @@ class NoteImportsController < ApplicationController
     end
   end
 
-  private 
+  private
 
   def import_limit
     current_user.try(:plan).try(:notes_limit)

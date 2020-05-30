@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class ExportNotesControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
@@ -23,5 +23,4 @@ class ExportNotesControllerTest < ActionDispatch::IntegrationTest
     get export_notes_path
     assert_redirected_to new_user_session_path
   end
-
 end
