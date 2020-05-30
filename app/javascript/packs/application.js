@@ -18,5 +18,6 @@ require("channels");
 // TODO Consider adding these to a `vendor` directory.
 require("./tagify");
 require("./clipboard");
+require("./simplemde");
 
 import "controllers";
