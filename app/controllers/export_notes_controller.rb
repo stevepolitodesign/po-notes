@@ -1,8 +1,10 @@
 require 'csv'
 class ExportNotesController < ApplicationController
-    before_action :authenticate_user!
-
     def index
-        @notes = current_user.notes
+        if current_user
+            @notes = current_user.notes
+        else 
+            redirect_to new_user_session_path
+        end
     end
 end
