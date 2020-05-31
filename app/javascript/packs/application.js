@@ -15,7 +15,6 @@ require("channels");
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
-// TODO Consider adding these to a `vendor` directory.
 require("./tagify");
 require("./clipboard");
 require("./simplemde");
