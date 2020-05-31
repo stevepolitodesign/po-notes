@@ -5,7 +5,7 @@
     <%= f.text_field :title %>
     <%# TODO Consider using [SimpleMDE Markdown Editor](https://simplemde.com/) %>
     <%= f.label :body %>
-    <%= f.text_area :body %>
+    <%= f.text_area :body, class: "js-simplemde" %>
     <%= f.label :pinned %>
     <%= f.check_box :pinned %>
     <%= f.label :public %>
