@@ -24,7 +24,7 @@ class ReminderFlowsTest < ApplicationSystemTestCase
     sign_in @user
     visit root_path
     find_link("My Reminders").click
-    find_link("Add a reminder").click
+    find_link("Create a Reminder").click
   end
 
   test "should alert user if they do not have a phone number" do
@@ -42,7 +42,9 @@ class ReminderFlowsTest < ApplicationSystemTestCase
     find_field("Name").set("My new reminder")
     Time.zone = @user.time_zone
     find_field("Time").set(Time.zone.now + 1.hour)
-    find_field("Body").set("Some descriptive text to give my reminder contenxt.")
+    editor = find(".CodeMirror")
+    editor.click
+    editor.find("textarea", visible: :all).send_keys("Some descriptive text to give my reminder contenxt.")
     find_button("Create Reminder").click
     assert_match "Reminder added", find("#flash-message").text
   end
@@ -53,12 +55,17 @@ class ReminderFlowsTest < ApplicationSystemTestCase
     visit reminders_path
     find_link("Edit", href: edit_reminder_path(@reminder)).click
     find_field("Name").set("My updated reminder name")
-    find_field("Body").set("My updated reminder body")
+    editor = find(".CodeMirror")
+    editor.click
+    @reminder.body.length.times do |n|
+      editor.find("textarea", visible: :all).send_keys(:backspace)
+    end
+    editor.find("textarea", visible: :all).send_keys("My updated reminder body")
     find_button("Update Reminder").click
     assert_match "Reminder updated", find("#flash-message").text
     find_link("Edit", href: edit_reminder_path(@reminder)).click
     assert_equal "My updated reminder name", find_field("Name").value
-    assert_equal "My updated reminder body", find_field("Body").value
+    assert_equal "My updated reminder body", find(".CodeMirror-lines .CodeMirror-code span").text, "My updated redminder body"
   end
 
   test "should destroy a reminder" do
