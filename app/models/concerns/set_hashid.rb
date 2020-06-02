@@ -2,8 +2,7 @@ module SetHashid
   extend ActiveSupport::Concern
 
   included do
-    # TODO Update `note` to `record`
-    before_validation :set_hashid, prepend: true, if: proc { |note| note.hashid.nil? }
+    before_validation :set_hashid, prepend: true, if: proc { |record| record.hashid.nil? }
   end
 
   private
