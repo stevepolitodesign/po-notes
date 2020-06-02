@@ -1,6 +1,6 @@
 require "test_helper"
 
-class NoteImportsControllerTest < ActionDispatch::IntegrationTest
+class ImportNotesControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
   include ActiveJob::TestHelper
 

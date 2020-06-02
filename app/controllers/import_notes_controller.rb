@@ -1,4 +1,4 @@
-class NoteImportsController < ApplicationController
+class ImportNotesController < ApplicationController
   before_action :authenticate_user!
 
   def new
