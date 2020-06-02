@@ -101,7 +101,7 @@ class TaskFlowsTest < ApplicationSystemTestCase
     visit task_path(@task)
     item_one = find("ol li:nth-child(1)")
     item_three = find("ol li:nth-child(3)")
-    item_one.drag_to(item_three)
+    item_one.find(".fa-bars", visible: false).drag_to(item_three)
     click_button("Update Task")
     find("#flash-message")
     assert_equal "Task Item 1", find("ol li:nth-child(3)").find_field("Title").value
