@@ -15,8 +15,8 @@ require("channels");
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
-require("./tagify");
-require("./clipboard");
-require("./simplemde");
+require("../vendor/tagify");
+require("../vendor/clipboard");
+require("../vendor/simplemde");
 
 import "controllers";
