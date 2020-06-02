@@ -2,14 +2,16 @@
     <h1><%= note.title %></h1>
     <%# TODO Hide tags for anyone except the owner. %>
     <% unless note.tags.empty? %>
-        <h4>Tagged with:</h4>
-        <ul>
-            <% note.tags.each do |tag| %>
-                <li>
-                    <%= link_to tag.name, notes_path(q: { tags_id_in: [tag.id] }) %>
-                </li>
-            <% end %>
-        </ul>
+        <% if user_signed_in? && current_user == note.user %>
+            <h4>Tagged with:</h4>
+            <ul>
+                <% note.tags.each do |tag| %>
+                    <li>
+                        <%= link_to tag.name, notes_path(q: { tags_id_in: [tag.id] }) %>
+                    </li>
+                <% end %>
+            </ul>
+        <% end %>
     <% end %>
     <%= markdown note.body %>
 <% else %>
