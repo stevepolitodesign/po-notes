@@ -1,17 +1,23 @@
 language: ruby
 cache:
-  - bundler
-  - yarn
+- bundler
+- yarn
 services:
-  - postgresql
-  - redis-server
+- postgresql
+- redis-server
 before_install:
-  - nvm install 12.16
+- nvm install 12.16
 before_script:
-  - bundle install --jobs=3 --retry=3
-  - yarn
-  - bundle exec rake db:create
-  - bundle exec rake db:schema:load  
+- bundle install --jobs=3 --retry=3
+- yarn
+- bundle exec rake db:create
+- bundle exec rake db:schema:load
 script:
-  - bundle exec rake test
-  - bundle exec rake test:system
+- bundle exec rake test
+- bundle exec rake test:system
+env:
+  global:
+  - secure: QxMhMei5r0g5cVYqS9Gu7yHJTo6OHfBFLVWSl+ICtwDb8BuL+N5f5VzYHv7RKwKqa9jqP8v+U/iXMqw887rtTuq6poRas2JYo16qeW1vy5WlIqV1/PuMS5zxpqT6RvNt5+HE0INqtXJuz7X+srFV8eaUPk7gVuDxVUh9hTez0hDVU69UhIgz0qqw5htWFq+8V+xLx/eA6+kfS8lSPXzdIWxNmh6DxhEU4Wv17ikq0XabFcVVzRJr6GFyAsNh/4rt/2bSp0Rua8oRzba7+nWFUC5OMdGa56ABKka3XmBCCX+9f76d4sY62tyG/QyUNsyc2YUdh/pturhUeR5ntJIuGHxlAo2un3smuJ85csAj8/MokIPGp2l8UvVi6zHSj4Xb9b+YQewcZ6tvnwwFTF4ir3PUmLVa6MshLk+ypphJfc1SyrI+4ZMUvSPWGlS6j/qrzUAHx+5SIUhP7uGdAKxIIEb7dxIGaIkQigHE7yB4rWAluOc9IcGsynTDgY/mlw9q6zpXTJaRTgSIkiax3aGmvQgsad3PFsOl3mW8Ws36yJ2tcAIkBHV0Yo38dRah+bs0YoqmWt2MZiaKpO3RorcyD2nOuTkImapd+E/WYi3HsklyH+g3/o7SkLWNP7vvXCt6j/GbK5QWTXiKgYg9soyrWFbLqpFoeKuVBW2i8lvDd2o=
+  - secure: HYqUVSu0jCuINsYnAeQZor8ljnPs46peIsx/S8IaEFB+BO4hunx211rTN5A0n2KlOkDS2R3CYlSywwsfAXX+vOEZT+2RGjhebDIP9mEfG7FiQsaIfdOEw/MPTYDbzq6zo9yA36Cvxx3MmReOEJxtnDpgYhxmpk7V9NurMCCZ4n5aWBt4rJdhLYchstodFTVlstVTUvHsIn7n9J4QAdYndsllzV6TIemwbD19eijshrTaWYTFoFIPa6Yay1VezWY6mm/W7ZrYDPG/+aKBuqp/QtHlqxeKPTFVUvDoQorrDyDqHUIAqv6hXS6VFv9LKUSx1YfzwT6uJF+t1SZfrYpmUrIYG5HjptLvmykav/TWKs1Ru/mSkJak4EkoR29z19+Wr0W/d3mUwZgPY4wvt/zo2IJ/Y9+AyDt1rg/AUgbhi/9XBRuR0bhdJPUwgtOk+UfPS2SCeKk6ZOWHTYYa8mKvtPQIBk8vTA3IHi59u5sKk5D32xky1VnSdy1/Gnn0Q3AUSIXND2B0em19S4Vh0z9NS5R1EBbHzcYwj6+cKCZuD2SsZWu8nEVM/oAHqWd4MbYYBYdnYHVY7u1UCM7/b8/J5QZblcGytkjStqD2gSst5tszLmr6NXj0AwRNGDLMPLY4fx7YZqmnQ5slq+3sRw0sOpWfZbDoNKutMNltNeEIemU=
+  - secure: Lf9exC+gZMBBmCGwZrEMe1HlzSK+3WI1N5GayybUm6jXvsPHAkqMGPwPZQfrKByrb5EEu6JNW4t7IdbfoxmFtLoLxGjHhCFwMSpL0WUXdgU6JYMjjrqUo0uWYaDFAXwFY8LIyQunSeMmbRRBDzUhDbuwR2YffQs/lpz6F33r6x5BIzXMYNasIY70XQ+ht5A16SMCwb6zOh3WuV++0EC23c7STPsqeCfy/1OwAZ5gjrWO6tiVHKuJlzYgY+bb+0QpZEON6umNZNL3yBv2oX463Ia1YZepQD5Q484cr7mIJ1bX4B3rGtPbHG7UBGi+rxrTCjOawVnNzK6ziPx1qApozUGlK+IYRupouK7v0oSqtZVVwsoJflJ8t+y9GZsX83BJ1+AMQ3CF5w5iGWrk4/rs+dPwGY+/Xe81mCkPF0YOyZxc7T47j/BD8D5OvlcnUNuBSc+bA16B/IKk799KhpmuQ1KykLqI8L2IsdXTyxVgBwCQpfy564rmOJQ8H1swGVUugvDlSpOezOR6yccvo+HQIqm4ZYE/7JN7xBm9ouUELKN0ilENU5e5xbPGLcPW6Hd82/6XE9EeVKTJubMRTnnqqlSzeu3Y9ScFg2/jtQVd8s+Xg4WfQTqOrbmH2SLxeZ9f4y0G1SOBzah2T/ubRfx85/i58Ux6YL5wDklSnEKRxew=
+  - secure: OWcNlSbsbFu9jcS2mcDMOnK2MA8is9HxnJveoElpxgdQZU0kBfVFelg7Q12AGtO8JbieVh/xMUNOY7UjdDCAlMfJIGt7VJSSIeU9ObzZCCpWm/zAjE3n6Z9nLO7DKCtyyStSd5xL47ANUwhtnLbLFMoGLZdaH9/vfD9uxgFs+LIcWS5DSn4Jo7kGL6Qlyr+b1MDN4Rw8cSsbOe6lo0pHK4xqpmiM0/T1XA0UKYED71wAWcO2u7I9Vj+N9JBPzv+ozQ8UihaaLAFKNcoBO2kQPxU5MuyyFOlk1gWl2rr6Kn7NjU7AcGshRZ/gRVLl3kcoPuPtO5xFwvK6tGiuQaOBpdZo2hPdk+doUVsmagrXIySo8I4Z3hAHelgdsqeYOFtylm8Mp4rPc2x/PsKCUHmmZ7syhQCGHHAvEPeh1s4lWB10odAniG2AyE2y+MCrwGv0AQPjUXS5tDjNGfxDY4458LUAYtMUDH9u12uPevgJijO+lIhzOh0RAwv8QJgg3C0YS9wEivFkGnZy3fI/pyC1h/zH0RstbCzSYl2Gr2n+RuGrMIMm8lEV7HFrTSsaJ+bvCCBldoLQN2DUNVX9yfHHV2JApWE1n9A1x4OsQIxyaA+p8HgDIZ4HYnr+5n/r3FfQppSjNylKrgd5aGAhKmT0FxkBD+0RnspXIZ2QOa/mtkE=
