@@ -3,10 +3,6 @@ class Task < ApplicationRecord
   include ParseTags
   include SlugCandidates
 
-  # TODO Add this to SlugCandidates
-  extend FriendlyId
-  friendly_id :slug_candidates, use: :slugged
-
   default_scope { order(updated_at: :desc) }
   acts_as_ordered_taggable
 

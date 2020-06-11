@@ -17,8 +17,9 @@ Rails.application.routes.draw do
     end
     collection do
       get "deleted_notes", to: "notes#deleted", as: "deleted"
-      get "import", to: "note_imports#new"
-      post "import", to: "note_imports#create"
+      get "import", to: "import_notes#new"
+      post "import", to: "import_notes#create"
+      get "export", to: "export_notes#index", defaults: {format: "csv"}
     end
   end
 

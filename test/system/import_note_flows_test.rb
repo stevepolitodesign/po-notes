@@ -19,5 +19,4 @@ class ImportNoteFlowsTest < ApplicationSystemTestCase
     imported_notes_count = @file.readlines.size - 1
     assert_equal imported_notes_count, all("table tbody tr").count
   end
-
 end

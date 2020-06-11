@@ -8,6 +8,7 @@ export default class extends Controller {
     this.updatePosition = this.updatePosition.bind(this);
     this.sortable = Sortable.create(this.element, {
       onEnd: this.updatePosition,
+      handle: ".fa-bars",
     });
   }
 

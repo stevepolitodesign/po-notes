@@ -3,10 +3,6 @@ class Reminder < ApplicationRecord
   include SetHashid
   include SlugCandidates
 
-  # TODO Add this to SlugCandidates
-  extend FriendlyId
-  friendly_id :slug_candidates, use: :slugged
-
   belongs_to :user
 
   default_scope { order(time: :asc) }

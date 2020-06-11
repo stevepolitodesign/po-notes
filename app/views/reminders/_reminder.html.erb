@@ -6,7 +6,6 @@
         <%= reminder.body %>
     <% end %>
     <%= tag.td do %>
-        <%#  TODO Format this to be relative to `reminder.user.time_zone` %>
         <%= time_ago_in_words(reminder.time) %> from now on <%= reminder.time.strftime("%c") %>
     <% end %>
     <%= tag.td do %>

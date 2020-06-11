@@ -1,4 +1,6 @@
-<li data-controller="task-item" data-target="task-items.item" data-new_record="<%= f.object.new_record? %>" class="fields-wrapper">
+<li data-controller="task-item" data-target="task-items.item" data-new_record="<%= f.object.new_record? %>" class="fields-wrapper"> 
+    <%# TODO Make sure the hover state for the bars indicates a user can drag the task_item %>
+    <i class="fa fa-bars" aria-hidden="true"></i>
     <% if params[:action] == "new" %>
         <%= f.label :complete, style: "display: none;" %>
         <%= f.check_box :complete, style: "display: none;", data: { action: "change->task-item#handle_click", target: "task-item.completed" } %>

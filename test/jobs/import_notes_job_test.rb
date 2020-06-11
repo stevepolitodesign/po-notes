@@ -2,7 +2,7 @@ require "test_helper"
 require "csv"
 class ImportNotesJobTest < ActiveJob::TestCase
   include ActionDispatch::TestProcess::FixtureFile
-  
+
   def setup
     @user = users(:user_1)
     @file = file_fixture("notes.csv")
