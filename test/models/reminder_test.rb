@@ -184,7 +184,7 @@ class ReminderTest < ActiveSupport::TestCase
     @reminder = @user.reminders.create(name: "My Reminder", body: "Some text", time: Time.zone.now + 1.day)
     VCR.use_cassette("twilio") do
       @response = @reminder.send_sms
-      assert_equal "+#{@user.telephone}", @response.to
+      assert_match "+1#{@user.telephone}", @response.to
     end
   end
 
@@ -192,7 +192,7 @@ class ReminderTest < ActiveSupport::TestCase
     @reminder = @user.reminders.create(name: "My Reminder", body: "Some text", time: Time.zone.now + 1.day)
     VCR.use_cassette("twilio") do
       @response = @reminder.send_sms
-      assert_equal "Reminder: #{@reminder.name} start at #{time_ago_in_words(@reminder.time)} from now.", @response.body
+      assert_match "Reminder: #{@reminder.name} start at #{time_ago_in_words(@reminder.time)} from now.", @response.body
     end
   end
 end
