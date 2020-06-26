@@ -94,10 +94,6 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
-    dotenv (2.7.5)
-    dotenv-rails (2.7.5)
-      dotenv (= 2.7.5)
-      railties (>= 3.2, < 6.1)
     erubi (1.9.0)
     faker (2.10.2)
       i18n (>= 1.6, < 2)
@@ -319,7 +315,6 @@ DEPENDENCIES
   capybara (>= 2.15)
   data_migrate (~> 6.3)
   devise (~> 4.7, >= 4.7.1)
-  dotenv-rails (~> 2.1, >= 2.1.1)
   faker (~> 2.10, >= 2.10.1)
   foreman (~> 0.87.1)
   friendly_id (~> 5.3)
