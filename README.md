@@ -18,7 +18,7 @@ rails db:setup
 twilio:
   account_sid: 123abc
   auth_token: 456def
-  number: +11234567890 ()
+  number: +11234567890
   test_number: verified caller id
 ```
 
