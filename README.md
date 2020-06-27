@@ -35,8 +35,6 @@ twilio:
   test_number: A real number to use in tests.
 ```
 
-Note that the `account_sid` and `test_number` will be made public in `test/vcr_cassettes/twilio.yml`.
-
 # Local Development
 
 ```
