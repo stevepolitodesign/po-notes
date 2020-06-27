@@ -20,7 +20,7 @@ rails db:setup
 twilio:
   account_sid: ACCOUNT SID
   auth_token: AUTH TOKEN
-  number: ACTIVE NUMBER  
+  number: ACTIVE NUMBER
 ```
 
 ## Test
