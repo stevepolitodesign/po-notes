@@ -21,6 +21,7 @@ twilio:
   account_sid: ACCOUNT SID
   auth_token: AUTH TOKEN
   number: ACTIVE NUMBER
+  test_number: A real number to use in tests.  
 ```
 
 ## Test
