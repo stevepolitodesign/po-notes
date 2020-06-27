@@ -32,8 +32,6 @@ gem "bootsnap", ">= 1.4.2", require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
-  # TODO Consider using config/credentials.yml.enc
-  gem "dotenv-rails", "~> 2.1", ">= 2.1.1"
   gem "faker", "~> 2.10", ">= 2.10.1"
   gem "bullet", "~> 6.1"
   gem "standard", "~> 0.2.2"

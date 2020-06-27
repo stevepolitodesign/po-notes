@@ -24,10 +24,10 @@ class Reminder < ApplicationRecord
   def send_sms
     return if sent? || user.telephone.nil?
     @telephone = user.telephone
-    @client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
+    @client = Twilio::REST::Client.new Rails.application.credentials.twilio[:account_sid], Rails.application.credentials.twilio[:auth_token]
     @response = @client.messages.create(
-      from: ENV["TWILIO_NUMBER"],
-      to: ENV["RAILS_ENV"] == "production" ? @telephone : ENV["TWILIO_TEST_NUMBER"],
+      from: Rails.application.credentials.twilio[:number],
+      to: ENV["RAILS_ENV"] == "production" ? @telephone : Rails.application.credentials.twilio[:test_number],
       body: "Reminder: #{name} start at #{time_ago_in_words(time)} from now."
     )
     update(sent: true)
