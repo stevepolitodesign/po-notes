@@ -12,15 +12,30 @@ rails db:setup
 
 # Credentials
 
+## Production
+
 `rails credentials:edit`
 
 ```
 twilio:
-  account_sid: 123abc
-  auth_token: 456def
-  number: +11234567890
-  test_number: verified caller id
+  account_sid: ACCOUNT SID
+  auth_token: AUTH TOKEN
+  number: ACTIVE NUMBER
 ```
+
+## Test
+
+`rails credentials:edit --environment=test`
+
+```
+twilio:
+  account_sid: TEST ACCOUNT SID
+  auth_token: TEST AUTH TOKEN
+  number: +15005550006 (https://www.twilio.com/blog/2018/04/twilio-test-credentials-magic-numbers.html)
+  test_number: A real number to use in tests.
+```
+
+Note that the `account_sid` and `test_number` will be made public in `test/vcr_cassettes/twilio.yml`.
 
 # Local Development
 
