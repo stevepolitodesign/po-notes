@@ -32,7 +32,6 @@ twilio:
   account_sid: TEST ACCOUNT SID
   auth_token: TEST AUTH TOKEN
   number: +15005550006 (https://www.twilio.com/blog/2018/04/twilio-test-credentials-magic-numbers.html)
-  test_number: A real number to use in tests.
 ```
 
 # Local Development

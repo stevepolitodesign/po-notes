@@ -27,7 +27,7 @@ class Reminder < ApplicationRecord
     @client = Twilio::REST::Client.new Rails.application.credentials.twilio[:account_sid], Rails.application.credentials.twilio[:auth_token]
     @response = @client.messages.create(
       from: Rails.application.credentials.twilio[:number],
-      to: ENV["RAILS_ENV"] == "production" ? @telephone : Rails.application.credentials.twilio[:test_number],
+      to:  @telephone,
       body: "Reminder: #{name} start at #{time_ago_in_words(time)} from now."
     )
     update(sent: true)

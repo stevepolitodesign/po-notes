@@ -11,6 +11,6 @@ user_<%= i %>:
   encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
   confirmed_at: <%= Time.now %>
   time_zone: "Eastern Time (US & Canada)"
-  telephone: <%= Rails.application.credentials.twilio[:test_number] %>
+  telephone: "15005550006"
   plan: one
 <% end %>
