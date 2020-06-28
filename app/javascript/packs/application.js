@@ -20,6 +20,6 @@ require("../vendor/tagify");
 require("../vendor/clipboard");
 require("../vendor/simplemde");
 require("../vendor/fontawesome");
-
 import "controllers";
 
+import 'alpinejs';
