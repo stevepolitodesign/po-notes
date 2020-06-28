@@ -15,9 +15,11 @@ require("channels");
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
+require("../css/application.scss");
 require("../vendor/tagify");
 require("../vendor/clipboard");
 require("../vendor/simplemde");
 require("../vendor/fontawesome");
 
 import "controllers";
+
