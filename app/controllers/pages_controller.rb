@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
-  layout "landing"
+  layout "landing", only: [:home]
   before_action :authenticate_user!, only: [:dashboard]
-
+  
   def home
   end
 
