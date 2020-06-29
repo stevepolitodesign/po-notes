@@ -23,6 +23,7 @@
                             <%= render "shared/hero/main_content" %>
                             <%= render "shared/hero/video" %>
                         </div>
+                        <%= render "shared/misc/debug" if Rails.env == 'development' %>
                     </main>
                 </div>
             </div>
