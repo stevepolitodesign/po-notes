@@ -1,14 +1,9 @@
 <!DOCTYPE html>
 <html>
     <%= render "shared/head/head" %>
-    <body>
+    <body class="antialiased font-sans bg-gray-200"> 
         <div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-            <div class="sm:mx-auto sm:w-full sm:max-w-md text-center">
-                <%= render "shared/title/purple" %>
-            </div>
-            <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-                <%= yield %>
-            </div>
+            <%= yield %>
         </div>
     </body>
 </html>
