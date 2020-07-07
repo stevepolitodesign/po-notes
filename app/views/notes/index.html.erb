@@ -1,5 +1,13 @@
-<h1>Notes#index</h1>
-<p>Find me in app/views/notes/index.html.erb</p>
+<%= content_for :title do "My Notes" end %>
+
+<%= content_for :th do %>
+    Foo
+<% end %>
+<%= content_for :th do %>
+    Bar
+<% end %>
+<%= render partial: "shared/tables/table" %>
+
 <%= render partial: 'search_form' %>
 <% unless @notes.empty? %>
     <%= tag.table do %>
