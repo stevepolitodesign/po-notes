@@ -4,11 +4,11 @@
           <img class="h-10 w-10 rounded-full" src="<%= gravatar_url(current_user.email) %>" />
         </div>
         <div class="ml-3">
-          <div class="mt-1 text-sm font-medium leading-none text-gray-400"><%= current_user.email %></div>
+          <div class="mt-1 text-sm font-medium leading-none text-white"><%= current_user.email %></div>
         </div>
     </div>
     <div class="mt-3 px-2" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
-        <%= link_to "Your Profile", edit_user_registration_path, class: "block px-3 py-2 text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700", role: :menuitem %>
-        <%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: "mt-1 block px-3 py-2 text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700", role: :menuitem %>
+        <%= link_to "Your Profile", edit_user_registration_path, class: "block px-3 py-2 text-base font-medium text-white border border-transparent hover:text-black hover:bg-white focus:outline-none focus:text-black focus:bg-white focus:border-white", role: :menuitem %>
+        <%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: "mt-1 block px-3 py-2 text-base font-medium text-white border border-transparent hover:text-black hover:bg-white focus:outline-none focus:text-black focus:bg-white focus:border-white", role: :menuitem %>
     </div>
 </div>
