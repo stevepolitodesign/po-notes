@@ -1,5 +1,9 @@
 <head>
-    <title>PoNotes</title>
+    <% if content_for?(:title) %>
+        <title><%= yield :title %> | PoNotes</title>
+    <% else %>
+        <title>PoNotes</title>
+    <% end %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
