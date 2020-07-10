@@ -1,44 +1,20 @@
 <%= content_for :title do "My Notes" end %>
-
-<%= content_for :th do %>
-    Foo
-<% end %>
-<%= content_for :th do %>
-    Bar
-<% end %>
-<%= render partial: "shared/tables/table" %>
-
 <%= render partial: 'search_form' %>
 <% unless @notes.empty? %>
-    <%= tag.table do %>
-        <%= tag.thead do %>
-            <%= tag.th do%>
-                Title
-            <% end %>
-            <%= tag.th do %>
-                Preview
-            <% end %>
-            <%= tag.th do %>
-                Tags
-            <% end %>
-            <%= tag.th do %>
-                Public
-            <% end %> 
-            <%= tag.th do %>
-                Pinned
-            <% end %>                                    
-            <%= tag.th do %>
-                Last Updated
-            <% end %>
-            <%= tag.th do %>
-                Actions
-            <% end %>            
+    <%= render layout: "shared/tables/table" do %>
+        <%= render layout: "shared/tables/thead" do %>
+            <%= render layout: "shared/tables/th" do "Title" end %>
+            <%= render layout: "shared/tables/th" do "Preview" end %>
+            <%= render layout: "shared/tables/th" do "Tags" end %>
+            <%= render layout: "shared/tables/th" do "Public" end %>
+            <%= render layout: "shared/tables/th" do "Pinned" end %>
+            <%= render layout: "shared/tables/th" do "Last Updated" end %>
+            <%= render layout: "shared/tables/th" do "" end %>
         <% end %>
-        <%= tag.body do %>
+        <%= render layout: "shared/tables/tbody" do %>
             <%= render @notes %>
         <% end %>
     <% end %>
-    <%= paginate @notes %>
 <% else %>
     <% unless params[:q] %>
         <p><%= link_to 'Add your first note', new_note_path %></p>
