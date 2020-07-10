@@ -40,16 +40,11 @@
         <% end %>
         <%= tag.td class: "px-6 py-4 whitespace-no-wrap border-b border-blue-200 text-sm leading-5 text-gray-500" do %>
             <% if note.try(:reify) %>
-                <%= render partial: "shared/icons/checked", locals: { checked: note.reify.public } %>
+                <%= render partial: "shared/misc/badge", locals: { status: "Public" } if note.reify.public %>
+                <%= render partial: "shared/misc/badge", locals: { status: "Pinned" } if note.reify.pinned %>
             <% else %>
-                <%= render partial: "shared/icons/checked", locals: { checked: note.public } %>
-            <% end %>
-        <% end %>
-        <%= tag.td class: "px-6 py-4 whitespace-no-wrap border-b border-blue-200 text-sm leading-5 text-gray-500" do %>
-            <% if note.try(:reify) %>
-                <%= render partial: "shared/icons/checked", locals: { checked: note.reify.pinned } %>
-            <% else %>
-                <%= render partial: "shared/icons/checked", locals: { checked: note.pinned } %>
+                <%= render partial: "shared/misc/badge", locals: { status: "Public" } if note.public %>
+                <%= render partial: "shared/misc/badge", locals: { status: "Pinned" } if note.pinned %>
             <% end %>
         <% end %>
         <%= tag.td class: "px-6 py-4 whitespace-no-wrap border-b border-blue-200 text-sm leading-5 text-gray-500" do %>
