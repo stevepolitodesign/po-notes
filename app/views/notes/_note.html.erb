@@ -1,6 +1,5 @@
 <% if local_assigns[:display] == 'individual' %>
     <h1><%= note.title %></h1>
-    <%# TODO Hide tags for anyone except the owner. %>
     <% unless note.tags.empty? %>
         <% if user_signed_in? && current_user == note.user %>
             <h4>Tagged with:</h4>
