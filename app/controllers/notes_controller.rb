@@ -6,7 +6,7 @@ class NotesController < ApplicationController
 
   def index
     @q = current_user.notes.ransack(params[:q])
-    @notes = @q.result.includes([:taggings]).page params[:page]
+    @notes = @q.result.page params[:page]
   end
 
   def show
