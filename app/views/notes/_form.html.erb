@@ -1,16 +1,20 @@
 <%= form_with model: object, local: true do |f| %>
     <%= render 'shared/form-errors', object: object %>
     <%# TODO Replace the input with an H1 on the show, but allow a user to toggle the field %>
-    <%= f.label :title %>
-    <%= f.text_field :title %>
-    <%= f.label :body %>
+    <div class="field">
+        <%= f.text_field :title, class: "input" %>
+    </div>
+    <div class="field">
+        <%= f.label :pinned, "Pin this note" %>
+        <%= f.check_box :pinned %>
+        <%= f.label :public, "Make this note public" %>
+        <%= f.check_box :public %>
+    </div>
+    <div class="field">
+        <%= f.label :tag_list, 'Tags' %>
+        <%= f.text_field :tag_list, value: f.object.tag_list.join(","), class: "js-tag-list input" %>
+    </div>
     <%= f.text_area :body, class: "js-simplemde" %>
-    <%= f.label :pinned %>
-    <%= f.check_box :pinned %>
-    <%= f.label :public %>
-    <%= f.check_box :public %>
-    <%= f.label :tag_list, 'Tags' %>
-    <%= f.text_field :tag_list, value: f.object.tag_list.join(","), class: "js-tag-list" %>
     <div>
         <%= f.submit %>
         <%= link_to 'Delete Note', note_path(object), method: :delete, data: { confirm: 'Are you sure?' } if params[:action] == 'edit' %>
