@@ -12,7 +12,9 @@
             </ul>
         <% end %>
     <% end %>
-    <%= markdown note.body %>
+    <article class="prose prose-lg max-w-none">
+        <%= markdown note.body %>
+    </article>
 <% else %>
     <%= tag.tr do %>
         <%= tag.td class: "px-6 py-4 whitespace-no-wrap border-b border-blue-200" do %>
