@@ -20,6 +20,5 @@ require("../css/application.scss");
 require("../vendor/tagify");
 require("../vendor/clipboard");
 require("../vendor/simplemde");
-require("../vendor/fontawesome");
 import "controllers";
 

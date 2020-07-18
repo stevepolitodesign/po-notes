@@ -6,9 +6,6 @@ document.addEventListener("turbolinks:load", () => {
   element &&
     new SimpleMDE({
       element,
-      autosave: {
-        enabled: true,
-      },
       toolbar: [
         "bold",
         "italic",
