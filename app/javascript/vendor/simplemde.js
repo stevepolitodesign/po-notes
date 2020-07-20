@@ -3,8 +3,8 @@ import "simplemde/dist/simplemde.min.css";
 
 document.addEventListener("turbolinks:load", () => {
   const element = document.querySelector(".js-simplemde");
-  element &&
-    new SimpleMDE({
+  if (!element) return;
+  const simplemde = new SimpleMDE({
       element,
       toolbar: [
         "bold",
@@ -36,4 +36,7 @@ document.addEventListener("turbolinks:load", () => {
         "guide",
       ],
     });
+    
+    const wrapper = simplemde.codemirror.display.wrapper;
+    wrapper && wrapper.classList.add("prose", "prose-lg", "max-w-none")
 });

@@ -1,14 +1,13 @@
 <%= form_with model: object, local: true do |f| %>
     <%= render 'shared/form-errors', object: object %>
-    <%# TODO Replace the input with an H1 on the show, but allow a user to toggle the field %>
     <div class="field">
-        <%= f.text_field :title, class: "input" %>
+        <%= f.text_field :title, class: "text-4xl w-full focus:outline-none" %>
     </div>
-    <div class="field">
-        <%= f.label :pinned, "Pin this note" %>
-        <%= f.check_box :pinned %>
+    <div class="field text-sm flex items-center text-gray-500">
+        <%= f.check_box :pinned, class: "mr-2" %>
+        <%= f.label :pinned, "Pin this note", class: "mr-4" %>
+        <%= f.check_box :public, class: "mr-2" %>
         <%= f.label :public, "Make this note public" %>
-        <%= f.check_box :public %>
     </div>
     <div class="field">
         <%= f.label :tag_list, 'Tags' %>
