@@ -3,3 +3,8 @@
     border-radius:  0 !important;
     @apply border-gray-300;
 }
+
+.editor-preview pre,
+.editor-preview-side pre {
+    background-color: #2d3748 !important;
+}
