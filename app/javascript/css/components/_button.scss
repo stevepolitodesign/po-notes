@@ -1,0 +1,18 @@
+.btn {
+    @apply py-2 px-4;
+}
+.btn-sm {
+    @apply p-2 text-sm;
+}
+.btn-blue {
+    @apply bg-blue-600 text-white;
+}
+.btn-blue:hover {
+    @apply bg-blue-800 cursor-pointer;
+}
+.btn-green {
+    @apply bg-green-200 text-green-600;
+}
+.btn-green:hover {
+    @apply bg-green-400 text-white cursor-pointer;
+}

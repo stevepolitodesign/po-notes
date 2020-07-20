@@ -15,7 +15,7 @@
     </div>
     <%= f.text_area :body, class: "js-simplemde" %>
     <div>
-        <%= f.submit %>
-        <%= link_to 'Delete Note', note_path(object), method: :delete, data: { confirm: 'Are you sure?' } if params[:action] == 'edit' %>
+        <%= f.submit class: "btn btn-blue" %>
+        <%= link_to 'Delete Note', note_path(object), method: :delete, data: { confirm: 'Are you sure?' }, class: "text-red-600 ml-6 hover:text-red-800" if params[:action] == 'edit' %>
     </div>
 <% end %>
