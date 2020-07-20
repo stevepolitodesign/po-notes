@@ -37,6 +37,9 @@ document.addEventListener("turbolinks:load", () => {
       ],
     });
     
+    console.log(simplemde.codemirror)
     const wrapper = simplemde.codemirror.display.wrapper;
+    const preview = simplemde.codemirror.display.wrapper.nextElementSibling;
     wrapper && wrapper.classList.add("prose", "prose-lg", "max-w-none")
+    preview && preview.classList.add("prose", "prose-lg", "max-w-none")
 });
