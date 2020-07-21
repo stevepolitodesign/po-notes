@@ -1,5 +1,14 @@
 <%= content_for :title do "Edit Note" end %>
-<%= render partial: 'share_link' %>
-<%= render partial: 'previous_verion_link' %>
-<%= link_to 'View Note', note_path(@note), data: { confirm: 'Make sure to save your changes.' } if policy(@note).show? %>
+<%= content_for :page_links do %>
+    <div class="sm:flex justify-between flex-wrap items-end">
+        <div class="flex mt-3 mb-3 sm:mb-0 md:mb-0 lg:mb-0 xl:mb-0">
+            <%= link_to note_path(@note), data: { confirm: 'Make sure to save your changes.' }, class: "text-white border border-white border-r-0 flex items-center px-2 py-1 text-sm focus:outline-none focus:bg-white focus:text-black hover:bg-white hover:text-black" do %>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="fill-current h-3 mr-2"><path d="M.2 10a11 11 0 0 1 19.6 0A11 11 0 0 1 .2 10zm9.8 4a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0-2a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg>
+                View Note
+            <% end if policy(@note).show? %>
+            <%= render partial: 'previous_verion_link' %>
+        </div>
+        <%= render partial: 'share_link' %>
+    </div>
+<% end %>
 <%= render partial: 'form', locals: { object: @note } %>
