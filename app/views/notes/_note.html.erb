@@ -1,15 +1,19 @@
 <% if local_assigns[:display] == 'individual' %>
-    <h1><%= note.title %></h1>
     <% unless note.tags.empty? %>
         <% if user_signed_in? && current_user == note.user %>
-            <h4>Tagged with:</h4>
-            <ul>
-                <% note.tags.each do |tag| %>
-                    <li>
-                        <%= link_to tag.name, notes_path(q: { tags_id_in: [tag.id] }) %>
-                    </li>
-                <% end %>
-            </ul>
+            <div class="flex flex-wrap mb-2">
+                <h4 class="mr-2">Tagged with:</h4>
+                <ul class="flex flex-wrap">
+                    <% note.tags.each_with_index do |tag, index| %>
+                        <li class="pr-2">
+                            <%= link_to tag.name, notes_path(q: { tags_id_in: [tag.id] }), class: "text-blue-500 hover:text-blue-600 focus:text-blue-600" %>
+                            <% unless index == note.tags.size - 1%>
+                                <span class="-ml-1">,</span>
+                            <% end %>
+                        </li>
+                    <% end %>
+                </ul>
+            </div>
         <% end %>
     <% end %>
     <article class="prose prose-lg max-w-none">
