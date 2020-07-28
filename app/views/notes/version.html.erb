@@ -1,4 +1,14 @@
-<p>app/views/notes/version.html.erb</p>
-<%= render partial: 'previous_verion_link' %>
+<%= content_for :title do @note.title end %>
+<%= content_for :page_links do %>
+    <div class="sm:flex justify-between flex-wrap items-end">
+        <div class="flex mt-3 mb-3 sm:mb-0 md:mb-0 lg:mb-0 xl:mb-0">
+            <%= link_to revert_note_path(@note, @verion), method: :post, class: "text-white border border-white border-r-0 flex items-center px-2 py-1 text-sm focus:outline-none focus:bg-white focus:text-black hover:bg-white hover:text-black" do %>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="fill-current h-3 mr-2"><path d="M14.66 15.66A8 8 0 1 1 17 10h-2a6 6 0 1 0-1.76 4.24l1.42 1.42zM12 10h8l-4 4-4-4z"/></svg>
+                Revert to this version
+            <% end if policy(@note).update? %>
+            <%= render partial: 'previous_verion_link' %>
+        </div>
+        
+    </div>
+<% end %>
 <%= render partial: 'note', object:  @verion.reify, locals: { display: 'individual' } %>
-<%= link_to 'Revert to this version', revert_note_path(@note, @verion), method: :post %>
