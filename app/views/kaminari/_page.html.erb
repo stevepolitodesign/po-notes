@@ -7,6 +7,6 @@
     per_page:      number of items to fetch per page
     remote:        data-remote
 -%>
-<span class="page<%= ' current inline-block border-t border-b border-r border-blue-300 px-4 py-2 text-gray text-gray-700 hover:text-gray-500' if page.current? %>">
-  <%= link_to_unless page.current?, page, url, {remote: remote, rel: page.rel, class: "inline-block border-t border-b border-r border-blue-300 px-4 py-2 text-blue text-blue-700 hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-blue-100 active:text-blue-700 transition ease-in-out duration-150"} %>
+<span class="page<%= ' current inline-block border-t border-b border-r border-blue-200 px-4 py-2 text-gray text-gray-700 hover:text-gray-500' if page.current? %>">
+  <%= link_to_unless page.current?, page, url, {remote: remote, rel: page.rel, class: "inline-block border-t border-b border-r border-blue-200 px-4 py-2 text-blue text-blue-700 hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-blue-100 active:text-blue-700 transition ease-in-out duration-150"} %>
 </span>
