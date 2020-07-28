@@ -8,7 +8,6 @@
             <% end if policy(@note).update? %>
             <%= render partial: 'previous_verion_link' %>
         </div>
-        
     </div>
 <% end %>
 <%= render partial: 'note', object:  @verion.reify, locals: { display: 'individual' } %>
