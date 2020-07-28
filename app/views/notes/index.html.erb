@@ -11,6 +11,7 @@
             <%= render @notes %>
         <% end %>
     <% end %>
+    <%= paginate @notes %>
 <% else %>
     <% unless params[:q] %>
         <p><%= link_to 'Add your first note', new_note_path %></p>
