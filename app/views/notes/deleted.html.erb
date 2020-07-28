@@ -1,30 +1,15 @@
-<p>app/views/notes/deleted.html.erb</p>
+<%= link_to notes_path, class: "text-blue-600 hover:text-blue-800 flex items-center mb-4" do %>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="fill-current h-3 mr-2"><path d="M3.828 9l6.071-6.071-1.414-1.414L0 10l.707.707 7.778 7.778 1.414-1.414L3.828 11H20V9H3.828z"/></svg>
+    Back To Notes
+<% end %>
 <% unless @notes.empty? %>
-    <%= tag.table do %>
-        <%= tag.thead do %>
-            <%= tag.th do%>
-                Title
-            <% end %>
-            <%= tag.th do %>
-                Preview
-            <% end %>
-            <%= tag.th do %>
-                Tags
-            <% end %>
-            <%= tag.th do %>
-                Public
-            <% end %> 
-            <%= tag.th do %>
-                Pinned
-            <% end %>                                    
-            <%= tag.th do %>
-                Last Update
-            <% end %>
-            <%= tag.th do %>
-                Actions
-            <% end %>            
+    <%= render layout: "shared/tables/table" do %>
+        <%= render layout: "shared/tables/thead" do %>
+            <%= render layout: "shared/tables/th" do "Title" end %>
+            <%= render layout: "shared/tables/th" do "Preview" end %>
+            <%= render layout: "shared/tables/th" do "Last Updated" end %>
         <% end %>
-        <%= tag.body do %>
+        <%= render layout: "shared/tables/tbody" do %>
             <%= render partial: 'note', collection: @notes %>
         <% end %>
     <% end %>

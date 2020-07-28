@@ -42,7 +42,7 @@ class NotesController < ApplicationController
   end
 
   def versions
-    @notes = @note.versions.includes([:item]).where(event: "update")
+    @notes = @note.versions.includes([:item]).where(event: "update").page params[:page]
   end
 
   def version
