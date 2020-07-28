@@ -10,17 +10,31 @@
         </div>
     </div>
     <div class="field">
-        <%= tag.fieldset do %>
-            <%= tag.legend do %>
+        <%= tag.fieldset class: "border-b" do %>
+            <%= tag.legend class: "text-base leading-tight mb-2" do %>
                 Tags
             <% end %>
-            <%= f.collection_check_boxes :tags_id_in, current_user.notes.tag_counts_on(:tags), :id, :name %>
+            <div class="field text-sm flex items-center text-gray-500">
+                <%= f.collection_check_boxes :tags_id_in, current_user.notes.tag_counts_on(:tags), :id, :name do |t| %>
+                    <%= t.check_box class: "mr-2" %>
+                    <%= t.label class: "mr-4" %>
+                <% end %>
+            </div>
         <% end %>
     </div>
-    <%= f.label :pinned_eq, 'Pinned?' %>
-    <%= check_box_tag 'q[pinned_eq]', true, params[:q].present? ? params[:q][:pinned_eq] : false %>
-    <%= f.label :public_eq, 'Public?' %>
-    <%= check_box_tag 'q[public_eq]', true, params[:q].present? ? params[:q][:public_eq] : false %>
-    <%= f.submit %>
-    <%= link_to 'Reset', notes_path %>
+    <%= tag.fieldset class: "pb-1" do %>
+        <%= tag.legend class: "text-base leading-tight mb-2" do %>
+            Other
+        <% end %>    
+        <div class="field text-sm flex items-center text-gray-500">
+            <%= check_box_tag 'q[pinned_eq]', true, params[:q].present? ? params[:q][:pinned_eq] : false, class: "mr-2" %>
+            <%= f.label :pinned_eq, 'Pinned?', class: "mr-4" %>
+            <%= check_box_tag 'q[public_eq]', true, params[:q].present? ? params[:q][:public_eq] : false, class: "mr-2" %>
+            <%= f.label :public_eq, 'Public?' %>
+        </div>
+    <% end %>
+    <div class="borer-b pb-5">
+        <%= f.submit class: "btn btn-blue" %>
+        <%= link_to 'Reset', notes_path, class: "text-green-600 ml-6 hover:text-green-800" %>
+    </div>
 <% end %>
