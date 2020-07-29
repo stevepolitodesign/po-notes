@@ -7,8 +7,9 @@ export default class extends Controller {
   connect() {
     this.updatePosition = this.updatePosition.bind(this);
     this.sortable = Sortable.create(this.element, {
+      animation: 150,
       onEnd: this.updatePosition,
-      handle: ".fa-bars",
+      handle: ".task-handle",
     });
   }
 
