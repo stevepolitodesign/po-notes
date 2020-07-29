@@ -1,26 +1,13 @@
-<%= render partial: 'search_form' %>
+<%= content_for :title do "My Tasks" end %>
+<%= render partial: "search_form" %>
 <% unless @tasks.empty? %>
-    <%= tag.table do %>
-        <%= tag.thead do %>
-            <%= tag.tr do %>
-                <%= tag.th do%>
-                    Title
-                <% end %>
-                <%= tag.th do %>
-                    Tags
-                <% end %> 
-                <%= tag.th do %>
-                    Completed Items
-                <% end %>                                    
-                <%= tag.th do %>
-                    Last Updated
-                <% end %>
-                <%= tag.th do %>
-                    Actions
-                <% end %> 
-            <% end %>
+    <%= render layout: "shared/tables/table" do %>
+        <%= render layout: "shared/tables/thead" do %>
+            <%= render layout: "shared/tables/th" do "Title" end %>
+            <%= render layout: "shared/tables/th" do "Completed Items" end %>
+            <%= render layout: "shared/tables/th" do "Last Updated" end %>
         <% end %>
-        <%= tag.body do %>
+        <%= render layout: "shared/tables/tbody" do %>
             <%= render @tasks %>
         <% end %>
     <% end %>
