@@ -16,3 +16,9 @@
 .btn-green:hover {
     @apply bg-green-400 text-white cursor-pointer;
 }
+.btn-red {
+    @apply bg-red-200 text-red-600;
+}
+.btn-red:hover {
+    @apply bg-red-400 text-white cursor-pointer;
+}
