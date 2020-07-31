@@ -49,7 +49,7 @@ class NotesController < ApplicationController
   end
 
   def revert
-    @reverted_note = @verion.reify
+    @reverted_note = @version.reify
     @reverted_note.save!
     redirect_to edit_note_path(@reverted_note), notice: "Note reverted"
   end
@@ -84,7 +84,7 @@ class NotesController < ApplicationController
   end
 
   def set_version
-    @verion = PaperTrail::Version.find_by(item_id: @note.id, id: params[:version_id])
+    @version = PaperTrail::Version.find_by(item_id: @note.id, id: params[:version_id])
   end
 
   def note_params

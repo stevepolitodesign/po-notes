@@ -14,7 +14,7 @@ class ReminderFlowsTest < ApplicationSystemTestCase
       @user.reminders.create(name: "My Reminder #{i}", body: "Some text", time: Time.zone.now + i.day)
     end
     visit root_path
-    find_link("My Reminders").click
+    find_link("Reminders").click
     @user.reminders.each do |reminder|
       find("td") { |el| el.text == reminder.name }
     end
@@ -23,7 +23,7 @@ class ReminderFlowsTest < ApplicationSystemTestCase
   test "should have no result behavior" do
     sign_in @user
     visit root_path
-    find_link("My Reminders").click
+    find_link("Reminders").click
     find_link("Create a Reminder").click
   end
 
