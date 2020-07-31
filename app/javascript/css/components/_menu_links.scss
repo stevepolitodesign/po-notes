@@ -16,3 +16,22 @@
 .menu_link--active:focus {
     @apply outline-none text-white bg-gray-900
 }
+
+.menu_link--mobile--default {
+    @apply block px-3 py-2 text-base font-medium text-white border border-transparent
+}
+.menu_link--mobile--default:hover {
+    @apply text-black bg-white
+}
+.menu_link--mobile--default:focus {
+    @apply outline-none text-black bg-white border-white
+}
+.menu_link--mobile--active {
+    @apply block px-3 py-2 text-base font-medium text-white border border-white
+}
+.menu_link--mobile--active:hover {
+    @apply text-white
+}
+.menu_link--mobile--active:focus {
+    @apply outline-none text-white bg-gray-900
+}
