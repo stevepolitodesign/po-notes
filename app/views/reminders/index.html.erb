@@ -1,16 +1,14 @@
+<%= content_for :title do "My Reminders" end %>
 <% unless @reminders.empty? %>
-    <%= tag.table do %>
-        <%= tag.thead do %>
-            <%= tag.tr do %>
-                <%= tag.th do %>Name<% end %>
-                <%= tag.th do %>Body<% end %>
-                <%= tag.th do %>Date<% end %>
-                <%= tag.th do %>Actions<% end %>
-            <% end %>
+    <%= render layout: "shared/tables/table" do %>
+        <%= render layout: "shared/tables/thead" do %>
+            <%= render layout: "shared/tables/th" do "Name" end %>
+            <%= render layout: "shared/tables/th" do "Body" end %>
+            <%= render layout: "shared/tables/th" do "Date" end %>
         <% end %>
-        <%= tag.tbody do %>
+        <%= render layout: "shared/tables/tbody" do %>
             <%= render @reminders %>
-        <% end %>        
+        <% end %>
     <% end %>
 <% else %>
     <p>You have no upcoming reminders. <%= link_to "Add a reminder", new_reminder_path %></p>
