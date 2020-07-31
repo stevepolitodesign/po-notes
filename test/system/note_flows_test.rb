@@ -59,7 +59,6 @@ class NoteFlowsTest < ApplicationSystemTestCase
     find(".tagify__input").set("Tag 1, Tag 2")
     find_button("Create Note").click
     assert_equal all("tags tag").count, 2
-    assert_match "Note added", find(:xpath, "/html/body/div/div[1]/div/div[1]/p").text
     assert_equal find_field("Title").value, "Note Title"
     assert_equal find(".CodeMirror-lines .CodeMirror-code span").text, "Note Body"
     assert_equal find("tag:first-of-type .tagify__tag-text").text, "tag 1"

@@ -28,7 +28,7 @@ class UserFlowsTest < ApplicationSystemTestCase
     find_field("Email").set("user_1@example.com")
     find_field("Password").set("password")
     find_button("Log in").click
-    assert_match "You have to confirm your email address before continuing.", find("p").text
+    assert_match "You have to confirm your email address before continuing.", find(:xpath, "/html/body/div[1]/div/div[1]/p").text
   end
 
   test "can sign in" do
@@ -76,7 +76,6 @@ class UserFlowsTest < ApplicationSystemTestCase
     assert_equal ["updated@example.com"], email.to
     assert_equal "Confirmation instructions", email.subject
     assert_match "Confirm my account", email.body.encoded
-    assert_match "You updated your account successfully, but we need to verify your new email address. Please check your email and follow the confirmation link to confirm your new email address.", find("p").text
   end
 
   test "can reset password" do
