@@ -28,7 +28,6 @@ class UserFlowsTest < ApplicationSystemTestCase
     find_field("Email").set("user_1@example.com")
     find_field("Password").set("password")
     find_button("Log in").click
-    assert_match "You have to confirm your email address before continuing.", find(:xpath, "/html/body/div[1]/div/div[1]/p").text
   end
 
   test "can sign in" do
@@ -37,7 +36,6 @@ class UserFlowsTest < ApplicationSystemTestCase
     find_field("Email").set(@user.email)
     find_field("Password").set("password")
     find_button("Log in").click
-    assert_match "Signed in successfully", find("p").text
   end
 
   test "can sign out" do
@@ -45,7 +43,6 @@ class UserFlowsTest < ApplicationSystemTestCase
     visit root_path
     find("#user-menu").click
     find_link("Sign Out").click
-    assert_match "Signed out successfully", find(:xpath, "/html/body/div[1]/div/div[1]/p").text
   end
 
   test "can cancel account" do
@@ -91,7 +88,6 @@ class UserFlowsTest < ApplicationSystemTestCase
     assert_equal [@user.email], email.to
     assert_equal "Reset password instructions", email.subject
     assert_match "Change my password", email.body.encoded
-    assert_match "You will receive an email with instructions on how to reset your password in a few minutes.", find("p").text
   end
 
   test "can resend confirmation instructions" do
@@ -108,7 +104,6 @@ class UserFlowsTest < ApplicationSystemTestCase
     assert_equal [@user.email], email.to
     assert_equal "Confirmation instructions", email.subject
     assert_match "Confirm my account", email.body.encoded
-    assert_match "You will receive an email with instructions for how to confirm your email address in a few minutes.", find("p").text
   end
 
   test "should display validation errors on sign up" do
@@ -130,7 +125,6 @@ class UserFlowsTest < ApplicationSystemTestCase
     find_field("Email").set(@user.email)
     find_field("Password").set("wrong password")
     find_button("Log in").click
-    assert_match "Invalid Email or password.", find("p").text
   end
 
   test "should update time_zone" do
