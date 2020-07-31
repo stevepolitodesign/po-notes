@@ -7,6 +7,10 @@
                 Edit Note
             <% end if policy(@note).update? %>
             <%= render partial: 'previous_verion_link' %>
+            <%= link_to notes_path, class: "text-white border border-white flex items-center px-2 py-1 text-sm focus:outline-none focus:bg-white focus:text-black hover:bg-white hover:text-black" do %>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="fill-current h-3 mr-2"><path d="M10 13h8V7h-8V2l-8 8 8 8v-5z"/></svg>
+                Back To My Notes
+            <% end %>
         </div>
         <%= render partial: 'share_link' %>
     </div>

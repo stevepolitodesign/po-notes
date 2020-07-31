@@ -1,7 +1,13 @@
 <%= content_for :title do "My Deleted Notes" end %>
-<%= link_to notes_path, class: "text-blue-600 hover:text-blue-800 flex items-center mb-4" do %>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="fill-current h-3 mr-2"><path d="M3.828 9l6.071-6.071-1.414-1.414L0 10l.707.707 7.778 7.778 1.414-1.414L3.828 11H20V9H3.828z"/></svg>
-    Back To Notes
+<%= content_for :page_links do %>
+    <div class="sm:flex justify-between flex-wrap items-end">
+        <div class="flex mt-3 mb-3 sm:mb-0 md:mb-0 lg:mb-0 xl:mb-0">
+            <%= link_to notes_path, class: "text-white border border-white flex items-center px-2 py-1 text-sm focus:outline-none focus:bg-white focus:text-black hover:bg-white hover:text-black" do %>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="fill-current h-3 mr-2"><path d="M10 13h8V7h-8V2l-8 8 8 8v-5z"/></svg>
+                Back To My Notes
+            <% end %>
+        </div>
+    </div>
 <% end %>
 <% unless @notes.empty? %>
     <%= render layout: "shared/tables/table" do %>
