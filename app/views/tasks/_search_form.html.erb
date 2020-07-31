@@ -8,7 +8,7 @@
             <%= tag.legend class: "text-base leading-tight mb-2" do %>
                 Tags
             <% end %>
-            <div class="field text-sm flex items-center text-gray-500">
+            <div class="field text-sm flex flex-wrap items-center text-gray-500">
                 <%= f.collection_check_boxes :tags_id_in, current_user.tasks.tag_counts_on(:tags), :id, :name do |t| %>
                     <%= t.check_box class: "mr-2" %>
                     <%= t.label class: "mr-4" %>
