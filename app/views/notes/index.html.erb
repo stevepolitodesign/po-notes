@@ -1,4 +1,26 @@
 <%= content_for :title do "My Notes" end %>
+<%= content_for :page_links do %>
+    <div class="sm:flex justify-between flex-wrap items-end">
+        <div class="flex mt-3 mb-3 sm:mb-0 md:mb-0 lg:mb-0 xl:mb-0">
+            <%= link_to new_note_path, class: "text-white border border-white border-r-0 flex items-center px-2 py-1 text-sm focus:outline-none focus:bg-white focus:text-black hover:bg-white hover:text-black" do %>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="fill-current h-3 mr-2"><path d="M11 9h4v2h-4v4H9v-4H5V9h4V5h2v4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"/></svg>
+                Add a Note
+            <% end %>
+            <%= link_to import_notes_path, class: "text-white border border-white flex items-center px-2 py-1 text-sm focus:outline-none focus:bg-white focus:text-black hover:bg-white hover:text-black" do %>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="fill-current h-3 mr-2"><path d="M13 10v6H7v-6H2l8-8 8 8h-5zM0 18h20v2H0v-2z"/></svg>
+                Import Notes
+            <% end %>
+            <%= link_to export_notes_path, class: "text-white border border-white flex items-center px-2 py-1 text-sm focus:outline-none focus:bg-white focus:text-black hover:bg-white hover:text-black" do %>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="fill-current h-3 mr-2"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
+                Export Notes
+            <% end %>
+            <%= link_to deleted_notes_path, class: "text-white border border-white flex items-center px-2 py-1 text-sm focus:outline-none focus:bg-white focus:text-black hover:bg-white hover:text-black" do %>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="fill-current h-3 mr-2"><path d="M6 2l2-2h4l2 2h4v2H2V2h4zM3 6h14l-1 14H4L3 6zm5 2v10h1V8H8zm3 0v10h1V8h-1z"/></svg>
+                Deleted Notes
+            <% end %>            
+        </div>
+    </div>
+<% end %>
 <%= render partial: 'search_form' %>
 <% unless @notes.empty? %>
     <%= render layout: "shared/tables/table" do %>
