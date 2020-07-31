@@ -8,7 +8,7 @@
     <%= tag.td class: "px-6 py-4 whitespace-no-wrap #{task_iteration.last? ? nil  : ' border-b '} border-blue-200 text-sm leading-5 text-gray-500" do %>
         <%= time_ago_in_words(task.updated_at) %> ago.
         <div class="text-xs leading-5 text-gray-500 flex">
-            <%= link_to 'Edit Task', task_path(task), class: "text-blue-500 hover:text-blue-600 focus:outline-none focus:text-blue-900 pr-1" %>
+            <%= link_to 'Edit Task', edit_task_path(task), class: "text-blue-500 hover:text-blue-600 focus:outline-none focus:text-blue-900 pr-1" %>
         </div>        
     <% end %>
 <% end %>

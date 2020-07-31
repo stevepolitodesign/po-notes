@@ -2,7 +2,7 @@
     <div class="field flex items-center">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="fill-current text-gray-300 mr-3 h-6 cursor-move task-handle"><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>        
         <%= f.label :complete, class: "sr-only" %>
-        <%= f.check_box :complete, class: "h-6 w-6 mr-3 #{params[:action] == "show" ? nil : 'hidden'}", data: { action: "change->task-item#handle_click", target: "task-item.completed" } %>
+        <%= f.check_box :complete, class: "h-6 w-6 mr-3 #{params[:action] == "edit" ? nil : 'hidden'}", data: { action: "change->task-item#handle_click", target: "task-item.completed" } %>
         <%= f.text_field :title, class: "flex-1 appearance-none px-3 py-2 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 text-lg", data: { target: "task-item.title" } %>
         <a href="#" data-action="click->nested-form#remove_association" class="text-red-300 hover:text-red-400">
             <span class="sr-only">Remove</span>

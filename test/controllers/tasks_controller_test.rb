@@ -21,20 +21,20 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_user_session_path
   end
 
-  test "should get show if authenticated and owner" do
+  test "should get edit if authenticated and owner" do
     sign_in @user
-    get task_path(@task)
+    get edit_task_path(@task)
     assert_response :success
   end
 
-  test "should not get show if authenticated but not owner" do
+  test "should not get edit if authenticated but not owner" do
     sign_in @another_user
-    get task_path(@task)
+    get edit_task_path(@task)
     user_not_authorized
   end
 
-  test "should not get show if anonymous" do
-    get task_path(@task)
+  test "should not get edit if anonymous" do
+    get edit_task_path(@task)
     assert_redirected_to new_user_session_path
   end
 

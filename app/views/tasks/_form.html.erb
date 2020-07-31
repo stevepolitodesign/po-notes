@@ -26,6 +26,6 @@
     </div>
     <div>
         <%= f.submit class: "btn btn-blue" %>
-        <%= link_to 'Delete Task', task_path(@task), method: :delete, data: { confirm: 'Are you sure?' }, class: "text-red-600 ml-6 hover:text-red-800" if params[:action] == 'show' %>
+        <%= link_to 'Delete Task', task_path(@task), method: :delete, data: { confirm: 'Are you sure?' }, class: "text-red-600 ml-6 hover:text-red-800" if params[:action] == 'edit' %>
     </div>
 <% end %>

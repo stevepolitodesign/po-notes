@@ -1,14 +1,14 @@
 class TasksController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_task, only: [:show, :update, :destroy]
-  before_action :authorize_task, only: [:show, :update, :destroy]
+  before_action :set_task, only: [:edit, :update, :destroy]
+  before_action :authorize_task, only: [:edit, :update, :destroy]
 
   def index
     @q = current_user.tasks.ransack(params[:q])
     @tasks = @q.result.page params[:page]
   end
 
-  def show
+  def edit
   end
 
   def new
@@ -19,7 +19,7 @@ class TasksController < ApplicationController
   def create
     @task = current_user.tasks.build(task_params)
     if @task.save
-      redirect_to @task, notice: "Task added"
+      redirect_to edit_task_path(@task), notice: "Task added"
     else
       render "new"
     end
@@ -27,9 +27,9 @@ class TasksController < ApplicationController
 
   def update
     if @task.update(task_params)
-      redirect_to @task, notice: "Task updated"
+      redirect_to edit_task_path(@task), notice: "Task updated"
     else
-      render "show"
+      render "edit"
     end
   end
 
