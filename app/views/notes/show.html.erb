@@ -2,15 +2,15 @@
 <%= content_for :page_links do %>
     <div class="sm:flex justify-between flex-wrap items-end">
         <div class="flex mt-3 mb-3 sm:mb-0 md:mb-0 lg:mb-0 xl:mb-0">
-            <%= link_to edit_note_path(@note), class: "text-white border border-white border-r-0 flex items-center px-2 py-1 text-sm focus:outline-none focus:bg-white focus:text-black hover:bg-white hover:text-black" do %>
+            <%= link_to notes_path, class: "text-white border border-white border-r-0  flex items-center px-2 py-1 text-sm focus:outline-none focus:bg-white focus:text-black hover:bg-white hover:text-black" do %>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="fill-current h-3 mr-2"><path d="M10 13h8V7h-8V2l-8 8 8 8v-5z"/></svg>
+                Back To My Notes
+            <% end %>
+            <%= link_to edit_note_path(@note), class: "text-white border border-white flex items-center px-2 py-1 text-sm focus:outline-none focus:bg-white focus:text-black hover:bg-white hover:text-black" do %>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="fill-current h-3 mr-2"><path d="M12.3 3.7l4 4L4 20H0v-4L12.3 3.7zm1.4-1.4L16 0l4 4-2.3 2.3-4-4z"/></svg>
                 Edit Note
             <% end if policy(@note).update? %>
             <%= render partial: 'previous_verion_link' %>
-            <%= link_to notes_path, class: "text-white border border-white flex items-center px-2 py-1 text-sm focus:outline-none focus:bg-white focus:text-black hover:bg-white hover:text-black" do %>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="fill-current h-3 mr-2"><path d="M10 13h8V7h-8V2l-8 8 8 8v-5z"/></svg>
-                Back To My Notes
-            <% end %>
         </div>
         <%= render partial: 'share_link' %>
     </div>
