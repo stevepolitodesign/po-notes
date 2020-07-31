@@ -1,7 +1,7 @@
 <%= form_with model: object, local: true do |f| %>
     <%= render 'shared/form-errors', object: object %>
     <div class="field">
-        <%= f.text_field :title, class: "text-4xl w-full focus:outline-none" %>
+        <%= f.text_field :title, class: "text-4xl w-full focus:outline-none focus:shadow-outline-blue focus:border-blue-300" %>
     </div>
     <div class="field text-sm flex items-center text-gray-500">
         <%= f.check_box :pinned, class: "mr-2" %>
