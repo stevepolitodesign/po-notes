@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <%= render "shared/head/head" %>
-    <body class="antialiased font-sans bg-gray-200">
+    <body class="antialiased font-sans bg-white">
         <%= render "shared/header/flash" %>
         <div class="" style="">
             <div class="relative bg-black overflow-hidden">
@@ -14,10 +14,10 @@
                             <%= render "shared/hero/main_content" %>
                             <%= render "shared/hero/video" %>
                         </div>
-                        <%= render "shared/misc/debug" if Rails.env == 'development' %>
                     </main>
                 </div>
             </div>
+            <%= render "shared/footer/footer" %>
         </div>
     </body>
 </html>
