@@ -1,0 +1,18 @@
+.menu_link--default {
+    @apply ml-4 px-3 py-2 text-sm font-medium text-white border border-transparent
+}
+.menu_link--default:hover {
+    @apply text-black bg-white
+}
+.menu_link--default:focus {
+    @apply outline-none text-black bg-white border-white
+}
+.menu_link--active {
+    @apply px-3 py-2 text-sm font-medium text-white border border-white
+}
+.menu_link--active:hover {
+    @apply text-white
+}
+.menu_link--active:focus {
+    @apply outline-none text-white bg-gray-900
+}

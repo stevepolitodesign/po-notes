@@ -1,7 +1,7 @@
 <div class="hidden md:block">
     <div class="ml-10 flex items-baseline">
-        <%= link_to "Notes", notes_path, class: "px-3 py-2 text-sm font-medium text-white border border-white focus:outline-none focus:text-white focus:bg-gray-900" %>
-        <%= link_to "Tasks", tasks_path, class: "ml-4 px-3 py-2 text-sm font-medium text-white border border-transparent hover:text-black hover:bg-white focus:outline-none focus:text-black focus:bg-white focus:border-white " %>
-        <%= link_to "Reminders", reminders_path, class: "ml-4 px-3 py-2 text-sm font-medium text-white border border-transparent hover:text-black hover:bg-white focus:outline-none focus:text-black focus:bg-white focus:border-white " %>
+        <%= link_to "Notes", notes_path, class: "#{params[:controller] == "notes" ? 'menu_link--active' : 'menu_link--default' }" %>
+        <%= link_to "Tasks", tasks_path, class: "#{params[:controller] == "tasks" ? 'menu_link--active' : 'menu_link--default' }" %>
+        <%= link_to "Reminders", reminders_path, class: "#{params[:controller] == "reminders" ? 'menu_link--active' : 'menu_link--default' }" %>
     </div>
 </div>
