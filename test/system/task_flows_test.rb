@@ -9,49 +9,49 @@ class TaskFlowsTest < ApplicationSystemTestCase
 
   test "should create task" do
     sign_in @user
-    visit root_path
-    find_link("Create Task").click
+    visit tasks_path
+    find_link("Add a Task").click
     find("#task_title").set("Build App")
     tag_field = find(".tagify__input")
     tag_field.send_keys("Personal")
     tag_field.send_keys(:tab)
     find_button("Create Task").click
-    assert_match "Task added", find("#flash-message").text
+    assert_match "Task added", find(:xpath, "/html/body/div/div[1]/div/div[1]/p").text
   end
 
   test "should create task items" do
     @task = @user.tasks.create(title: "My Task")
     task_items = ["First Task Item", "Second Task Item"]
     sign_in @user
-    visit task_path(@task)
-    find_link("Add Task Items").click
-    find("ol li:nth-child(1)").find_field("Title").set(task_items[0])
-    find_link("Add Task Items").click
-    find("ol li:nth-child(2)").find_field("Title").set(task_items[1])
+    visit edit_task_path(@task)
+    find_link("Add More Tasks").click
+    find("ol li:nth-child(1) div input:last-of-type").set(task_items[0])
+    find_link("Add More Tasks").click
+    find("ol li:nth-child(2) div input:last-of-type").set(task_items[1])
     find_button("Update Task").click
-    find("#flash-message")
-    assert_equal task_items[0], find("ol li:nth-child(1)").find_field("Title").value
-    assert_equal task_items[1], find("ol li:nth-child(2)").find_field("Title").value
+    find(:xpath, "/html/body/div/div[1]/div/div[1]/p")
+    assert_equal task_items[0], find("ol li:nth-child(1) div input:last-of-type").value
+    assert_equal task_items[1], find("ol li:nth-child(2) div input:last-of-type").value
   end
 
   test "should toggle task items complete when form loads" do
     @task = @user.tasks.create(title: "My Task")
     @task_item = @task.task_items.create(title: "Completed Task Item", complete: true)
     sign_in @user
-    visit task_path(@task)
+    visit edit_task_path(@task)
     assert find_field("Complete").checked?
-    assert find("li").find_field("Title", disabled: true).disabled?
+    assert find("li div input:last-of-type").disabled?
   end
 
   test "should toggle task items complete" do
     @task = @user.tasks.create(title: "My Task")
     @task_item = @task.task_items.create(title: "Completed Task Item", complete: false)
     sign_in @user
-    visit task_path(@task)
+    visit edit_task_path(@task)
     assert_not find_field("Complete").checked?
-    assert_not find("li").find_field("Title").disabled?
+    assert_not find("ol li:last-child div input:last-of-type").disabled?
     find_field("Complete").check
-    assert find("li").find_field("Title", disabled: true).disabled?
+    assert find("li div input:last-of-type").disabled?
   end
 
   test "should update task" do
@@ -59,7 +59,7 @@ class TaskFlowsTest < ApplicationSystemTestCase
     @task.tag_list.add("Foo", "Bar")
     @task.save
     sign_in @user
-    visit task_path(@task)
+    visit edit_task_path(@task)
     find_field("Title").set("My Updated Task")
     tag_one = find(".tagify__tag-text", text: "foo")
     tag_one.double_click
@@ -69,7 +69,7 @@ class TaskFlowsTest < ApplicationSystemTestCase
     tag_two.click
     sleep 2
     click_button("Update Task")
-    find("#flash-message")
+    find(:xpath, "/html/body/div/div[1]/div/div[1]/p")
     assert_equal "My Updated Task", find_field("Title").value
     find(".tagify__tag-text", text: "baz")
     assert_equal 1, all("tags tag").count
@@ -81,15 +81,15 @@ class TaskFlowsTest < ApplicationSystemTestCase
       @task.task_items.create(title: "Task Item #{i + 1}", complete: false)
     end
     sign_in @user
-    visit task_path(@task)
-    find_field("Title") { |field| field.value == "Task Item 1" }.set("Updated Task Item 1")
-    find_field("Title") { |field| field.value == "Task Item 2" }.set("Updated Task Item 2")
-    find_field("Title") { |field| field.value == "Task Item 3" }.set("Updated Task Item 3")
+    visit edit_task_path(@task)
+    find("ol li:nth-child(1) div input:last-of-type").set("Updated Task Item 1")
+    find("ol li:nth-child(2) div input:last-of-type").set("Updated Task Item 2")
+    find("ol li:nth-child(3) div input:last-of-type").set("Updated Task Item 3")
     find_button("Update Task").click
-    find("#flash-message")
-    assert find_field("Title") { |field| field.value == "Updated Task Item 1" }
-    assert find_field("Title") { |field| field.value == "Updated Task Item 2" }
-    assert find_field("Title") { |field| field.value == "Updated Task Item 3" }
+    find(:xpath, "/html/body/div/div[1]/div/div[1]/p")
+    assert find("ol li:nth-child(1) div input:last-of-type").value == "Updated Task Item 1"
+    assert find("ol li:nth-child(2) div input:last-of-type").value == "Updated Task Item 2"
+    assert find("ol li:nth-child(3) div input:last-of-type").value == "Updated Task Item 3"
   end
 
   test "should drag and drop task items" do
@@ -98,26 +98,26 @@ class TaskFlowsTest < ApplicationSystemTestCase
       @task.task_items.create(title: "Task Item #{i + 1}", complete: false)
     end
     sign_in @user
-    visit task_path(@task)
+    visit edit_task_path(@task)
     item_one = find("ol li:nth-child(1)")
     item_three = find("ol li:nth-child(3)")
-    item_one.find(".fa-bars", visible: false).drag_to(item_three)
+    item_one.find(".task-handle", visible: false).drag_to(item_three)
     click_button("Update Task")
-    find("#flash-message")
-    assert_equal "Task Item 1", find("ol li:nth-child(3)").find_field("Title").value
+    find(:xpath, "/html/body/div/div[1]/div/div[1]/p")
+    assert_equal "Task Item 1", find("ol li:nth-child(3) div input:last-of-type").value
   end
 
   test "should delete task" do
     @task = @user.tasks.create(title: "My Task")
     sign_in @user
-    visit task_path(@task)
+    visit edit_task_path(@task)
     assert_difference("Task.count", -1) do
       accept_alert do
         find_link("Delete Task").click
       end
       sleep 2
     end
-    find("#flash-message")
+    find(:xpath, "/html/body/div/div[1]/div/div[1]/p")
   end
 
   test "should delete task items" do
@@ -126,7 +126,7 @@ class TaskFlowsTest < ApplicationSystemTestCase
       @task.task_items.create(title: "Task Item #{i + 1}", complete: false)
     end
     sign_in @user
-    visit task_path(@task)
+    visit edit_task_path(@task)
     find("ol li:nth-child(1)").find_link("Remove").click
     find("ol li:nth-child(2)").find_link("Remove").click
     find("ol li:nth-child(3)").find_link("Remove").click
@@ -140,9 +140,9 @@ class TaskFlowsTest < ApplicationSystemTestCase
       @task.task_items.create(title: "Task Item #{i + 1}", complete: false)
     end
     sign_in @user
-    visit task_path(@task)
-    find_link("Add Task Items").click
-    find("ol li:nth-child(1)").find_field("Title").set("This should cause an error")
+    visit edit_task_path(@task)
+    find_link("Add More Tasks").click
+    find("ol li:last-child div input:last-of-type").set("This should cause an error")
     click_button("Update Task")
     find("#error_explanation")
   end
