@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/stevepolitodesign/po-notes.svg?branch=master)](https://travis-ci.com/stevepolitodesign/po-notes)
+
 # PoNotes
 
 An open-source application to help take notes, complete tasks, and set reminders. 
