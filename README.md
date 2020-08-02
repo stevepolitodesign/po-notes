@@ -1,6 +1,6 @@
 # PoNotes
 
-An application to help take notes, complete tasks and set reminders.
+An open-source application to help take notes, complete tasks, and set reminders. 
 
 # Initial Setup
 
