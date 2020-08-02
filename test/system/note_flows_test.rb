@@ -17,7 +17,7 @@ class NoteFlowsTest < ApplicationSystemTestCase
     end
     sign_in @user
     visit root_path
-    find_link("My Notes").click
+    find_link("Notes").click
     visit notes_path
     assert_equal all("table tbody tr").count, 25
     find_link("2").click
@@ -42,24 +42,23 @@ class NoteFlowsTest < ApplicationSystemTestCase
     end
     sign_in @user
     visit root_path
-    find_link("My Notes").click
-    assert_equal find("table tbody tr:first-child td:first-child").text, pinned_note_title
+    find_link("Notes").click
+    assert_equal find(:xpath, "/html/body/div/main/div/div/div[1]/div/div/table/tbody/tr[1]/td[1]/div/span[1]").text, pinned_note_title
   end
 
   test "should create note" do
     sign_in @user
-    visit root_path
-    find_link("Create a new note").click
+    visit notes_path
+    find_link("Add a Note").click
     find_field("Title").set("Note Title")
     editor = find(".CodeMirror")
     editor.click
     editor.find("textarea", visible: :all).send_keys("Note Body")
-    find_field("Pinned").check
-    find_field("Public").check
+    find_field("Pin this note").check
+    find_field("Make this note public").check
     find(".tagify__input").set("Tag 1, Tag 2")
     find_button("Create Note").click
     assert_equal all("tags tag").count, 2
-    assert_match "Note added", find("#flash-message").text
     assert_equal find_field("Title").value, "Note Title"
     assert_equal find(".CodeMirror-lines .CodeMirror-code span").text, "Note Body"
     assert_equal find("tag:first-of-type .tagify__tag-text").text, "tag 1"
@@ -68,8 +67,8 @@ class NoteFlowsTest < ApplicationSystemTestCase
 
   test "should save even if there are no tags" do
     sign_in @user
-    visit root_path
-    find_link("Create a new note").click
+    visit notes_path
+    find_link("Add a Note").click
     find_field("Title").set("Note Title")
     editor = find(".CodeMirror")
     editor.click
@@ -112,7 +111,7 @@ class NoteFlowsTest < ApplicationSystemTestCase
       end
       sleep 2
     end
-    assert_match "Note deleted", find("#flash-message").text
+    assert_match "Note deleted", find(:xpath, "/html/body/div/div[1]/div/div[1]/p").text
   end
 
   test "should display errors during validation" do
@@ -134,11 +133,12 @@ class NoteFlowsTest < ApplicationSystemTestCase
         @note.update(title: "v#{i}", body: "v#{i}")
       end
       visit root_path
-      find_link("My Notes").click
-      find_link("Edit").click
+      find_link("Notes").click
+      find_link("Edit Note").click
       find_link("See Previous Versions").click
       assert_equal all("a") { |el| el.text == "Preview" }.count, 9
       first("a", text: "Preview").click
+      sleep 1
       assert_equal "v1", find("h1").text
       find_link("Revert to this version").click
       assert_equal find_field("Title").value, "v1"
@@ -151,7 +151,7 @@ class NoteFlowsTest < ApplicationSystemTestCase
     with_versioning do
       @note = Note.create(title: "v1", body: "v1", user: @user)
       sign_in @user
-      visit root_path
+      visit notes_path
       find_link("Deleted Notes").click
       find_link("your notes").click
       @note.destroy!
@@ -294,10 +294,10 @@ class NoteFlowsTest < ApplicationSystemTestCase
     @note.update(public: true)
     sleep 2
     visit edit_note_path(@note)
-    find_button("Copy to clipboard.").click
+    find_button("Share Note").click
     assert_match @note.slug, find("#js-clipboard-source").value.split("/").last
     visit note_path(@note)
-    find_button("Copy to clipboard.").click
+    find_button("Share Note").click
     assert_match @note.slug, find("#js-clipboard-source").value.split("/").last
   end
 end

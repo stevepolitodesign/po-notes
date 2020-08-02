@@ -1,0 +1,11 @@
+<div class="sm:mx-auto sm:w-full sm:max-w-md text-center">
+    <%= link_to root_path do %>
+        <%= render "shared/title/white" %>
+    <% end %>
+    <h2 class="mt-6 text-center text-3xl leading-9 font-extrabold text-blue-900 capitalize"><%= yield :form_title %></h2>
+</div>
+<div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="bg-white py-8 px-4 sm:px-10">
+        <%= yield :form_content %>
+    </div>
+</div>

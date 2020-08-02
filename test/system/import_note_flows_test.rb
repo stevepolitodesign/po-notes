@@ -12,7 +12,7 @@ class ImportNoteFlowsTest < ApplicationSystemTestCase
   test "should import notes" do
     @user.notes.destroy_all
     sign_in @user
-    visit root_path
+    visit notes_path
     find_link("Import Notes").click
     attach_file("file", @file.open.path)
     find_button("Import Notes").click

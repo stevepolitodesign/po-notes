@@ -1,17 +1,15 @@
 <li data-controller="task-item" data-target="task-items.item" data-new_record="<%= f.object.new_record? %>" class="fields-wrapper"> 
-    <%# TODO Make sure the hover state for the bars indicates a user can drag the task_item %>
-    <i class="fa fa-bars" aria-hidden="true"></i>
-    <% if params[:action] == "new" %>
-        <%= f.label :complete, style: "display: none;" %>
-        <%= f.check_box :complete, style: "display: none;", data: { action: "change->task-item#handle_click", target: "task-item.completed" } %>
-    <% else %>
-        <%= f.label :complete %>
-        <%= f.check_box :complete, data: { action: "change->task-item#handle_click", target: "task-item.completed" } %>
-    <% end %>
-    <%= f.label :title %>
-    <%= f.text_field :title, data: { target: "task-item.title" } %>
+    <div class="field flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="fill-current text-gray-300 mr-3 h-6 cursor-move task-handle"><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>        
+        <%= f.label :complete, class: "sr-only" %>
+        <%= f.check_box :complete, class: "h-6 w-6 mr-3 #{params[:action] == "edit" ? nil : 'hidden'}", data: { action: "change->task-item#handle_click", target: "task-item.completed" } %>
+        <%= f.text_field :title, class: "flex-1 appearance-none px-3 py-2 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 text-lg", data: { target: "task-item.title" } %>
+        <a href="#" data-action="click->nested-form#remove_association" class="text-red-300 hover:text-red-400">
+            <span class="sr-only">Remove</span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="fill-current ml-3 h-6"><path d="M6 2l2-2h4l2 2h4v2H2V2h4zM3 6h14l-1 14H4L3 6zm5 2v10h1V8H8zm3 0v10h1V8h-1z"/></svg>
+        </a>
+    </div>
     <%= f.hidden_field :position,  data: { target: "task-items.position" } %>
-    <a href="#" data-action="click->nested-form#remove_association">Remove</a>
     <%= f.hidden_field :id %>
     <%= f.hidden_field :_destroy %>
 </li>

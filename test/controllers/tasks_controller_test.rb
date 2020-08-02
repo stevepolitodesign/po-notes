@@ -21,20 +21,20 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_user_session_path
   end
 
-  test "should get show if authenticated and owner" do
+  test "should get edit if authenticated and owner" do
     sign_in @user
-    get task_path(@task)
+    get edit_task_path(@task)
     assert_response :success
   end
 
-  test "should not get show if authenticated but not owner" do
+  test "should not get edit if authenticated but not owner" do
     sign_in @another_user
-    get task_path(@task)
+    get edit_task_path(@task)
     user_not_authorized
   end
 
-  test "should not get show if anonymous" do
-    get task_path(@task)
+  test "should not get edit if anonymous" do
+    get edit_task_path(@task)
     assert_redirected_to new_user_session_path
   end
 
@@ -54,7 +54,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Task.count") do
       post tasks_path, params: {task: {title: "New Task", user: @user}}
     end
-    assert_redirected_to @user.reload.tasks.first
+    assert_redirected_to edit_task_path(@user.reload.tasks.first)
   end
 
   test "should not post create if anonymous" do
@@ -68,7 +68,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
     sign_in @user
     put task_path(@task), params: {task: {title: "updated"}}
     assert_equal @task.reload.title, "updated"
-    assert_redirected_to task_path(@task)
+    assert_redirected_to edit_task_path(@task)
   end
 
   test "should not put update if authenticated but not owner" do

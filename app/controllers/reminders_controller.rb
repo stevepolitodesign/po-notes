@@ -10,7 +10,7 @@ class RemindersController < ApplicationController
   end
 
   def new
-    flash[:notice] = "#{link_to "Add your telephone number", edit_user_registration_path} to receive an alert." if current_user.telephone.nil?
+    flash[:notice] = "#{link_to "Add your telephone number", edit_user_registration_path, class: "text-white underline hover:text-gray-200"} to receive an alert." unless current_user.telephone.present?
     @reminder = Reminder.new
   end
 

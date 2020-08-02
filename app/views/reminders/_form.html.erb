@@ -1,14 +1,20 @@
 <%= form_with model: object, local: true do |f| %>
     <%= render 'shared/form-errors', object: object %>
-    <%= f.label :name %>
-    <%= f.text_field :name %>
-    <%= f.label :time %>
-    <%= f.datetime_local_field :time, disabled: params[:action] == "edit" %>
-    <small><%= link_to current_user.time_zone, edit_user_registration_path %></small>
+    <div class="md:flex md:-mx-2">
+        <div class="field flex-1 md:px-2">
+            <%= f.label :name %>
+            <%= f.text_field :name, class: "input" %>
+        </div>
+        <div class="field flex-1 md:px-2">
+            <%= f.label :time %>
+            <%= f.datetime_local_field :time, class: "input", disabled: params[:action] == "edit" %>
+            <small><%= link_to current_user.time_zone, edit_user_registration_path %></small>
+        </div>
+    </div>
     <%= f.label :body %>
     <%= f.text_area :body, class: "js-simplemde" %>
-    <div>
-        <%= f.submit %>
-        <%= link_to "Delete Reminder", reminder_path(@reminder), method: :delete, data: { confirm: "Are you sure?" } if params[:action] == "edit" %>
+    <div class="field">
+        <%= f.submit class: "btn btn-blue" %>
+        <%= link_to "Delete Reminder", reminder_path(@reminder), method: :delete, data: { confirm: "Are you sure?" }, class: "text-red-600 ml-6 hover:text-red-800" if params[:action] == "edit" %>
     </div>
 <% end %>

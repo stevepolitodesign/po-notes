@@ -17,6 +17,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     sign_in @user
     get root_url
     assert_response :success
-    assert_equal @controller.action_name, "dashboard"
+    assert_equal @controller.action_name, "index"
+    assert_equal @controller.params[:controller], "notes"
   end
 end

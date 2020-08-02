@@ -1,17 +1,14 @@
 <%= tag.tr do %>
-    <%= tag.td do %>
-        <%= task.title %>
+    <%= tag.td class: "px-6 py-4 whitespace-no-wrap #{task_iteration.last? ? nil  : ' border-b '} border-blue-200" do %>
+        <span class="text-sm leading-5 font-medium text-gray-900 mr-2 mb-2"><%= task.title %></span>
     <% end %>
-    <%= tag.td do %>
-        <%= task.tag_list %>
-    <% end %>
-    <%= tag.td do %>
+    <%= tag.td class: "px-6 py-4 whitespace-no-wrap #{task_iteration.last? ? nil  : ' border-b '} border-blue-200 text-sm leading-5 text-gray-500" do %>
        <%= task.task_items.complete.count %> / <%= task.task_items.count %>
     <% end %>    
-    <%= tag.td do %>
+    <%= tag.td class: "px-6 py-4 whitespace-no-wrap #{task_iteration.last? ? nil  : ' border-b '} border-blue-200 text-sm leading-5 text-gray-500" do %>
         <%= time_ago_in_words(task.updated_at) %> ago.
-    <% end %>
-    <%= tag.td do %>
-        <%= link_to "Edit", task %>
+        <div class="text-xs leading-5 text-gray-500 flex">
+            <%= link_to 'Edit Task', edit_task_path(task), class: "text-blue-500 hover:text-blue-600 focus:outline-none focus:text-blue-900 pr-1" %>
+        </div>        
     <% end %>
 <% end %>

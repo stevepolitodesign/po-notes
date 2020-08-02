@@ -1,27 +1,31 @@
 <%= form_with model: object, local: true do |f| %>
     <%= render 'shared/form-errors', object: object %>
-    <%= f.label :title %>
-    <%= f.text_field :title %>
-    <%= f.label :tag_list, 'Tags' %>
-    <%= f.text_field :tag_list, value: f.object.tag_list.join(","), class: "js-tag-list" %>  
-    Task Items:
-    <div data-controller="nested-form">
+    <div class="field">
+        <%= f.label :title, class: "sr-only" %>
+        <%= f.text_field :title, class: "text-4xl w-full focus:outline-none focus:shadow-outline-blue focus:border-blue-300" %>
+    </div>
+    <div class="field">
+        <%= f.label :tag_list, 'Tags' %>
+        <%= f.text_field :tag_list, value: f.object.tag_list.join(","), class: "js-tag-list input" %>
+    </div>
+    <div data-controller="nested-form" class="mb-5">
         <template data-target="nested-form.template">
             <%= f.fields_for :task_items, TaskItem.new, child_index: 'NEW_RECORD' do |task_items_form| %>
                 <%= render 'task_items_fields', f: task_items_form %>
             <% end %>
         </template>
-        <a href="#" data-action="click->nested-form#add_association">Add Task Items</a>   
         <ol data-controller="task-items" data-target="nested-form.fields">
             <%= f.fields_for :task_items do |task_items_form| %>
                 <%= render 'task_items_fields', f: task_items_form %>
             <% end %>
         </ol>
+        <a href="#" data-action="click->nested-form#add_association" class="inline-block text-gray-500 hover:text-gray-600 text-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="fill-current h-6 mr-2 inline-block"><path d="M11 9h4v2h-4v4H9v-4H5V9h4V5h2v4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"/></svg>
+            Add More Tasks
+        </a>   
     </div>
     <div>
-        <%= f.submit %>
-        <% if params[:action] == "show" %>
-            <%= link_to "Delete Task", task_path(@task), method: :delete, data: { confirm: "Are you sure?" }%>
-        <% end %>
+        <%= f.submit class: "btn btn-blue" %>
+        <%= link_to 'Delete Task', task_path(@task), method: :delete, data: { confirm: 'Are you sure?' }, class: "text-red-600 ml-6 hover:text-red-800" if params[:action] == 'edit' %>
     </div>
 <% end %>

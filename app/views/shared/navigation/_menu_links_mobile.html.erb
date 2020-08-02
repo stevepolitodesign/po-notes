@@ -1,0 +1,5 @@
+<div class="px-2 py-3 sm:px-3">
+    <%= link_to "Notes", notes_path, class: "#{params[:controller] == "notes" ? 'menu_link--mobile--active' : 'menu_link--mobile--default' }" %>
+    <%= link_to "Tasks", tasks_path, class: "mt-1 #{params[:controller] == "tasks" ? 'menu_link--mobile--active' : 'menu_link--mobile--default' }" %>
+    <%= link_to "Reminders", reminders_path, class: "mt-1 #{params[:controller] == "reminders" ? 'menu_link--mobile--active' : 'menu_link--mobile--default' }" %>    
+</div>

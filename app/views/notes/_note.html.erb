@@ -1,51 +1,59 @@
 <% if local_assigns[:display] == 'individual' %>
-    <h1><%= note.title %></h1>
-    <%# TODO Hide tags for anyone except the owner. %>
     <% unless note.tags.empty? %>
         <% if user_signed_in? && current_user == note.user %>
-            <h4>Tagged with:</h4>
-            <ul>
-                <% note.tags.each do |tag| %>
-                    <li>
-                        <%= link_to tag.name, notes_path(q: { tags_id_in: [tag.id] }) %>
-                    </li>
-                <% end %>
-            </ul>
+            <div class="flex flex-wrap mb-2">
+                <h4 class="mr-2">Tagged with:</h4>
+                <ul class="flex flex-wrap">
+                    <% note.tags.each_with_index do |tag, index| %>
+                        <li class="pr-2">
+                            <%= link_to tag.name, notes_path(q: { tags_id_in: [tag.id] }), class: "text-blue-500 hover:text-blue-600 focus:text-blue-600" %>
+                            <% unless index == note.tags.size - 1%>
+                                <span class="-ml-1">,</span>
+                            <% end %>
+                        </li>
+                    <% end %>
+                </ul>
+            </div>
         <% end %>
     <% end %>
-    <%= markdown note.body %>
+    <article class="prose prose-lg max-w-none">
+        <%= markdown note.body %>
+    </article>
 <% else %>
     <%= tag.tr do %>
-        <%= tag.td do %>
-            <%= note.try(:reify) ? note.reify.title : note.title %>
+        <%= tag.td class: "px-6 py-4 whitespace-no-wrap #{note_iteration.last? ? nil  : ' border-b '} border-blue-200" do %>
+            <div class="flex items-start">
+                <span class="text-sm leading-5 font-medium text-gray-900 mr-2 mb-2"><%= note.try(:reify) ? note.reify.title : note.title %></span>
+                <% if note.try(:reify) %>
+                    <%= render partial: "shared/misc/badge", locals: { status: "Public" } if note.reify.public %>
+                    <%= render partial: "shared/misc/badge", locals: { status: "Pinned" } if note.reify.pinned %>
+                <% else %>
+                    <%= render partial: "shared/misc/badge", locals: { status: "Public" } if note.public %>
+                    <%= render partial: "shared/misc/badge", locals: { status: "Pinned" } if note.pinned %>
+                <% end %>            
+            </div>
         <% end %>
-        <%# TODO Format preview text. %>
-        <%= tag.td do %>
-            <%= note.try(:reify) ? note.reify.body.truncate_words(10) : note.body.truncate_words(10) %>
+        <%= tag.td class: "px-6 py-4 whitespace-no-wrap #{note_iteration.last? ? nil  : ' border-b '} border-blue-200 text-sm leading-5 text-gray-500" do %>
+            <% if note.try(:reify) %>
+                <%= markdown note.reify.body.truncate_words(10) %>
+            <% else %>
+                <%= markdown note.body.truncate_words(10) %>
+            <% end %>
         <% end %>
-        <%= tag.td do %>
-            <%= note.try(:reify) ? note.reify.tag_list : note.tag_list %>
-        <% end %>
-        <%= tag.td do %>
-            <%= note.try(:reify) ? note.reify.public : note.public %>
-        <% end %>
-        <%= tag.td do %>
-            <%= note.try(:reify) ? note.reify.pinned : note.pinned %>
-        <% end %>
-        <%= tag.td do %>
+        <%= tag.td class: "px-6 py-4 whitespace-no-wrap #{note_iteration.last? ? nil  : ' border-b '} border-blue-200 text-sm leading-5 text-gray-500" do %>
             <%= note.try(:reify) ? "#{time_ago_in_words(note.reify.updated_at)} ago" : "#{time_ago_in_words(note.updated_at)} ago" %>
-        <% end %>      
-        <%= tag.td do %>
-            <% if params[:action] == "index" %>
-                <%= link_to 'Edit', edit_note_path(note) %>
-                <%= link_to 'Preview', note_path(note)  %>
-            <% end %>
-            <% if params[:action] == "versions" %>
-                <%= link_to 'Preview', version_note_path(@note, note) %>
-            <% end %>
-            <% if params[:action] == "deleted" %>
-                <%= link_to 'Restore Note', restore_note_path(note.id), method: :post %>
-            <% end %>
-        <% end %>                        
+            <div class="text-xs leading-5 text-gray-500 flex">
+                <% if params[:action] == "index" %>
+                    <%= link_to 'Edit Note', edit_note_path(note), class: "text-blue-500 hover:text-blue-600 focus:outline-none focus:text-blue-900 pr-1" %>
+                    <%= link_to 'Preview Note', note_path(note), class: "text-blue-500 hover:text-blue-600 focus:outline-none focus:text-blue-900 pl-1" %>
+                <% end %>
+                <% if params[:action] == "versions" %>
+                    <%= link_to 'Preview', version_note_path(@note, note), class: "text-blue-500 hover:text-blue-600 focus:outline-none focus:text-blue-900" %>
+                <% end %>
+                <% if params[:action] == "deleted" %>
+                    <%= link_to 'Restore Note', restore_note_path(note.id), method: :post, class: "text-blue-500 hover:text-blue-600 focus:outline-none focus:text-blue-900" %>
+                <% end %>
+            </div>            
+        <% end %>
     <% end %>
 <% end %>

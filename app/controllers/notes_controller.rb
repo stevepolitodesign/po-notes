@@ -6,7 +6,7 @@ class NotesController < ApplicationController
 
   def index
     @q = current_user.notes.ransack(params[:q])
-    @notes = @q.result.includes([:taggings]).page params[:page]
+    @notes = @q.result.page params[:page]
   end
 
   def show
@@ -42,14 +42,14 @@ class NotesController < ApplicationController
   end
 
   def versions
-    @notes = @note.versions.includes([:item]).where(event: "update")
+    @notes = @note.versions.includes([:item]).where(event: "update").page params[:page]
   end
 
   def version
   end
 
   def revert
-    @reverted_note = @verion.reify
+    @reverted_note = @version.reify
     @reverted_note.save!
     redirect_to edit_note_path(@reverted_note), notice: "Note reverted"
   end
@@ -84,7 +84,7 @@ class NotesController < ApplicationController
   end
 
   def set_version
-    @verion = PaperTrail::Version.find_by(item_id: @note.id, id: params[:version_id])
+    @version = PaperTrail::Version.find_by(item_id: @note.id, id: params[:version_id])
   end
 
   def note_params

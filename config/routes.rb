@@ -1,10 +1,13 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: {
-    registrations: "users/registrations"
+    registrations: "users/registrations",
+    sessions: 'users/sessions',
+    passwords: 'users/passwords',
+    confirmations: 'users/confirmations',
   }
 
   authenticated :user do
-    root "pages#dashboard", as: :authenticated_root
+    root "notes#index", as: :authenticated_root
   end
   root "pages#home"
 
@@ -23,7 +26,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :tasks, except: [:edit] do
+  resources :tasks, except: [:show] do
     resources :task_items, only: [:create, :update, :destroy]
   end
 

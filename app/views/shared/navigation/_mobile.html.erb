@@ -1,0 +1,31 @@
+<div
+    x-show="open"
+    x-description="Mobile menu, show/hide based on menu open state."
+    x-transition:enter="duration-150 ease-out"
+    x-transition:enter-start="opacity-0 scale-95"
+    x-transition:enter-end="opacity-100 scale-100"
+    x-transition:leave="duration-100 ease-in"
+    x-transition:leave-start="opacity-100 scale-100"
+    x-transition:leave-end="opacity-0 scale-95"
+    class="absolute top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden"
+    style="display: none;"
+>
+    <div class="bg-black overflow-hidden" role="menu" aria-orientation="vertical" aria-labelledby="main-menu">
+        <div class="px-5 pt-4 flex items-center justify-between">
+            <%= render "shared/title/white" %>
+            <div class="-mr-2">
+                <button
+                    @click="open = false"
+                    type="button"
+                    class="inline-flex items-center justify-center p-2 text-white hover:text-blue-500 hover:bg-white focus:outline-none focus:bg-white focus:text-blue-500 transition duration-150 ease-in-out"
+                    aria-label="Close menu"
+                >
+                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <%= render "shared/navigation/menu_links_mobile" if current_user %> <%= render "shared/navigation/login_mobile" unless current_user %> <%= render "shared/navigation/profile_links_mobile" if current_user %>
+    </div>
+</div>

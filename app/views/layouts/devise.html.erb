@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+    <%= render "shared/head/head" %>
+    <body class="antialiased font-sans bg-blue-500"> 
+        <%= render "shared/header/flash" %>
+        <div class="min-h-screen bg-blue-500 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+            <%= yield %>
+            <%= render "shared/misc/debug" if Rails.env == 'development' %>
+        </div>
+    </body>
+</html>
