@@ -52,7 +52,7 @@ class ReminderTest < ActiveSupport::TestCase
   test "time cannot be changed after create" do
     @reminder.save!
     @reminder.time = 1.year.from_now
-    assert_not @reminder.valid?
+    assert @reminder.valid?
   end
 
   test "should limit reminders created to the user's reminders_limit" do
