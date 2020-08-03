@@ -9,6 +9,7 @@
         </div>
     </div>
 <% end %>
+<p class="mb-3"><%= link_to "Download Sample CSV", asset_path("import.csv", skip_pipeline: true) %></p>
 <%= form_with(url: import_notes_path, multipart: true) do %>
     <div class="field">
         <%= file_field_tag 'file', class: "input" %>
