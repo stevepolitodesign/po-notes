@@ -7,11 +7,11 @@
       <%= render "shared/header/header" %>
       <main class="-mt-32">
         <div class="max-w-7xl mx-auto pb-12 px-4 sm:px-6 lg:px-8">
-          <div class="bg-white shadow px-5 py-6 sm:px-6">
+          <div class="bg-white shadow py-4 sm:py-6 lg:py-8 px-4 sm:px-6 lg:px-8">
               <%= yield %>
-              <%= render "shared/footer/footer" %>
-              <%= render "shared/misc/debug" if Rails.env == 'development' %>
           </div>
+          <%= render "shared/footer/footer" %>
+          <%= render "shared/misc/debug" if Rails.env == 'development' %>
         </div>
       </main>
     </div>
