@@ -7,7 +7,7 @@
         </div>
         <div class="field flex-1 md:px-2">
             <%= f.label :time %>
-            <%= f.datetime_local_field :time, class: "input", disabled: params[:action] == "edit" %>
+            <%= f.datetime_local_field :time, class: "input" %>
             <small><%= link_to current_user.time_zone, edit_user_registration_path %></small>
         </div>
     </div>
