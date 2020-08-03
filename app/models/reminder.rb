@@ -27,7 +27,7 @@ class Reminder < ApplicationRecord
     @response = @client.messages.create(
       from: Rails.application.credentials.twilio[:number],
       to:  @telephone,
-      body: "Reminder: #{name} start at #{time_ago_in_words(time)} from now."
+      body: "Reminder: #{name} starts in #{time_ago_in_words(time)}."
     )
     update(sent: true)
     @response

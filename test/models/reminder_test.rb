@@ -192,7 +192,7 @@ class ReminderTest < ActiveSupport::TestCase
     @reminder = @user.reminders.create(name: "My Reminder", body: "Some text", time: Time.zone.now + 1.day)
     VCR.use_cassette("twilio") do
       @response = @reminder.send_sms
-      assert_match "Reminder: #{@reminder.name} start at #{time_ago_in_words(@reminder.time)} from now.", @response.body
+      assert_match "Reminder: #{@reminder.name} starts in #{time_ago_in_words(@reminder.time)}.", @response.body
     end
   end
 end
